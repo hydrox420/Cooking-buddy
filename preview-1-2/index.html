@@ -19,6 +19,18 @@ const tilapiaRecipe={"id":"lemon-garlic-tilapia-broccoli-rice","name":"Lemon-Gar
 /* Cooking Buddy 1.4: permissions require a user gesture, never silently request on page load. */
 let lateTimerNotice=false;
 let alarmActive=false,alarmAcknowledged=false,alarmLoop=null;
+let alarmSoundNodes=[];
+function trackAlarmNode(node){
+ alarmSoundNodes.push(node);
+ node.addEventListener('ended',()=>{
+  const index=alarmSoundNodes.indexOf(node);
+  if(index>=0)alarmSoundNodes.splice(index,1);
+ },{once:true});
+}
+function silenceCurrentAlarmAudio(){
+ for(const node of alarmSoundNodes){try{node.stop(0)}catch(e){}}
+ alarmSoundNodes=[];
+}
 const ALARM_REPEAT_MS=4600;
 function renderAlarmBanner(){
  const banner=$('alarmBanner');if(!banner)return;
@@ -42,6 +54,7 @@ function acknowledgeAlarm(){
  const wasActive=alarmActive;
  alarmActive=false;
  if(alarmLoop!==null){clearInterval(alarmLoop);alarmLoop=null}
+ silenceCurrentAlarmAudio();
  try{if(navigator.vibrate)navigator.vibrate(0)}catch(e){}
  if(wasActive)alarmAcknowledged=true;
  renderAlarmBanner();
@@ -130,7 +143,7 @@ function playAlarm(){
    envelope.gain.exponentialRampToValueAtTime(volume,at+0.03);
    envelope.gain.exponentialRampToValueAtTime(0.0001,at+duration);
    oscillator.connect(envelope);envelope.connect(ctx.destination);
-   oscillator.start(at);oscillator.stop(at+duration+0.02);
+   oscillator.start(at);oscillator.stop(at+duration+0.02);trackAlarmNode(oscillator);
   };
   if(choice==='chime'){
    for(let r=0;r<2;r++)for(let i=0;i<3;i++)tone([659,880,1047][i],start+r*1.12+i*0.3,0.43,0.14);
@@ -152,14 +165,14 @@ function playAlarm(){
     gain.gain.exponentialRampToValueAtTime(.145,at+.12);
     gain.gain.exponentialRampToValueAtTime(.0001,at+dur);
     os.connect(filter);filter.connect(gain);gain.connect(ctx.destination);
-    os.start(at);os.stop(at+dur);
+    os.start(at);os.stop(at+dur);trackAlarmNode(os);
     const noise=ctx.createBufferSource(),nf=ctx.createBiquadFilter(),ng=ctx.createGain();
     noise.buffer=buffer;nf.type='bandpass';nf.frequency.value=390;nf.Q.value=.75;
     ng.gain.setValueAtTime(.0001,at);
     ng.gain.exponentialRampToValueAtTime(.065,at+.1);
     ng.gain.exponentialRampToValueAtTime(.0001,at+dur);
     noise.connect(nf);nf.connect(ng);ng.connect(ctx.destination);
-    noise.start(at);noise.stop(at+dur);
+    noise.start(at);noise.stop(at+dur);trackAlarmNode(noise);
    }
   }
  }catch(e){console.warn('Unable to play alarm',e)}
