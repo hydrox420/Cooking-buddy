@@ -249,3 +249,285 @@ function endCooking(){
  currentRecipeID=null;showTab('home');toast('Cooking complete! '+(shouldDeduct?'Inventory adjusted.':'Inventory unchanged.'));
 }
 finishCooking=endCooking;
+
+function newTimer(i){
+ const r=byID(currentRecipeID);if(!r)return null;
+ const options=chooseTimes(r.steps[i]);const start=options[0];
+ if(!start)return null;
+ const timer={original:start,remaining:start,endsAt:null,running:false,done:false};
+ timers.set(cookKey(i),timer);return timer;
+}
+window.chooseStepDuration=(i,sec)=>{
+ const t=timerFor(i)||newTimer(i);if(!t)return;
+ if(t.running){toast('Pause the timer before changing its starting duration.');return}
+ t.original=sec;t.remaining=sec;t.done=false;t.endsAt=null;finishedTimers.delete(i);drawCook();
+};
+function tickAll(){
+ if(!currentRecipeID)return;
+ const now=Date.now();let changed=false;
+ for(const [key,t] of timers){
+  if(!t.running||!t.endsAt)continue;
+  const ms=t.endsAt-now;t.remaining=Math.max(0,Math.ceil(ms/1000));
+  if(ms<=0){
+   t.running=false;t.endsAt=null;t.remaining=0;t.done=true;
+   const i=Number(key);finishedTimers.add(i);changed=true;
+   const lateBy=-ms;lateTimerNotice=lateBy>5000;
+   startRepeatingAlarm(lateBy);
+   step=i;notifyTimerFinished();
+   toast('⏰ '+byID(currentRecipeID).steps[i].title+' — ready! Stop alarm to silence.');
+  }
+ }
+ if(changed){
+  drawTimerDock();renderAlarmBanner();
+  const r=byID(currentRecipeID);
+  if($cb('alarmBannerMessage'))$cb('alarmBannerMessage').textContent=[...finishedTimers].map(i=>r.steps[i].title).join(' • ')+' — check food and stop alarm';
+ }
+ updateTimerLabels();
+}
+function toggleStepTimer(i){
+ const r=byID(currentRecipeID);if(!r)return;
+ const t=timerFor(i)||newTimer(i);if(!t)return;
+ if(t.running){
+  t.remaining=Math.max(0,Math.ceil((t.endsAt-Date.now())/1000));
+  t.running=false;t.endsAt=null;drawTimerDock();updateTimerLabels();return;
+ }
+ if(t.done||t.remaining<=0){t.remaining=t.original;t.done=false;finishedTimers.delete(i)}
+ unlockAlarmAudio();askTimerPermissionOnFirstStart();
+ t.endsAt=Date.now()+t.remaining*1000;t.running=true;step=i;
+ if(prefs.autoFloat&&!document.pictureInPictureElement)openFloatingTimer();
+ drawTimerDock();updateTimerLabels();
+}
+function extendStepTimer(i){
+ const t=timerFor(i)||newTimer(i);if(!t)return;
+ if(t.running){t.endsAt+=60000;t.remaining+=60}
+ else{t.remaining+=60;if(t.done){t.done=false;finishedTimers.delete(i)}}
+ updateTimerLabels();drawTimerDock();
+}
+function resetStepTimer(i){
+ const t=timerFor(i)||newTimer(i);if(!t)return;
+ t.remaining=t.original;t.endsAt=null;t.running=false;t.done=false;
+ finishedTimers.delete(i);
+ if(!finishedTimers.size&&alarmActive)acknowledgeAlarm();
+ updateTimerLabels();drawTimerDock();
+}
+window.toggleStepTimer=toggleStepTimer;
+window.extendStepTimer=extendStepTimer;
+window.resetStepTimer=resetStepTimer;
+function updateTimerLabels(){
+ for(const [key,t] of timers){
+  const seconds=t.running?Math.max(0,Math.ceil((t.endsAt-Date.now())/1000)):t.remaining;
+  document.querySelectorAll('[data-time="'+key+'"]').forEach(el=>el.textContent=asClock(seconds));
+  document.querySelectorAll('[data-time-status="'+key+'"]').forEach(el=>el.textContent=t.done?'⏰ Done — stop alarm':t.running?'Counting down…':seconds!==t.original?'Paused / adjusted':'Ready to start');
+  document.querySelectorAll('[data-time-start="'+key+'"]').forEach(el=>el.textContent=t.running?'⏸ Pause':t.done?'▶ Start again':'▶ Start');
+ }
+ const banner=$cb('alarmBanner');
+ if(banner&&alarmActive&&finishedTimers.size){
+  const r=byID(currentRecipeID);if(r&&$cb('alarmBannerMessage'))$cb('alarmBannerMessage').textContent=[...finishedTimers].map(i=>r.steps[i]?.title||'Timer').join(' • ')+' — check your food';
+ }
+}
+function drawTimerDock(){
+ const el=$cb('cbActiveTimers');if(!el)return;
+ const r=byID(currentRecipeID);if(!r)return;
+ const entries=[...timers].filter(([,t])=>t.running||t.done);
+ el.classList.toggle('hide',!entries.length);
+ if(!entries.length){el.innerHTML='';return}
+ el.innerHTML='<div class="cb-row"><strong>⏱ Active cooking timers</strong><button class="btn secondary" onclick="openFloatingTimer()">▣ Float</button></div>';
+ for(const [key,t] of entries){
+  const div=document.createElement('div');div.className='cb-row';div.style.marginTop='8px';
+  const label=document.createElement('span');label.className='small';label.textContent=r.steps[Number(key)]?.title||'Timer';
+  const remaining=document.createElement('strong');remaining.setAttribute('data-time',key);remaining.textContent=asClock(t.remaining);
+  div.append(label,remaining);el.append(div);
+ }
+}
+const originalAck=acknowledgeAlarm;
+acknowledgeAlarm=function(){
+ originalAck();finishedTimers.clear();
+ for(const t of timers.values())if(t.done)t.done=false;
+ updateTimerLabels();
+};
+const oldDrawFloating=drawFloatingTimer;
+drawFloatingTimer=function(){
+ if(!pipCanvas)return;
+ const ctx=pipCanvas.getContext('2d'),w=pipCanvas.width,h=pipCanvas.height;
+ ctx.fillStyle='#15271d';ctx.fillRect(0,0,w,h);
+ ctx.fillStyle='#b5e5a7';ctx.font='bold 28px system-ui';ctx.textAlign='center';
+ ctx.fillText('🍳 Cooking Buddy',w/2,42);
+ const active=[...timers].filter(([,t])=>t.running||t.done).slice(0,2);
+ if(!active.length){
+  ctx.fillStyle='#e9f4ea';ctx.font='27px system-ui';ctx.fillText('No running timers',w/2,139);return;
+ }
+ const recipeName=byID(currentRecipeID);
+ active.forEach(([key,t],i)=>{
+  const y=i===0?105:209,label=recipeName?.steps[Number(key)]?.title||'Timer';
+  ctx.fillStyle='#eaf4ea';ctx.font='21px system-ui';ctx.fillText(label.length>29?label.slice(0,27)+'…':label,w/2,y);
+  ctx.fillStyle='#ffffff';ctx.font='bold 57px system-ui';
+  ctx.fillText(t.done?'00:00':asClock(t.running?Math.ceil((t.endsAt-Date.now())/1000):t.remaining),w/2,y+57);
+ });
+};
+openFloatingTimer=async function(){
+ const status=$cb('timerFeatureStatus');
+ const setStatus=message=>{if(status)status.textContent=message};
+ if(![...timers.values()].some(t=>t.running||t.done)){toast('Start a cooking timer first');return}
+ if(!document.pictureInPictureEnabled||!('captureStream' in HTMLCanvasElement.prototype)||!('requestPictureInPicture' in HTMLVideoElement.prototype)){
+  setStatus('Floating window is unavailable in this browser. Try split-screen mode.');return;
+ }
+ try{
+  if(!pipCanvas){
+   pipCanvas=document.createElement('canvas');pipCanvas.width=480;pipCanvas.height=270;
+   pipVideo=document.createElement('video');pipVideo.muted=true;pipVideo.autoplay=true;pipVideo.playsInline=true;
+   pipVideo.style.cssText='position:fixed;left:0;bottom:0;width:2px;height:2px;opacity:0;pointer-events:none';
+   document.body.append(pipVideo);
+   pipVideo.addEventListener('leavepictureinpicture',()=>{if(pipDrawInterval){clearInterval(pipDrawInterval);pipDrawInterval=null}});
+   pipVideo.srcObject=pipCanvas.captureStream(2);
+  }
+  drawFloatingTimer();await pipVideo.play();
+  if(!document.pictureInPictureElement)await pipVideo.requestPictureInPicture();
+  if(!pipDrawInterval)pipDrawInterval=setInterval(drawFloatingTimer,350);
+  setStatus('Floating countdown is open. Android controls its size; pinch to resize where supported.');
+ }catch(err){setStatus('Floating timer was blocked by this browser. Open it manually or use split-screen.');}
+};
+document.addEventListener('visibilitychange',()=>{if(!document.hidden)tickAll()});
+setInterval(tickAll,250);
+
+// Planned meals retain their own serving quantities; legacy count means repeat this meal.
+function planParts(p){
+ const r=byID(p.recipeId);if(!r)return null;
+ const c=Number(p.servings)||baseCount(r);
+ return {r,c,repeat:Math.max(1,Number(p.count)||1)};
+}
+plannedIngredients=function(){
+ const results=new Map();
+ for(const p of state.planned){
+  const x=planParts(p);if(!x||!hasItems(x.r))continue;
+  for(const item of x.r.items){
+   const key=item.name.trim().toLowerCase()+'|'+item.unit.trim().toLowerCase();
+   const row=results.get(key)||{name:item.name,unit:item.unit,qty:0};
+   row.qty+=scale(item.qty,x.r,x.c)*x.repeat;results.set(key,row);
+  }
+ }
+ return [...results.values()].map(r=>({...r,qty:round3(r.qty)}));
+};
+addRecipeShopping=function(i){
+ const r=state.recipes[i];if(!r)return;
+ if(!hasItems(r)){alert('This recipe needs structured ingredient quantities before it can be added to a meal plan.');return}
+ const servings=selectedCount(r);
+ const p=state.planned.find(x=>x.recipeId===r.id&&Number(x.servings||baseCount(r))===servings);
+ if(p)p.count=Math.max(1,Number(p.count)||1)+1;
+ else state.planned.push({recipeId:r.id,servings,count:1});
+ state.cartChecked={};save();showTab('plan');
+ toast(r.name+' added for '+servings+' '+(servings===1?'person':'people')+'! 🛒');
+};
+function renderPlan(){
+ const root=$cb('plannedMeals');if(!root)return;
+ root.innerHTML='';const cards=state.planned.filter(p=>byID(p.recipeId));
+ const mealCount=cards.reduce((n,p)=>n+Math.max(1,Number(p.count)||1),0);
+ const stats=$cb('planStats');
+ if(stats)stats.innerHTML='<div class="cb-tile"><span>Planned meals</span><strong>'+mealCount+'</strong></div><div class="cb-tile"><span>Ingredients to buy</span><strong>'+plannedNeeds().length+'</strong></div>';
+ if(!cards.length){root.innerHTML='<div class="cb-empty">No meals planned. Choose a recipe, select servings, then tap Plan. 🥦</div>';return}
+ for(const p of cards){
+  const x=planParts(p),r=x.r;
+  const row=document.createElement('div');row.className='cb-plan-row';
+  const img=document.createElement('img');img.src=recipePhoto(r);img.alt=r.name;img.onerror=()=>{img.onerror=null;img.src='../meal-placeholder.svg'};
+  const main=document.createElement('div');main.className='cb-plan-row-main';
+  const title=document.createElement('strong');title.textContent=r.name;
+  const details=document.createElement('small');details.textContent=x.repeat+' × '+x.c+' '+(x.c===1?'serving':'servings');
+  const tools=document.createElement('div');tools.className='cb-plan-tools';
+  const minus=document.createElement('button');minus.className='btn secondary';minus.textContent='− meal';
+  minus.onclick=()=>{p.count=x.repeat-1;if(p.count<=0)state.planned=state.planned.filter(a=>a!==p);state.cartChecked={};save();renderPlanned();renderShopping()};
+  const plus=document.createElement('button');plus.className='btn secondary';plus.textContent='+ meal';
+  plus.onclick=()=>{p.count=x.repeat+1;state.cartChecked={};save();renderPlanned();renderShopping()};
+  const servings=document.createElement('select');servings.setAttribute('aria-label','Change servings for '+r.name);
+  servings.style.cssText='max-width:112px;padding:7px;font-size:12px';
+  for(let k=1;k<=8;k++){const opt=document.createElement('option');opt.value=k;opt.textContent=k+' servings';servings.append(opt)}
+  servings.value=String(x.c);
+  servings.onchange=()=>{p.servings=+servings.value;state.cartChecked={};save();renderPlanned();renderShopping()};
+  const del=document.createElement('button');del.className='btn secondary';del.textContent='Remove';
+  del.onclick=()=>{state.planned=state.planned.filter(a=>a!==p);state.cartChecked={};save();renderPlanned();renderShopping()};
+  tools.append(minus,plus,servings,del);main.append(title,details,tools);row.append(img,main);root.append(row);
+ }
+}
+renderPlanned=renderPlan;
+function shoppingDept(name){
+ const s=name.toLowerCase();
+ if(/broccoli|pepper|lemon|potato|onion|spinach|carrot|garlic clove|tomato|lettuce|cucumber|avocado|banana|apple|orange|grape/.test(s)&&!/powder|sauce/.test(s))return 'PRODUCE';
+ if(/tilapia|shrimp|salmon|chicken breast|sausage|ground turkey|ground beef|fish|meat/.test(s))return 'MEAT & SEAFOOD';
+ if(/frozen|green beans|corn/.test(s))return 'FROZEN';
+ if(/egg|cheese|butter|milk|yogurt|parmesan/.test(s))return 'DAIRY & EGGS';
+ if(/rice|pasta|noodle|oat|quinoa|couscous/.test(s))return 'RICE, GRAINS & PASTA';
+ if(/tortilla|bread|roll|bun/.test(s))return 'BAKERY & BREAD';
+ if(/beans|chickpeas|salsa|tomato sauce/.test(s))return 'CANNED & JARRED';
+ if(/oil|vinegar|honey|soy sauce|dressing|syrup/.test(s))return 'OILS, SAUCES & CONDIMENTS';
+ if(/seasoning|garlic powder|paprika|salt|pepper|oregano|cumin|basil|spice/.test(s))return 'HERBS & SPICES';
+ return 'OTHER GROCERIES';
+}
+const departmentOrder=['PRODUCE','MEAT & SEAFOOD','FROZEN','DAIRY & EGGS','BAKERY & BREAD','RICE, GRAINS & PASTA','CANNED & JARRED','OILS, SAUCES & CONDIMENTS','HERBS & SPICES','OTHER GROCERIES'];
+function amountToBuy(q,u){return /^(each|can|jar|whole|package|bag)$/i.test(u)?Math.ceil(q):q}
+function mergedGroceries(){
+ const map=new Map();
+ const insert=(name,unit,qty,manualId)=>{
+  const key=name.trim().toLowerCase()+'|'+unit.trim().toLowerCase();
+  let entry=map.get(key);
+  if(!entry){entry={key,name,unit,qty:0,manualIds:[],dept:shoppingDept(name)};map.set(key,entry)}
+  entry.qty=round3(entry.qty+qty);if(manualId)entry.manualIds.push(manualId);
+ };
+ for(const item of plannedNeeds())insert(item.name,item.unit,Number(item.qty),null);
+ for(const item of state.shopping||[])if(Number(item.qty)>0)insert(item.name,item.unit,Number(item.qty),item.id);
+ return [...map.values()].sort((a,b)=>departmentOrder.indexOf(a.dept)-departmentOrder.indexOf(b.dept)||a.name.localeCompare(b.name));
+}
+function drawGroceries(){
+ const root=$cb('shoppingItems');if(!root)return;root.innerHTML='';
+ const list=mergedGroceries(),checked=list.filter(x=>state.cartChecked[x.key]);
+ const stats=$cb('groceryStats');
+ if(stats)stats.textContent=checked.length+' of '+list.length+' grocery items checked off';
+ if(!list.length){root.innerHTML='<div class="cb-empty">Your grocery list is empty. Plan a meal or add an item. 🛒</div>'}
+ let last='';
+ for(const item of list){
+  if(last!==item.dept){last=item.dept;const h=document.createElement('h3');h.className='cb-dept';h.textContent=last;root.append(h)}
+  const row=document.createElement('div');row.className='cb-grocery-row'+(state.cartChecked[item.key]?' checked':'');
+  const input=document.createElement('input');input.type='checkbox';input.checked=!!state.cartChecked[item.key];
+  input.setAttribute('aria-label','Bought '+item.name);const id='cart-'+list.indexOf(item);input.id=id;
+  input.onchange=()=>{if(input.checked)state.cartChecked[item.key]=true;else delete state.cartChecked[item.key];save();drawGroceries()};
+  const label=document.createElement('label');label.htmlFor=id;label.textContent=item.name;
+  const amount=document.createElement('span');amount.className='cb-amount';amount.textContent=fmtQty(amountToBuy(item.qty,item.unit),item.unit);
+  row.append(input,label,amount);root.append(row);
+ }
+ const pantry=$cb('pantryOptional');pantry.innerHTML='<h3>🧂 Pantry seasonings</h3><p class="cb-sub">Spices are not automatically counted by the teaspoon. Add a jar when you need one.</p>';
+ const spices=pantrySeasonings();
+ if(!spices.length)pantry.innerHTML+='<p class="cb-sub">No extra seasonings to check right now.</p>';
+ for(const name of spices){
+  const btn=document.createElement('button');btn.className='btn secondary mini';btn.style.margin='5px';
+  btn.textContent='+ '+name;
+  const exists=state.shopping.some(x=>x.name.trim().toLowerCase()===name.trim().toLowerCase());
+  btn.disabled=exists;if(exists)btn.textContent='✓ '+name+' on list';
+  btn.onclick=()=>addSeasoningToList(name);pantry.append(btn);
+ }
+}
+renderShopping=drawGroceries;
+addShopManual=function(){
+ const name=$cb('shopName').value.trim(),qty=Number($cb('shopQty').value),unit=$cb('shopUnit').value.trim()||'each';
+ if(!name||!Number.isFinite(qty)||qty<=0){alert('Enter an item and a positive quantity.');return}
+ state.shopping.push({id:uid(),name,qty,unit,manual:true});
+ $cb('shopName').value='';save();renderShopping();
+};
+window.moveCheckedToKitchen=()=>{
+ const list=mergedGroceries().filter(x=>state.cartChecked[x.key]);
+ if(!list.length){toast('Check off groceries as you shop first.');return}
+ if(!confirm('Add '+list.length+' checked grocery items to Kitchen inventory? Only do this after buying them.'))return;
+ const remove=new Set();
+ for(const item of list){
+  addToStock(item.name,amountToBuy(item.qty,item.unit),item.unit);
+  item.manualIds.forEach(id=>remove.add(id));
+  delete state.cartChecked[item.key];
+ }
+ state.shopping=state.shopping.filter(x=>!remove.has(x.id));
+ save();renderShopping();renderInventory();toast('Checked groceries added to Kitchen! 🥬');
+};
+const legacyRenderInventory=renderInventory;
+renderInventory=function(){
+ legacyRenderInventory();
+ const root=$cb('inventoryItems');if(!root)return;
+ if(!state.inventory.length)root.innerHTML='<div class="cb-empty">Nothing recorded yet. Check off groceries, then add them here after shopping.</div>';
+};
+renderRecipes();paintSettings();showTab('home');
+// No timer in a web app can guarantee alarm delivery when the OS suspends the page.
+})();
