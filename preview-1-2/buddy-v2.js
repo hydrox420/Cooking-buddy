@@ -531,6 +531,16 @@ window.moveCheckedToKitchen=()=>{
 };
 const legacyRenderInventory=renderInventory;
 renderInventory=function(){
+ // Treat nonpositive quantities as out of stock, including old saved 0-quantity records.
+ // Preserve any malformed records rather than silently discarding the user's data.
+ if(Array.isArray(state.inventory)){
+  const countBefore=state.inventory.length;
+  state.inventory=state.inventory.filter(item=>{
+   const amount=Number(item.qty);
+   return !Number.isFinite(amount)||amount>0;
+  });
+  if(state.inventory.length!==countBefore)save();
+ }
  legacyRenderInventory();
  const root=$cb('inventoryItems');if(!root)return;
  if(!state.inventory.length)root.innerHTML='<div class="cb-empty">Nothing recorded yet. Check off groceries, then add them here after shopping.</div>';
