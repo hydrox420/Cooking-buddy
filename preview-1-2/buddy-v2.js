@@ -347,7 +347,7 @@ const originalAck=acknowledgeAlarm;
 acknowledgeAlarm=function(){
  originalAck();finishedTimers.clear();
  for(const t of timers.values())if(t.done)t.done=false;
- updateTimerLabels();
+ updateTimerLabels();drawTimerDock();
 };
 const oldDrawFloating=drawFloatingTimer;
 drawFloatingTimer=function(){
