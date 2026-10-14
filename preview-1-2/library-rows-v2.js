@@ -46,11 +46,6 @@ function card(r){
   const pill=build('span','kb-diet-tag',sym||tag);
   pill.setAttribute('aria-label',tag);pill.title=tag;meta.append(pill);
  }
- if(r.photoSource){
-  const credit=build('a','kb-image-credit','ⓘ');credit.href=r.photoSource;credit.target='_blank';credit.rel='noopener noreferrer';
-  credit.title='Photo by '+(r.photoCredit||'source photographer')+' · '+(r.photoLicense||'see source')+' · image may differ from this recipe';
-  credit.setAttribute('aria-label',credit.title);meta.append(credit);
- }
  info.append(meta);
  const actions=build('div','kb-card-actions');
  const fav=build('button','kb-favorite',r.favorite?'♥':'♡');fav.type='button';
@@ -108,5 +103,36 @@ renderRecipes=function(){
   section.append(rail);root.append(section);
  }
 };
+// Photo credits live in Profile, away from compact recipe cards.
+function displayCredits(){
+ const list=document.getElementById('kbPhotoCreditsList');if(!list)return;
+ list.replaceChildren();
+ const entries=state.recipes.filter(r=>r.photoSource && /^https:\/\//i.test(r.photoSource));
+ if(!entries.length){list.append(build('p','kb-empty','No external photo credits recorded yet.'));return}
+ entries.sort((a,b)=>a.name.localeCompare(b.name));
+ for(const r of entries){
+  const item=build('div','kb-credit-row');
+  item.append(build('strong','kb-credit-title',r.name));
+  const byline=build('div','kb-credit-byline','Photo: '+(r.photoCredit||'Source photographer')+(r.photoLicense?' · '+r.photoLicense:''));
+  item.append(byline);
+  const link=build('a','kb-credit-link','View original photo ↗');
+  link.href=r.photoSource;link.target='_blank';link.rel='noopener noreferrer';
+  link.setAttribute('aria-label','View original photo for '+r.name);
+  item.append(link);
+  list.append(item);
+ }
+}
+const profile=document.getElementById('settings');
+if(profile && !document.getElementById('kbPhotoCredits')){
+ const details=build('details','cb-panel kb-credits');
+ details.id='kbPhotoCredits';
+ const summary=build('summary','', 'Photo Credits');
+ details.append(summary);
+ details.append(build('p','kb-credit-explainer','Sources, photographers, and licenses for recipe photos. Some pictures illustrate the dish rather than the exact finished recipe.'));
+ details.append(build('div','kb-credits-list'));
+ details.lastElementChild.id='kbPhotoCreditsList';
+ details.addEventListener('toggle',()=>{if(details.open)displayCredits()});
+ profile.append(details);
+}
 renderRecipes();
 })();
