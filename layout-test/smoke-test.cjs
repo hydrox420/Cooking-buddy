@@ -41,7 +41,7 @@ const assert=require('node:assert/strict');
   await page.locator('#kbSearchToggle').click();
   assert.equal(await page.locator('#kbSearchField').isVisible(),true,'search opens');
   await page.locator('#recipeSearch').fill('shrimp');
-  assert.ok(await page.locator('.kb-compact-card').count()>=1,'search finds matching recipe');
+  assert.ok(await page.locator('.kb-unpictured-shelf button').count()>=1,'search finds older saved shrimp recipe without showing blank or AI-looking photo');
   await page.locator('#recipeSearch').press('Escape');
   assert.equal(await page.locator('#kbSearchField').isVisible(),false,'search closes on Escape');
   const chip=page.locator('.kb-diet-tag').first();
