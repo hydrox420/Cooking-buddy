@@ -76,3 +76,44 @@
 .cb-pickup-preview{font:13px/1.45 ui-monospace,SFMono-Regular,Consolas,monospace;width:100%;min-height:122px;max-height:170px;resize:vertical;margin:7px 0 11px}
 .cb-pickup-footnote{font-size:12px;line-height:1.45;color:#c2d6c6;margin:10px 0 0}
 @media(max-width:390px){.cb-pickup-actions{display:grid;grid-template-columns:1fr}.cb-pickup-grid{grid-template-columns:1fr}}
+
+/* Beta 2.0.4: balanced recipe cards, one filter row, separate Fridge tab */
+#cbCategoryFilters.cb-unified-filters{display:flex;flex-wrap:nowrap;gap:8px;overflow-x:auto;overscroll-behavior-x:contain;scrollbar-width:none;-webkit-overflow-scrolling:touch;margin:12px 0 17px;padding:2px 0 5px}
+#cbCategoryFilters.cb-unified-filters::-webkit-scrollbar{display:none}
+#cbCategoryFilters.cb-unified-filters button{flex:0 0 auto;white-space:nowrap;padding:10px 14px;min-height:44px;font-size:12px}
+#recipes.cards{align-items:stretch;grid-auto-flow:row}
+#recipes .mealcard{height:100%;min-width:0;display:flex;flex-direction:column}
+#recipes .mealcard .photo-wrap{position:relative;overflow:hidden;aspect-ratio:4/3;width:100%;height:auto;min-height:0;flex:0 0 auto}
+#recipes .mealcard .photo-open{position:absolute;inset:0;display:block;width:100%;height:100%;min-height:0}
+#recipes .mealcard .photo-open img{position:absolute;inset:0;width:100%!important;height:100%!important;object-fit:cover;object-position:center;display:block}
+#recipes .mealbody{flex:1;display:flex;flex-direction:column;gap:10px;padding:14px 12px 15px;min-width:0}
+#recipes .meal-title{display:block;width:100%;min-height:67px}
+#recipes .meal-title h3{font-size:clamp(15px,3.8vw,18px);line-height:1.33;min-height:0;margin:0;display:-webkit-box;-webkit-box-orient:vertical;-webkit-line-clamp:3;overflow:hidden;overflow-wrap:anywhere}
+#recipes .meal-desc{font-size:12.8px;line-height:1.53;min-height:60px;max-height:60px;margin:0;display:-webkit-box;-webkit-box-orient:vertical;-webkit-line-clamp:3;overflow:hidden;color:#c8d8ca}
+#recipes .meal-meta{font-size:12px;min-height:23px;line-height:1.5;margin-top:auto}
+#recipes .cb-card-serving{min-height:51px;gap:5px}
+#recipes .cb-card-serving select{min-width:0;max-width:100px;font-size:12px;padding:8px 5px}
+#recipes .meal-actions{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:8px}
+#recipes .meal-actions .btn{min-width:0;min-height:49px;padding:8px 5px;line-height:1.25;font-size:12px}
+#recipes .meal-actions .start-cooking{min-height:51px;font-size:13.5px}
+nav.tabs.cb-six-tabs{gap:3px;padding:9px 4px calc(13px + env(safe-area-inset-bottom));justify-content:space-around}
+nav.tabs.cb-six-tabs button{min-width:0;max-width:none;flex:1 1 0;padding:8px 2px;min-height:59px;border-radius:11px;line-height:1.26;font-size:clamp(9px,2.5vw,12px);text-align:center;overflow-wrap:break-word}
+.cb-grocery-row{cursor:pointer;grid-template-columns:28px minmax(0,1fr) auto;padding:11px 7px;min-height:58px;border-radius:10px;touch-action:manipulation}
+.cb-grocery-row:active{background:#36533d}
+.cb-grocery-row:focus-visible{outline:2px solid #b5e5a7;outline-offset:1px}
+.cb-grocery-circle{height:25px;width:25px;display:block;border:2px solid #a9c5aa;border-radius:50%;font-size:0}
+.cb-grocery-label{font-size:15px;font-weight:675;line-height:1.48;min-width:0;overflow-wrap:anywhere}
+.cb-order-action{margin:15px 0;padding:12px;background:#23412f;border:1px solid #446a4b;border-radius:13px}
+.cb-order-action .btn{width:100%;min-height:46px}
+.cb-order-action p{margin:8px 0 0}
+.cb-order-action[hidden]{display:none!important}
+.cb-pending-order{border-color:#92ba89}
+.cb-pending-actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}
+.cb-pending-actions button{flex:1;min-width:130px;font-size:12px;min-height:44px}
+@media(max-width:380px){
+ #recipes .mealbody{padding:11px 9px 13px;gap:9px}
+ #recipes .meal-title{min-height:61px}
+ #recipes .meal-title h3{font-size:15px}
+ #recipes .meal-desc{font-size:12px}
+ nav.tabs.cb-six-tabs button{font-size:9px;padding:8px 1px}
+}
