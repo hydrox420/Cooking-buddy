@@ -344,6 +344,22 @@ renderRecipes=function(){
    const match=matches.filter(r=>selectedCategory==='Favorites'?r.favorite:categories(r).includes(selectedCategory));
    flatGrid(root,selectedCategory,match);return;
  }
+ // Browsing is the primary flow, even when the user has saved favorites.
+ // Rotate discovery picks by local day and prefer dishes not already favorited.
+ const today=new Date();
+ const dayKey=Math.floor(new Date(today.getFullYear(),today.getMonth(),today.getDate()).getTime()/86400000);
+ function stableRecipeScore(r){
+  let value=2166136261;
+  for(const ch of r.id||r.name){value=Math.imul(value^ch.charCodeAt(0),16777619)>>>0}
+  return (value^Math.imul(dayKey,2654435761))>>>0;
+ }
+ const explore=[...matches].sort((a,b)=>(+a.favorite)-(+b.favorite)||stableRecipeScore(a)-stableRecipeScore(b)).slice(0,Math.min(6,matches.length));
+ if(explore.length){
+  const discover=build('section','kb-recipe-section kb-discover-section');
+  discover.append(heading('Discover something different',explore,false));
+  const rail=build('div','kb-recipe-rail');for(const r of explore)rail.append(card(r));
+  discover.append(rail);root.append(discover);
+ }
  const favorites=matches.filter(r=>r.favorite);
  if(favorites.length){
   const favSection=build('section','kb-recipe-section');
