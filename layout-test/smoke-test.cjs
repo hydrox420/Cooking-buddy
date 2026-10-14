@@ -24,7 +24,14 @@ const assert=require('node:assert/strict');
   assert.ok(originalCount>=17,'older unverified photos remain placeholders');
   const licensedCount=defaultPhotos.filter(src=>src.startsWith('./assets/verified/')).length;
   assert.ok(licensedCount>=4,'four bundled exact-source recipe photos are in discovery');
-  const discoverPics=await firstRail.locator('.kb-card-picture img').evaluateAll(images=>images.slice(0,4).map(img=>({src:img.currentSrc||img.src,loaded:img.complete&&img.naturalWidth>0,alt:img.alt})));
+  const discovered=firstRail.locator('.kb-card-picture img');
+  const discoverPics=[];
+  for(let i=0;i<4;i++){
+    const img=discovered.nth(i);
+    await img.scrollIntoViewIfNeeded();
+    await img.evaluate(async image=>{image.loading='eager';if(!image.complete)await new Promise(resolve=>{image.addEventListener('load',resolve,{once:true});image.addEventListener('error',resolve,{once:true})})});
+    discoverPics.push(await img.evaluate(image=>({src:image.currentSrc||image.src,loaded:image.complete&&image.naturalWidth>0,alt:image.alt})));
+  }
   assert.ok(discoverPics.every(x=>x.src.includes('/assets/verified/')&&x.loaded),'verified-source local photo thumbnails load');
   const h1=await page.locator('header.cb-app-brand h1').boundingBox();
   assert.ok(h1&&Math.abs(h1.x+h1.width/2-393/2)<25,'center app title');
