@@ -481,12 +481,16 @@ function mergedGroceries(){
   let x=map.get(key);if(!x){x={key,name,unit,qty:0,manualIds:[],dept:shoppingDept(name)};map.set(key,x)}
   x.qty=round3(x.qty+qty);if(manualId)x.manualIds.push(manualId);
  };
- for(const x of plannedNeeds())insert(x.name,x.unit,Number(x.qty),null);
- for(const x of state.shopping||[])if(Number(x.qty)>0)insert(x.name,x.unit,Number(x.qty),x.id);
  const ordered=state.pendingOrder?.items||[];
  const quantities=new Map(ordered.map(x=>[x.key,Number(x.qty)||0]));
- return [...map.values()].map(x=>({...x,qty:round3(Math.max(0,x.qty-(quantities.get(x.key)||0)))}))
-  .filter(x=>x.qty>0.0001)
+ for(const x of plannedNeeds()){
+  const key=x.name.trim().toLowerCase()+'|'+x.unit.trim().toLowerCase();
+  const missing=round3(Math.max(0,Number(x.qty)-(quantities.get(key)||0)));
+  if(missing>0)insert(x.name,x.unit,missing,null);
+ }
+ // Manual items added after an order is placed must still appear, even if they share a product name.
+ for(const x of state.shopping||[])if(Number(x.qty)>0)insert(x.name,x.unit,Number(x.qty),x.id);
+ return [...map.values()].filter(x=>x.qty>0.0001)
   .sort((a,b)=>departmentOrder.indexOf(a.dept)-departmentOrder.indexOf(b.dept)||a.name.localeCompare(b.name));
 }
 function buyGroceryItem(item){
@@ -525,7 +529,8 @@ function drawGroceries(){
   btn.textContent='+ '+name;
   const exists=state.shopping.some(x=>x.name.trim().toLowerCase()===name.trim().toLowerCase());
   const inKitchen=stock(name,'jar')>0;
-  btn.disabled=exists||inKitchen;if(exists)btn.textContent='✓ '+name+' on list';else if(inKitchen)btn.textContent='✓ In Kitchen: '+name;
+  const ordered=!!state.pendingOrder?.items?.some(x=>x.name.toLowerCase()===name.toLowerCase()&&x.unit==='jar');
+  btn.disabled=exists||inKitchen||ordered;if(exists)btn.textContent='✓ '+name+' on list';else if(inKitchen)btn.textContent='✓ In Kitchen: '+name;else if(ordered)btn.textContent='✓ Ordered: '+name;
   btn.onclick=()=>addSeasoningToList(name);pantry.append(btn);
  }
 }
