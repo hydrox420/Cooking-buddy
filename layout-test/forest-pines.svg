@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="960" height="250" viewBox="0 0 960 250" aria-hidden="true">
+<defs>
+<g id="pine"><path d="M0 0 4 27 -3 27 13 57 3 57 26 94 11 94 35 128 13 128 47 162 -47 162 -13 128 -35 128 -11 94 -26 94 -3 57 -13 57 3 27 -4 27Z"/><path d="M-5 155H5V199H-5Z"/></g>
+</defs>
+<g fill="#41674d" opacity=".55">
+<use href="#pine" transform="translate(40 20) scale(.8)"/>
+<use href="#pine" transform="translate(112 68) scale(.60)"/>
+<use href="#pine" transform="translate(208 18) scale(.89)"/>
+<use href="#pine" transform="translate(765 39) scale(.78)"/>
+<use href="#pine" transform="translate(883 60) scale(.63)"/>
+<use href="#pine" transform="translate(955 -5) scale(1.05)"/>
+</g>
+<g fill="#0b241b" opacity=".70">
+<use href="#pine" transform="translate(8 87) scale(.87)"/>
+<use href="#pine" transform="translate(165 110) scale(.73)"/>
+<use href="#pine" transform="translate(845 112) scale(.76)"/>
+<use href="#pine" transform="translate(944 88) scale(.9)"/>
+</g>
+<path fill="#10291f" opacity=".45" d="M0 230Q90 195 182 225T380 220T590 222T770 214T960 223V250H0Z"/>
+</svg>

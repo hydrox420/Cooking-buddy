@@ -13,6 +13,24 @@ const assert=require('node:assert/strict');
   const midpoint=await headline.boundingBox();
   assert.ok(Math.abs(midpoint.x+midpoint.width/2-393/2)<14,'discover question is centered');
   assert.ok(await page.locator('.kb-brand-emblem svg').count(),'styled cooking brand emblem');
+  const cabin=await page.evaluate(()=>{
+    const card=document.querySelector('#recipes .kb-compact-card');
+    const header=document.querySelector('header.cb-app-brand');
+    const active=document.querySelector('nav.tabs [data-tab="home"]');
+    return {
+      themeLoaded:!![...document.styleSheets].some(s=>s.href?.includes('forest-cabin.css')),
+      tagline:header?.querySelector('.kb-forest-tagline')?.textContent.trim(),
+      trees:getComputedStyle(header).backgroundImage,
+      card:getComputedStyle(card).backgroundColor,
+      activeTab:getComputedStyle(active).backgroundColor
+    };
+  });
+  assert.ok(cabin.themeLoaded,'Forest Cabin theme stylesheet loaded');
+  assert.equal(cabin.tagline,'GOOD FOOD BRINGS US HOME','woodland header tagline');
+  assert.ok(cabin.trees.includes('forest-pines.svg'),'forest trees are in the header background');
+  assert.equal(cabin.card,'rgb(244, 234, 216)','cookbook cards use contrasting parchment');
+  assert.equal(cabin.activeTab,'rgb(53, 88, 68)','selected nav tab uses lighter sage');
+
   const searchSize=await page.locator('#kbSearchToggle').boundingBox();
   assert.ok(searchSize.width<=40.5,'compact search button');
   const firstRail=page.locator('#recipes .kb-recipe-section').first();
