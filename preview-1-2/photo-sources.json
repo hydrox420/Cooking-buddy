@@ -4,20 +4,22 @@
     {
       "id": "garlic-chicken-rice",
       "name": "Garlic Chicken & Cheesy Brown Rice",
-      "url": "https://images.pexels.com/photos/30635713/pexels-photo-30635713.jpeg?auto=compress&cs=tinysrgb&w=850",
-      "source": "https://www.pexels.com/photo/healthy-meal-prep-with-chicken-and-broccoli-30635713/",
-      "credit": "IARA MELO / Pexels",
+      "url": "https://images.pexels.com/photos/36275016/pexels-photo-36275016.jpeg?auto=compress&cs=tinysrgb&w=1200",
+      "source": "https://www.pexels.com/photo/kitchen-buddy-photo-36275016/",
+      "credit": "Evans Joel / Pexels",
       "license": "Pexels License",
-      "customization": "cover crop 4:3"
+      "customization": "cover crop 4:3",
+      "photoIsIllustrative": true
     },
     {
       "id": "lemon-garlic-tilapia-broccoli-rice",
       "name": "Lemon-Garlic Tilapia with Broccoli & Brown Rice",
-      "url": "https://images.pexels.com/photos/6200044/pexels-photo-6200044.jpeg?auto=compress&cs=tinysrgb&w=850",
-      "source": "https://www.pexels.com/photo/healthy-food-on-a-container-and-white-plate-6200044/",
-      "credit": "Gustavo Santana / Pexels",
+      "url": "https://images.pexels.com/photos/30635698/pexels-photo-30635698.jpeg?auto=compress&cs=tinysrgb&w=1200",
+      "source": "https://www.pexels.com/photo/kitchen-buddy-photo-30635698/",
+      "credit": "IARA MELO / Pexels",
       "license": "Pexels License",
-      "customization": "cover crop 4:3"
+      "customization": "cover crop 4:3",
+      "photoIsIllustrative": true
     },
     {
       "id": "easy-honey-garlic-chicken-broccoli-rice",
@@ -76,47 +78,52 @@
     {
       "id": "kb-overnight-oats-berry",
       "name": "Berry Overnight Oats",
-      "url": "https://commons.wikimedia.org/wiki/Special:FilePath/Protein%20overnight%20oats.jpg?width=800",
-      "source": "https://commons.wikimedia.org/wiki/File:Protein_overnight_oats.jpg",
-      "credit": "Nervy8924",
-      "license": "CC BY-SA 4.0",
-      "customization": "cover crop 4:3"
+      "url": "https://images.pexels.com/photos/27850091/pexels-photo-27850091.jpeg?auto=compress&cs=tinysrgb&w=1200",
+      "source": "https://www.pexels.com/photo/kitchen-buddy-photo-27850091/",
+      "credit": "Livilla Latini / Pexels",
+      "license": "Pexels License",
+      "customization": "cover crop 4:3",
+      "photoIsIllustrative": true
     },
     {
       "id": "kb-chana-masala",
       "name": "Easy Chana Masala",
-      "url": "https://commons.wikimedia.org/wiki/Special:FilePath/Channa%20Masala.jpg?width=800",
-      "source": "https://commons.wikimedia.org/wiki/File:Channa_Masala.jpg",
-      "credit": "Bhavana Homecook",
-      "license": "CC BY-SA 4.0",
-      "customization": "cover crop 4:3"
+      "url": "https://images.pexels.com/photos/6544375/pexels-photo-6544375.jpeg?auto=compress&cs=tinysrgb&w=1200",
+      "source": "https://www.pexels.com/photo/kitchen-buddy-photo-6544375/",
+      "credit": "Alesia Kozik / Pexels",
+      "license": "Pexels License",
+      "customization": "cover crop 4:3",
+      "photoIsIllustrative": true
     },
     {
       "id": "kb-korean-bibimbap",
       "name": "Easy Vegetable Bibimbap",
-      "url": "https://commons.wikimedia.org/wiki/Special:FilePath/The%20Bibimbap.jpg?width=800",
-      "source": "https://commons.wikimedia.org/wiki/File:The_Bibimbap.jpg",
-      "credit": "Loozrboy",
-      "license": "CC BY-SA 2.0",
-      "customization": "cover crop 4:3"
+      "url": "https://images.pexels.com/photos/5773960/pexels-photo-5773960.jpeg?auto=compress&cs=tinysrgb&w=1200",
+      "source": "https://www.pexels.com/photo/kitchen-buddy-photo-5773960/",
+      "credit": "Luis Becerra Fotógrafo / Pexels",
+      "license": "Pexels License",
+      "customization": "cover crop 4:3",
+      "photoIsIllustrative": true
     },
     {
       "id": "kb-chicken-teriyaki",
       "name": "Chicken Teriyaki Rice Bowls",
-      "url": "https://commons.wikimedia.org/wiki/Special:FilePath/Chicken%20teriyaki.jpg?width=800",
-      "source": "https://commons.wikimedia.org/wiki/File:Chicken_teriyaki.jpg",
-      "credit": "Blue Lotus",
-      "license": "CC BY 2.0",
-      "customization": "cover crop 4:3"
+      "url": "https://images.pexels.com/photos/28442544/pexels-photo-28442544.jpeg?auto=compress&cs=tinysrgb&w=1200",
+      "source": "https://www.pexels.com/photo/kitchen-buddy-photo-28442544/",
+      "credit": "Nadin Sh / Pexels",
+      "license": "Pexels License",
+      "customization": "cover crop 4:3",
+      "photoIsIllustrative": true
     },
     {
       "id": "kb-chicken-fajitas",
       "name": "Chicken Fajitas",
-      "url": "https://commons.wikimedia.org/wiki/Special:FilePath/Chicken%20fajitas.jpg?width=800",
-      "source": "https://commons.wikimedia.org/wiki/File:Chicken_fajitas.jpg",
-      "credit": "jeffreyw",
-      "license": "CC BY 2.0",
-      "customization": "cover crop 4:3"
+      "url": "https://images.pexels.com/photos/32371267/pexels-photo-32371267.jpeg?auto=compress&cs=tinysrgb&w=1200",
+      "source": "https://www.pexels.com/photo/kitchen-buddy-photo-32371267/",
+      "credit": "DΛVΞ GΛRCIΛ / Pexels",
+      "license": "Pexels License",
+      "customization": "cover crop 4:3",
+      "photoIsIllustrative": true
     },
     {
       "id": "kb-chicken-adobo",
@@ -139,20 +146,22 @@
     {
       "id": "kb-salt-onigiri",
       "name": "Simple Japanese Onigiri",
-      "url": "https://commons.wikimedia.org/wiki/Special:FilePath/Onigiri.JPG?width=800",
-      "source": "https://commons.wikimedia.org/wiki/File:Onigiri.JPG",
-      "credit": "Pcs34560",
-      "license": "Public domain",
-      "customization": "cover crop 4:3"
+      "url": "https://images.pexels.com/photos/30874703/pexels-photo-30874703.jpeg?auto=compress&cs=tinysrgb&w=1200",
+      "source": "https://www.pexels.com/photo/kitchen-buddy-photo-30874703/",
+      "credit": "Airam Dato-on / Pexels",
+      "license": "Pexels License",
+      "customization": "cover crop 4:3",
+      "photoIsIllustrative": true
     },
     {
       "id": "kb-easy-pad-thai-tofu",
       "name": "Easy Tofu Pad Thai",
-      "url": "https://commons.wikimedia.org/wiki/Special:FilePath/Pad%20thai.jpg?width=800",
-      "source": "https://commons.wikimedia.org/wiki/File:Pad_thai.jpg",
-      "credit": "BenFrantzDale",
-      "license": "CC BY-SA 3.0",
-      "customization": "cover crop 4:3"
+      "url": "https://images.pexels.com/photos/32083373/pexels-photo-32083373.jpeg?auto=compress&cs=tinysrgb&w=1200",
+      "source": "https://www.pexels.com/photo/kitchen-buddy-photo-32083373/",
+      "credit": "Valeria Boltneva / Pexels",
+      "license": "Pexels License",
+      "customization": "cover crop 4:3",
+      "photoIsIllustrative": true
     }
   ]
 }
