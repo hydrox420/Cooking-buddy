@@ -56,12 +56,17 @@ const assert=require('node:assert/strict');
   assert.ok((await page.locator('#plannedMeals').innerText()).includes(selected.name),'planned meal in meal-plan tab');
   await page.locator('nav.tabs [data-tab="shopping"]').click();
   assert.ok((await page.locator('#shoppingItems').innerText()).length>20,'shopping list populated with planned meal ingredients');
-  const handoff=await page.evaluate(()=>({
-   prompt:typeof groceryChatPrompt==='function'?groceryChatPrompt():null,
-   onclick:document.getElementById('cbOpenOrder')?.getAttribute('onclick')
-  }));
-  assert.ok(handoff.prompt?.includes('Stop & Shop')&&handoff.prompt?.length>100,'Instacart/ChatGPT handoff prepares full grocery request');
-  assert.ok(handoff.onclick?.includes('sendGroceriesToChatGPT'),'handoff remains wired, without placing an order');
+  await page.evaluate(()=>{
+   window.__testOpenedLinks=[];
+   HTMLAnchorElement.prototype.click=function(){window.__testOpenedLinks.push(this.href)};
+  });
+  await page.locator('#cbOpenOrder').click();
+  const handoff=await page.evaluate(()=>window.__testOpenedLinks[0]||'');
+  assert.ok(handoff.startsWith('https://chatgpt.com/?q='),'cart button constructs ChatGPT handoff link');
+  const request=new URL(handoff).searchParams.get('q');
+  assert.ok(request?.includes('Stop & Shop')&&request.includes('Instacart')&&request.includes('Do NOT check out'),'cart handoff contains pickup store, groceries and no-purchase instruction');
+  assert.ok(request.length>150,'grocery request includes structured ingredients');
+  // The mocked link.click above prevents sending the request or opening an outside app.
   await page.locator('nav.tabs [data-tab="fridge"]').click();
   await page.locator('#cbFridgeAddButton').click();
   assert.equal(await page.locator('#cbFridgeAddPanel').isVisible(),true,'fridge form opens');
