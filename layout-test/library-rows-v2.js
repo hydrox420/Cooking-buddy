@@ -3,8 +3,9 @@
 (function(){
 'use strict';
 let selectedCategory='All';
-// Prefer local optimized food photography when available; never overwrite custom uploads.
-// If an asset is not yet bundled, the browser falls back to the original source.
+// The 17 bundled stock-photo candidates were not verified genuine or dish-accurate.
+// Display a neutral illustration until a rights-cleared photograph from the actual recipe
+// is available. Never overwrite a user-customized recipe picture.
 const originals={
   "garlic-chicken-rice": {
     "oldRemote": "https://images.pexels.com/photos/30635713/pexels-photo-30635713.jpeg?auto=compress&cs=tinysrgb&w=850",
@@ -228,24 +229,29 @@ const originals={
     "kind": "licensed-illustrative-dish-photo"
   }
 };
+const photoPending='./photo-pending.svg';
 let localDefaultChanges=0;
 for(const r of state.recipes){
  const entry=originals[r.id];if(!entry)continue;
- // Preserve user's uploaded/custom photos. Migrate only Kitchen Buddy's built-in defaults.
+ // Recognize only our bundled/default candidates (including previously saved URLs).
+ // User-selected data: photos or their own uploaded URLs are preserved untouched.
  const isBuiltIn=typeof r.photo==='string'&&(
   (r.photo.startsWith('./assets/recipes/')&&r.photo.split('?')[0]===entry.oldLocal)||
-  r.photo===entry.oldRemote||r.photo===entry.remote||r.photo===entry.local
+  r.photo===entry.oldRemote||r.photo===entry.remote||r.photo===entry.local||
+  r.photo===photoPending
  );
  if(!r.photo||isBuiltIn){
-  r.photo=entry.local;
-  r.photoSource=entry.source;
-  r.photoCredit=entry.credit;
-  r.photoLicense=entry.license;
-  r.photoLicenseUrl=entry.licenseUrl;
-  r.photoMatchNote=entry.photoMatchNote;
-  r.photoKind=entry.kind;
-  if(entry.recipeSourceUrl)r.recipeSourceUrl=entry.recipeSourceUrl;
-  localDefaultChanges++;
+  if(r.photo!==photoPending||r.photoSource||r.photoCredit||r.photoLicense){
+   r.photo=photoPending;
+   // Avoid showing credits for a stock picture that is no longer displayed.
+   delete r.photoSource;
+   delete r.photoCredit;
+   delete r.photoLicense;
+   delete r.photoLicenseUrl;
+   delete r.photoMatchNote;
+   r.photoKind='original-cooking-photo-pending';
+   localDefaultChanges++;
+  }
  }
 }
 if(localDefaultChanges)save();
@@ -279,7 +285,7 @@ function card(r){
  const photo=build('button','kb-card-picture');
  photo.type='button';photo.setAttribute('aria-label','Open '+r.name);photo.onclick=()=>openCookingRecipe(i);
  const img=document.createElement('img');img.loading='lazy';img.decoding='async';img.src=r.photo||'../meal-placeholder.svg';img.alt=r.name;
- img.onerror=()=>{const entry=originals[r.id];if(entry&&img.src.indexOf('/assets/recipes/')>=0){img.onerror=()=>{img.onerror=null;img.src='../meal-placeholder.svg'};img.src=entry.remote;}else{img.onerror=null;img.src='../meal-placeholder.svg'}};
+ img.onerror=()=>{img.onerror=null;img.src=photoPending};
  photo.append(img);root.append(photo);
  const info=build('div','kb-compact-info');
  const title=build('button','kb-card-title',r.name);title.type='button';title.onclick=()=>openCookingRecipe(i);
