@@ -308,7 +308,8 @@ leftOverQuestion.setAttribute('role','dialog');
 leftOverQuestion.setAttribute('aria-modal','true');
 leftOverQuestion.setAttribute('aria-labelledby','cbLeftoversTitle');
 leftOverQuestion.innerHTML='<div class="cb-leftovers-modal"><span class="eyebrow">AFTER DINNER</span><h2 id="cbLeftoversTitle">Any leftovers?</h2>'+
- '<p class="cb-sub" id="cbLeftoversText">Save them to your Fridge so you remember when to eat them.</p>'+
+ '<p class="cb-sub" id="cbLeftoversText">Kitchen Buddy will save this meal to your Fridge with today’s date and a 3-day reminder.</p>'+
+ '<label class="cb-leftovers-note">Amount left (optional)<input id="cbLeftoverAmount" placeholder="e.g. 1 serving left"></label>'+
  '<div class="cb-leftovers-actions"><button class="btn secondary" id="cbNoLeftovers" type="button">No leftovers</button><button class="btn" type="button" id="cbYesLeftovers">Yes, save them</button></div></div>';
 document.body.append(leftOverQuestion);
 let justCooked=null;
@@ -318,13 +319,15 @@ function finishLeftoverQuestion(){
 }
 $cb('cbNoLeftovers').onclick=()=>{finishLeftoverQuestion();showTab('home')};
 $cb('cbYesLeftovers').onclick=()=>{
- const done=justCooked;finishLeftoverQuestion();
- showTab('fridge');
- window.openFridgeAdd(done?.name||'',done?.servings?'Cooked '+done.servings+' serving(s); amount remaining: ':'');
- const notes=$cb('foodNotes');if(notes){notes.focus();notes.setSelectionRange(notes.value.length,notes.value.length)}
+ const done=justCooked;if(!done)return;
+ const amount=$cb('cbLeftoverAmount').value.trim();
+ state.foods.push({id:uid(),name:done.name,date:today(),days:3,notes:amount});
+ save();finishLeftoverQuestion();showTab('fridge');
+ toast('Leftovers saved to your Fridge!');
 };
 function askAboutLeftovers(r,servings){
  justCooked={name:r.name,servings};
+ $cb('cbLeftoverAmount').value='';
  leftOverQuestion.classList.remove('hide');
  $cb('cbYesLeftovers').focus();
 }
