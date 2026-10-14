@@ -38,9 +38,16 @@ const assert=require('node:assert/strict');
   assert.ok((await source.getAttribute('href')).startsWith('https://'),'recipe photo source is a website link');
   assert.equal(await page.locator('#kbDishPeek').count(),0,'no floating view dish button');
   await page.locator('#kbDishPhoto').click();
+  assert.equal(await page.locator('dialog.kb-dish-lightbox[open]').count(),0,'unlicensed placeholder does not open as a photo');
+  await page.evaluate(()=>{
+    const testRecipe=state.recipes.find(r=>r.name===document.getElementById('recipeTitle').textContent);
+    testRecipe.photo='data:image/svg+xml,%3Csvg%20xmlns=%22http://www.w3.org/2000/svg%22%20width=%228%22%20height=%228%22%3E%3Crect%20width=%228%22%20height=%228%22%20fill=%22blue%22/%3E%3C/svg%3E';
+    showTab('cook');
+  });
+  await page.locator('#kbDishPhoto').click();
   await page.waitForSelector('dialog.kb-dish-lightbox[open] img');
   await page.locator('.kb-lightbox-close').click();
-  assert.equal(await page.locator('dialog.kb-dish-lightbox[open]').count(),0,'large photo can be closed');
+  assert.equal(await page.locator('dialog.kb-dish-lightbox[open]').count(),0,'user-supplied photo can be enlarged and closed');
   await page.locator('#cbCookTabs button').last().click();
   assert.ok(await page.locator('#cbCookContent .cb-step').count()>0,'cook steps remain intact');
   await page.locator('nav.tabs [data-tab="plan"]').click();
