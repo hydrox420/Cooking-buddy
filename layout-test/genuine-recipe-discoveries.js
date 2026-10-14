@@ -1,6 +1,6 @@
 // Four original-cook / public-domain recipe photo matches for layout preview.
 // Original recipe pages explicitly pair these exact dishes with their photographs.
-// Site/repository claims image contributions are released under Unlicense.
+// Source recipe and matched imagery are attributed to their published contributors; the project releases site content under Unlicense.
 // Keep separate from the current 17 unverified default recipe photos.
 (function(){'use strict';const incoming=[
   {
@@ -14,7 +14,7 @@
     ],
     "tags": [],
     "timeMinutes": 45,
-    "photo": "https://raw.githubusercontent.com/ronaldl29/public-domain-recipes/main/static/pix/chicken-pasta-casserole.webp",
+    "photo": "./assets/verified/chicken-pasta-casserole.webp",
     "photoSource": "https://publicdomainrecipes.com/chicken-pasta-casserole/",
     "photoCredit": "Miika Nissi · Public Domain Recipes",
     "photoLicense": "Unlicense / public domain, as stated by the source project",
@@ -123,7 +123,7 @@
       "Vegetarian"
     ],
     "timeMinutes": 40,
-    "photo": "https://raw.githubusercontent.com/ronaldl29/public-domain-recipes/main/static/pix/fall-vegetable-and-chickpea-curry.webp",
+    "photo": "./assets/verified/fall-vegetable-and-chickpea-curry.webp",
     "photoSource": "https://publicdomainrecipes.com/fall-vegetable-and-chickpea-curry/",
     "photoCredit": "Joel Maxuel · Public Domain Recipes",
     "photoLicense": "Unlicense / public domain, as stated by the source project",
@@ -258,7 +258,7 @@
       "Spicy"
     ],
     "timeMinutes": 30,
-    "photo": "https://raw.githubusercontent.com/ronaldl29/public-domain-recipes/main/static/pix/pasta-arrabbiata.webp",
+    "photo": "./assets/verified/pasta-arrabbiata.webp",
     "photoSource": "https://publicdomainrecipes.com/pasta-arrabbiata/",
     "photoCredit": "klisurovi4 · Public Domain Recipes",
     "photoLicense": "Unlicense / public domain, as stated by the source project",
@@ -348,7 +348,7 @@
     ],
     "tags": [],
     "timeMinutes": 25,
-    "photo": "https://raw.githubusercontent.com/ronaldl29/public-domain-recipes/main/static/pix/pan-seared-chicken.webp",
+    "photo": "./assets/verified/pan-seared-chicken.webp",
     "photoSource": "https://publicdomainrecipes.com/pan-seared-chicken/",
     "photoCredit": "yaroslav-smirnov · Public Domain Recipes",
     "photoLicense": "Unlicense / public domain, as stated by the source project",
