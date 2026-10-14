@@ -330,19 +330,47 @@ function flatGrid(root,title,recipes){
 function searchMatch(r,q){
  return (r.name+' '+(r.description||'')+' '+r.ingredients.join(' ')+' '+categories(r).join(' ')).toLowerCase().includes(q);
 }
+function isPhotographed(r){
+ return Boolean(r.photo && typeof r.photo==='string' && !r.photo.includes('photo-pending.svg') && !r.photo.includes('meal-placeholder.svg'));
+}
+function savedRecipeShelf(root,recipes){
+ if(!recipes.length)return;
+ const details=build('details','kb-unpictured-shelf');
+ const label=build('summary','',recipes.length+' saved recipes without photographs');
+ details.append(label);
+ const list=build('div','kb-shelf-list');
+ for(const r of recipes){
+  const button=build('button','',r.name);button.type='button';
+  button.setAttribute('aria-label','Open saved recipe: '+r.name);
+  button.onclick=()=>openCookingRecipe(state.recipes.indexOf(r));
+  list.append(button);
+ }
+ details.append(list);root.append(details);
+}
 renderRecipes=function(){
  const root=document.getElementById('recipes');
  if(!root)return;
  const q=(document.getElementById('recipeSearch')?.value||'').trim().toLowerCase();
  const all=state.recipes.filter(r=>!testRecipe(r)||q==='test'||q==='timer');
+ const pictured=all.filter(isPhotographed);
+ const unpictured=all.filter(r=>!isPhotographed(r));
  root.innerHTML='';root.classList.add('kb-library');
- const count=document.getElementById('recipeCount');if(count)count.textContent=all.length+' guided recipes';
+ const count=document.getElementById('recipeCount');if(count)count.textContent=pictured.length+' photographed recipes';
  const old=document.getElementById('cbCategoryFilters');if(old)old.hidden=true;
- const matches=all.filter(r=>!q||searchMatch(r,q));
- if(q){flatGrid(root,'Search results',matches);return}
+ const matches=pictured.filter(r=>!q||searchMatch(r,q));
+ const hiddenMatches=unpictured.filter(r=>!q||searchMatch(r,q));
+ if(q){
+  if(matches.length)flatGrid(root,'Search results',matches);
+  savedRecipeShelf(root,hiddenMatches);
+  if(!matches.length&&!hiddenMatches.length)root.append(build('p','kb-empty','No matching recipes yet.'));
+  return;
+ }
  if(selectedCategory!=='All'){
    const match=matches.filter(r=>selectedCategory==='Favorites'?r.favorite:categories(r).includes(selectedCategory));
-   flatGrid(root,selectedCategory,match);return;
+   flatGrid(root,selectedCategory,match);
+   const older=hiddenMatches.filter(r=>selectedCategory==='Favorites'?r.favorite:categories(r).includes(selectedCategory));
+   savedRecipeShelf(root,older);
+   return;
  }
  // Browsing is the primary flow, even when the user has saved favorites.
  // Rotate discovery picks by local day and prefer dishes not already favorited.
@@ -378,6 +406,7 @@ renderRecipes=function(){
   for(const r of items)rail.append(card(r));
   section.append(rail);root.append(section);
  }
+ savedRecipeShelf(root,hiddenMatches);
 };
 // Photo credits live in Profile, away from compact recipe cards.
 function displayCredits(){
