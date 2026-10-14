@@ -478,35 +478,48 @@ function mergedGroceries(){
  const map=new Map();
  const insert=(name,unit,qty,manualId)=>{
   const key=name.trim().toLowerCase()+'|'+unit.trim().toLowerCase();
-  let entry=map.get(key);
-  if(!entry){entry={key,name,unit,qty:0,manualIds:[],dept:shoppingDept(name)};map.set(key,entry)}
-  entry.qty=round3(entry.qty+qty);if(manualId)entry.manualIds.push(manualId);
+  let x=map.get(key);if(!x){x={key,name,unit,qty:0,manualIds:[],dept:shoppingDept(name)};map.set(key,x)}
+  x.qty=round3(x.qty+qty);if(manualId)x.manualIds.push(manualId);
  };
- for(const item of plannedNeeds())insert(item.name,item.unit,Number(item.qty),null);
- for(const item of state.shopping||[])if(Number(item.qty)>0)insert(item.name,item.unit,Number(item.qty),item.id);
- return [...map.values()].sort((a,b)=>departmentOrder.indexOf(a.dept)-departmentOrder.indexOf(b.dept)||a.name.localeCompare(b.name));
+ for(const x of plannedNeeds())insert(x.name,x.unit,Number(x.qty),null);
+ for(const x of state.shopping||[])if(Number(x.qty)>0)insert(x.name,x.unit,Number(x.qty),x.id);
+ const ordered=state.pendingOrder?.items||[];
+ const quantities=new Map(ordered.map(x=>[x.key,Number(x.qty)||0]));
+ return [...map.values()].map(x=>({...x,qty:round3(Math.max(0,x.qty-(quantities.get(x.key)||0)))}))
+  .filter(x=>x.qty>0.0001)
+  .sort((a,b)=>departmentOrder.indexOf(a.dept)-departmentOrder.indexOf(b.dept)||a.name.localeCompare(b.name));
+}
+function buyGroceryItem(item){
+ addToStock(item.name,amountToBuy(Number(item.qty),item.unit),item.unit);
+ const remove=new Set(item.manualIds||[]);
+ state.shopping=state.shopping.filter(x=>!remove.has(x.id));
+ delete state.cartChecked[item.key];
+ save();renderShopping();renderInventory();
 }
 function drawGroceries(){
- state.cartChecked=state.cartChecked||{};
- const root=$cb('shoppingItems');if(!root)return;root.innerHTML='';
- const list=mergedGroceries(),checked=list.filter(x=>state.cartChecked[x.key]);
- const stats=$cb('groceryStats');
- if(stats)stats.textContent=checked.length+' of '+list.length+' grocery items checked off';
- if(!list.length){root.innerHTML='<div class="cb-empty">Your grocery list is empty. Plan a meal or add an item. 🛒</div>'}
+ const root=$cb('shoppingItems');if(!root)return;
+ root.innerHTML='';
+ const list=mergedGroceries(),stats=$cb('groceryStats');
+ if(stats)stats.textContent=list.length+' '+(list.length===1?'item':'items')+' left to buy';
+ if(!list.length)root.innerHTML='<div class="cb-empty">Nothing left to buy. 🎉</div>';
  let last='';
  for(const item of list){
   if(last!==item.dept){last=item.dept;const h=document.createElement('h3');h.className='cb-dept';h.textContent=last;root.append(h)}
-  const row=document.createElement('div');row.className='cb-grocery-row'+(state.cartChecked[item.key]?' checked':'');
-  const input=document.createElement('input');input.type='checkbox';input.checked=!!state.cartChecked[item.key];
-  input.setAttribute('aria-label','Bought '+item.name);const id='cart-'+list.indexOf(item);input.id=id;
-  input.onchange=()=>{if(input.checked)state.cartChecked[item.key]=true;else delete state.cartChecked[item.key];save();renderShopping()};
-  const label=document.createElement('label');label.htmlFor=id;label.textContent=item.name;
+  const row=document.createElement('div');row.className='cb-grocery-row';
+  const circle=document.createElement('span');circle.className='cb-grocery-circle';circle.textContent='○';circle.setAttribute('aria-hidden','true');
+  const label=document.createElement('span');label.className='cb-grocery-label';label.textContent=item.name;
   const amount=document.createElement('span');amount.className='cb-amount';amount.textContent=fmtQty(amountToBuy(item.qty,item.unit),item.unit);
-  row.append(input,label,amount);root.append(row);
+  row.append(circle,label,amount);
+  row.setAttribute('role','button');row.tabIndex=0;
+  row.setAttribute('aria-label','Bought '+item.name+', move to Kitchen');
+  row.onclick=()=>buyGroceryItem(item);
+  row.onkeydown=ev=>{if(ev.target===row&&(ev.key==='Enter'||ev.key===' ')){ev.preventDefault();buyGroceryItem(item)}};
+  root.append(row);
  }
- const pantry=$cb('pantryOptional');pantry.innerHTML='<h3>🧂 Pantry seasonings</h3><p class="cb-sub">Spices are not automatically counted by the teaspoon. Add a jar when you need one.</p>';
+ const pantry=$cb('pantryOptional');if(!pantry)return;
+ pantry.innerHTML='<h3>🧂 Pantry seasonings</h3><p class="cb-sub">Add a jar if you need one. Spices are not automatically tracked by the teaspoon.</p>';
  const spices=pantrySeasonings();
- if(!spices.length)pantry.innerHTML+='<p class="cb-sub">No extra seasonings to check right now.</p>';
+ if(!spices.length)pantry.innerHTML+='<p class="cb-sub">No additional seasonings to check.</p>';
  for(const name of spices){
   const btn=document.createElement('button');btn.className='btn secondary mini';btn.style.margin='5px';
   btn.textContent='+ '+name;
@@ -522,18 +535,40 @@ addShopManual=function(){
  state.shopping.push({id:uid(),name,qty,unit,manual:true});
  $cb('shopName').value='';save();renderShopping();
 };
-window.moveCheckedToKitchen=()=>{
- const list=mergedGroceries().filter(x=>state.cartChecked[x.key]);
- if(!list.length){toast('Check off groceries as you shop first.');return}
- if(!confirm('Add '+list.length+' checked grocery items to Kitchen inventory? Only do this after buying them.'))return;
- const remove=new Set();
- for(const item of list){
-  addToStock(item.name,amountToBuy(item.qty,item.unit),item.unit);
-  item.manualIds.forEach(id=>remove.add(id));
-  delete state.cartChecked[item.key];
- }
- state.shopping=state.shopping.filter(x=>!remove.has(x.id));
- save();renderShopping();renderInventory();toast('Checked groceries added to Kitchen! 🥬');
+function drawPendingPickup(){
+ const container=$cb('cbPendingOrder');if(!container)return;
+ container.innerHTML='';
+ const order=state.pendingOrder;
+ if(!order?.items?.length)return;
+ const panel=document.createElement('div');panel.className='cb-panel cb-pending-order';
+ const heading=document.createElement('h3');heading.textContent='🚗 Your Instacart pickup order';
+ const p=document.createElement('p');p.className='cb-sub';
+ p.textContent=order.items.length+' items are marked ordered, not yet in your Kitchen.';
+ const actions=document.createElement('div');actions.className='cb-pending-actions';
+ const receive=document.createElement('button');receive.className='btn';receive.type='button';receive.textContent='✓ Picked up — add to Kitchen';
+ receive.onclick=()=>{
+  const pending=state.pendingOrder;if(!pending)return;
+  for(const item of pending.items)addToStock(item.name,Number(item.qty),item.unit);
+  state.pendingOrder=null;save();renderShopping();renderInventory();
+ };
+ const undo=document.createElement('button');undo.type='button';undo.className='btn secondary';undo.textContent='↩ Undo order status';
+ undo.onclick=()=>{
+  const pending=state.pendingOrder;if(!pending)return;
+  for(const item of pending.manualItems||[])if(!state.shopping.some(x=>x.id===item.id))state.shopping.push(item);
+  state.pendingOrder=null;save();renderShopping();
+ };
+ actions.append(receive,undo);panel.append(heading,p,actions);container.append(panel);
+}
+window.markInstacartOrderPlaced=()=>{
+ if(state.pendingOrder?.items?.length)return;
+ const list=mergedGroceries();if(!list.length)return;
+ const items=list.map(x=>({key:x.key,name:x.name,unit:x.unit,qty:amountToBuy(x.qty,x.unit)}));
+ const ids=new Set(list.flatMap(x=>x.manualIds));
+ const manualItems=state.shopping.filter(x=>ids.has(x.id));
+ state.shopping=state.shopping.filter(x=>!ids.has(x.id));
+ state.pendingOrder={items,manualItems,placedAt:Date.now()};
+ state.cartChecked={};
+ save();renderShopping();
 };
 const legacyRenderInventory=renderInventory;
 renderInventory=function(){
@@ -626,7 +661,7 @@ function pickupTimeLabel(){
  return ((parts[0]%12)||12)+':'+String(parts[1]).padStart(2,'0')+(parts[0]>=12?' PM':' AM');
 }
 function pickupRemaining(){
- return mergedGroceries().filter(it=>!state.cartChecked[it.key]);
+ return mergedGroceries();
 }
 function pickupText(){
  const items=pickupRemaining();
@@ -641,6 +676,7 @@ function paintPickup(){
  const items=pickupRemaining();
  const count=$cb('cbPickupCount'),textArea=$cb('cbPickupList'),copy=$cb('cbPickupCopy');
  if(!count||!textArea||!copy)return;
+ const orderButton=$cb('cbPlaceOrderPanel');if(orderButton)orderButton.hidden=!items.length||!!state.pendingOrder?.items?.length;
  count.textContent=items.length+' remaining '+(items.length===1?'item':'items')+' to add to the order';
  textArea.value=items.length?pickupText():'Your order list is empty. Plan a meal or add groceries first.';
  copy.disabled=!items.length;
@@ -659,7 +695,7 @@ $cb('cbPickupCopy').onclick=async()=>{
  }
 };
 const drawGroceriesBeforePickup=renderShopping;
-renderShopping=function(){drawGroceriesBeforePickup();paintPickup()};
+renderShopping=function(){drawGroceriesBeforePickup();drawPendingPickup();paintPickup()};
 paintPickup();
 
 renderRecipes();paintSettings();showTab('home');renderPlan();
