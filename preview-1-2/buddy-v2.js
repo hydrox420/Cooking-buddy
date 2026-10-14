@@ -586,6 +586,76 @@ renderRecipes=function(){
   const empty=document.createElement('p');empty.className='muted';empty.textContent='No recipes in this category yet.';empty.style.gridColumn='1/-1';$cb('recipes').append(empty);
  }
 };
+
+// Kitchen Buddy pickup-prep beta: hand off a local list; checkout stays at retailer.
+const pickupPanel=document.createElement('details');
+pickupPanel.className='cb-pickup';
+pickupPanel.open=true;
+pickupPanel.innerHTML=
+ '<summary>🚗 Pickup at Stop &amp; Shop #0404</summary>'+
+ '<div class="cb-pickup-body">'+
+ '<div class="cb-pickup-location">1600 Boston Road · Springfield, MA 01129</div>'+
+ '<p class="cb-sub">Your saved pickup store. Pick your meals first; we combine their missing ingredients below.</p>'+
+ '<div class="cb-pickup-grid"><label for="cbPickupTime">Preferred pickup time'+
+ '<input id="cbPickupTime" type="time" aria-label="Preferred pickup time"></label>'+
+ '<div class="cb-sub" id="cbPickupCount" aria-live="polite"></div></div>'+
+ '<label for="cbPickupList" class="cb-sub">Items to order (editable only in your grocery list)</label>'+
+ '<textarea id="cbPickupList" class="cb-pickup-preview" readonly rows="5" aria-label="Prepared grocery pickup list"></textarea>'+
+ '<div class="cb-pickup-actions">'+
+ '<button type="button" id="cbPickupCopy" class="btn secondary">📋 Copy grocery list</button>'+
+ '<a class="btn" id="cbPickupShop" href="https://www.instacart.com/retailer/stop-shop-delivery/ma/near-me-in-springfield-ma" target="_blank" rel="noopener noreferrer">🛒 Open Instacart pickup ↗</a></div>'+
+ '<p class="cb-pickup-footnote"><strong>Thursday test:</strong> Select Pickup and <strong>1600 Boston Road</strong> in Instacart, then add the items and choose an available pickup slot. The list is <strong>not</strong> automatically sent to the cart. The time above is a reminder, not a reservation; products, prices and pickup availability need confirmation at checkout. Only mark items Bought after receiving them.</p>'+
+ '</div>';
+const groceryHeading=groceries.querySelector('.cb-intro');
+if(groceryHeading)groceryHeading.after(pickupPanel);
+const pickupTimeField=$cb('cbPickupTime');
+pickupTimeField.value=(typeof prefs.pickupTime==='string'&&/^\d{2}:\d{2}$/.test(prefs.pickupTime))?prefs.pickupTime:'15:30';
+pickupTimeField.onchange=()=>{
+ prefs.pickupTime=pickupTimeField.value||'15:30';
+ savePrefs();paintPickup();
+};
+function pickupTimeLabel(){
+ const t=pickupTimeField.value||'15:30';
+ const parts=t.split(':').map(Number);
+ return ((parts[0]%12)||12)+':'+String(parts[1]).padStart(2,'0')+(parts[0]>=12?' PM':' AM');
+}
+function pickupRemaining(){
+ return mergedGroceries().filter(it=>!state.cartChecked[it.key]);
+}
+function pickupText(){
+ const items=pickupRemaining();
+ if(!items.length)return '';
+ const lines=['Kitchen Buddy grocery pickup list','Preferred store: Stop & Shop #0404 — 1600 Boston Road, Springfield MA 01129',
+  'Preferred pickup time: '+pickupTimeLabel()+' (select an available slot during checkout)',''];
+ for(const it of items)lines.push('• '+it.name+' — '+fmtQty(amountToBuy(it.qty,it.unit),it.unit));
+ lines.push('', 'Review package sizes, substitutes and available pickup location in Instacart.');
+ return lines.join('\n');
+}
+function paintPickup(){
+ const items=pickupRemaining();
+ const count=$cb('cbPickupCount'),textArea=$cb('cbPickupList'),copy=$cb('cbPickupCopy');
+ if(!count||!textArea||!copy)return;
+ count.textContent=items.length+' remaining '+(items.length===1?'item':'items')+' to add to the order';
+ textArea.value=items.length?pickupText():'Your order list is empty. Plan a meal or add groceries first.';
+ copy.disabled=!items.length;
+}
+$cb('cbPickupCopy').onclick=async()=>{
+ const msg=pickupText();
+ if(!msg){toast('Plan a meal to build a list first.');return}
+ const ta=$cb('cbPickupList');
+ try {
+  if(navigator.clipboard&&navigator.clipboard.writeText)await navigator.clipboard.writeText(msg);
+  else {ta.focus();ta.select();if(!document.execCommand('copy'))throw Error('Clipboard unavailable')}
+  toast('List copied! Add products to your Instacart pickup cart.');
+ } catch(err) {
+  ta.focus();ta.select();
+  toast('Select and copy the list shown above.');
+ }
+};
+const drawGroceriesBeforePickup=renderShopping;
+renderShopping=function(){drawGroceriesBeforePickup();paintPickup()};
+paintPickup();
+
 renderRecipes();paintSettings();showTab('home');
 // No timer in a web app can guarantee alarm delivery when the OS suspends the page.
 })();
