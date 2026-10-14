@@ -92,7 +92,7 @@ const groceries=$cb('shopping'),oldFridge=$cb('fridge');
 const plan=document.createElement('section');plan.id='plan';plan.className='hide';
 plan.innerHTML='<div class="cb-intro"><span class="eyebrow">YOUR WEEK AHEAD</span><h2>📅 Meal Plan</h2><p>Choose recipes, set servings, and make one combined grocery list.</p></div><div class="cb-tiles" id="planStats"></div><div class="cb-panel"><h3>Meals you have planned</h3><div id="plannedMeals"></div></div><button class="btn" onclick="showTab(\'shopping\')">🛒 View combined groceries →</button>';
 groceries.before(plan);
-groceries.innerHTML='<div class="cb-intro cb-shopping-title"><div><span class="eyebrow">YOUR SHOPPING LIST</span><h2>Groceries</h2></div><button type="button" id="cbOpenOrder" class="cb-icon-button" aria-label="Shopping and pickup options" aria-expanded="false" title="Shopping and pickup options" onclick="togglePickupOptions()"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="9" cy="20" r="1"/><circle cx="19" cy="20" r="1"/><path d="M2 3h2l3 12h13l2-9H5"/></svg></button></div><div id="groceryStats" class="cb-check-total"></div><div id="shoppingItems"></div><div id="cbPendingOrder"></div><details class="cb-panel cb-add-grocery"><summary>＋ Add an item</summary><label>Item<input id="shopName" placeholder="Bananas"></label><label>Amount<input id="shopQty" type="number" step="any" min="0.01" value="1"></label><label>Unit<input id="shopUnit" placeholder="each"></label><button class="btn" onclick="addShopManual()">Add to grocery list</button></details><div id="pantryOptional" class="cb-panel"></div>';
+groceries.innerHTML='<div class="cb-intro cb-shopping-title"><div><span class="eyebrow">YOUR SHOPPING LIST</span><h2>Groceries</h2></div><button type="button" id="cbOpenOrder" class="cb-icon-button" aria-label="Shopping and pickup options" aria-expanded="false" title="Shopping and pickup options" onclick="togglePickupOptions()"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="9" cy="20" r="1"/><circle cx="19" cy="20" r="1"/><path d="M2 3h2l3 12h13l2-9H5"/></svg></button></div><div class="cb-shopping-handoff"><button type="button" id="cbShareChatGPT" class="btn secondary cb-chatgpt-share" onclick="sendGroceriesToChatGPT()"><svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12h13M12 7l5 5-5 5"/><path d="M18 4h2v16h-2"/></svg> Send to ChatGPT</button><span class="cb-handoff-hint">Share your list to build an Instacart cart with me</span></div><div id="groceryStats" class="cb-check-total"></div><div id="shoppingItems"></div><div id="cbPendingOrder"></div><details class="cb-panel cb-add-grocery"><summary>＋ Add an item</summary><label>Item<input id="shopName" placeholder="Bananas"></label><label>Amount<input id="shopQty" type="number" step="any" min="0.01" value="1"></label><label>Unit<input id="shopUnit" placeholder="each"></label><button class="btn" onclick="addShopManual()">Add to grocery list</button></details><div id="pantryOptional" class="cb-panel"></div>';
 const kitchen=document.createElement('section');kitchen.id='kitchen';kitchen.className='hide';
 kitchen.innerHTML='<div class="cb-intro"><span class="eyebrow">WHAT YOU HAVE AT HOME</span><h2>My Kitchen</h2></div><div class="cb-panel cb-kitchen-stock"><h3>Kitchen inventory</h3><div id="inventoryItems"></div></div>';
 groceries.after(kitchen);
@@ -766,6 +766,50 @@ function pickupText(){
  lines.push('', 'Review package sizes, substitutes and available pickup location in Instacart.');
  return lines.join('\n');
 }
+function groceryChatPrompt(){
+ const items=pickupRemaining();
+ if(!items.length)return '';
+ const lines=[
+  'KITCHEN BUDDY → INSTACART HANDOFF',
+  '',
+  'Please add ALL the following items to my connected Instacart shopping cart. Do not place an order or check out.',
+  'I prefer Stop & Shop. If no retailer has been selected, show me the retailer selection and let me choose.',
+  'Choose sensible grocery packages for recipe measurements, and tell me about substitutes or items you cannot find. Do not guess sizes or prices.',
+  'Review the completed cart with me before checkout.',
+  '',
+  'GROCERY LIST:'
+ ];
+ for(const item of items)lines.push('- '+item.name+' — '+fmtQty(amountToBuy(item.qty,item.unit),item.unit));
+ return lines.join('\n');
+}
+window.sendGroceriesToChatGPT=async()=>{
+ const prompt=groceryChatPrompt();
+ if(!prompt){toast('Your grocery list is empty. Plan a meal or add groceries first.');return}
+ // Android's native share sheet may offer ChatGPT as a target; it cannot target this specific chat.
+ if(typeof navigator.share==='function'){
+  try{
+   await navigator.share({title:'Kitchen Buddy groceries for Instacart',text:prompt});
+   return;
+  }catch(err){
+   if(err&&err.name==='AbortError')return;
+  }
+ }
+ // Without a supported share target, copy the request and open ChatGPT for manual pasting.
+ try{
+  if(!navigator.clipboard?.writeText)throw Error('Clipboard not supported');
+  await navigator.clipboard.writeText(prompt);
+  toast('List copied. Paste it into ChatGPT to fill your Instacart cart.');
+  window.location.assign('https://chatgpt.com/');
+ }catch(err){
+  // Keep the message available for manual copy if clipboard access is denied.
+  const preview=$cb('cbPickupList');
+  if(preview){
+   pickupPanel.open=true;
+   preview.value=prompt;preview.focus();preview.select();
+  }
+  toast('Copy the selected shopping request, then paste it into ChatGPT.');
+ }
+};
 function paintPickup(){
  const items=pickupRemaining();
  const count=$cb('cbPickupCount'),textArea=$cb('cbPickupList'),copy=$cb('cbPickupCopy');
@@ -774,6 +818,7 @@ function paintPickup(){
  count.textContent=items.length+' remaining '+(items.length===1?'item':'items')+' to add to the order';
  textArea.value=items.length?pickupText():'Your order list is empty. Plan a meal or add groceries first.';
  copy.disabled=!items.length;
+ const share=$cb('cbShareChatGPT');if(share)share.disabled=!items.length;
 }
 $cb('cbPickupCopy').onclick=async()=>{
  const msg=pickupText();
