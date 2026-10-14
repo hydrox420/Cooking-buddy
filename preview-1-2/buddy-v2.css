@@ -160,3 +160,13 @@ nav.tabs.cb-six-tabs button{display:flex;flex-direction:column;align-items:cente
 nav.tabs.cb-six-tabs .cb-nav-icon{height:22px;width:22px;display:grid;place-items:center;line-height:1}
 nav.tabs.cb-six-tabs .cb-nav-icon svg{height:21px;width:21px;display:block}
 nav.tabs.cb-six-tabs .cb-nav-text{font-size:clamp(9px,2.4vw,12px);line-height:1.12;font-weight:700;max-width:100%}
+
+/* Beta 2.0.5: woodland brand and optional leftover amount */
+.cb-app-brand{padding:8px 3px 10px;min-height:62px}
+.cb-app-brand h1{font-size:clamp(29px,7.5vw,39px);font-weight:850;letter-spacing:-1.15px;color:#fff0d9;line-height:1.1;margin:4px 0}
+.cb-leftovers-note{display:block;font-size:13px;color:#d9e9d6;font-weight:650;margin-top:16px}
+.cb-leftovers-note input{margin-top:7px;background:#253c2d;border-color:#78967c;min-height:46px}
+body{background:#22392c;color:#fff0d9}
+#home .cb-intro,#shopping .cb-intro,#fridge .cb-intro,#kitchen .cb-intro,#settings .cb-intro{color:#fff0d9}
+.cb-profile-hero{background:#385842}
+#fridge .cb-fridge-contents{min-height:80px}
