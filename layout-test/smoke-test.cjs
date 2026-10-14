@@ -1,0 +1,46 @@
+const {chromium}=require('playwright');
+const assert=require('node:assert/strict');
+(async()=>{
+ const browser=await chromium.launch({headless:true,args:['--no-sandbox']});
+ const page=await browser.newPage({viewport:{width:393,height:852},deviceScaleFactor:1,isMobile:true,hasTouch:true});
+ const errs=[];page.on('pageerror',e=>errs.push(e.message));
+ try{
+  await page.goto('http://127.0.0.1:8765/layout-test/',{waitUntil:'networkidle'});
+  await page.waitForSelector('.kb-compact-card',{timeout:15000});
+  assert.ok((await page.locator('.kb-compact-card').count())>=17,'show all recipe rows');
+  const h1=await page.locator('header.cb-app-brand h1').boundingBox();
+  assert.ok(h1&&Math.abs(h1.x+h1.width/2-393/2)<25,'center app title');
+  assert.equal(await page.locator('#kbSearchField').isVisible(),false,'search collapsed');
+  await page.locator('#kbSearchToggle').click();
+  assert.equal(await page.locator('#kbSearchField').isVisible(),true,'search opens');
+  await page.locator('#recipeSearch').fill('shrimp');
+  assert.ok(await page.locator('.kb-compact-card').count()>=1,'search finds matching recipe');
+  await page.locator('#recipeSearch').press('Escape');
+  assert.equal(await page.locator('#kbSearchField').isVisible(),false,'search closes on Escape');
+  const chip=page.locator('.kb-diet-tag').first();
+  assert.ok(await chip.count(),'badge available');
+  await chip.click();
+  await page.waitForSelector('.kb-diet-popover');
+  const explanation=await page.locator('.kb-diet-popover').innerText();
+  assert.ok(explanation.length>20,'badge explanation present');
+  await page.locator('.kb-diet-popover button').click();
+  assert.equal(await page.locator('.kb-diet-popover').count(),0,'tooltip closes');
+  await page.locator('.kb-card-picture').first().click();
+  await page.waitForSelector('#cook:not(.hide) #kbDishPhoto img');
+  const hero=page.locator('#kbDishPhoto img');
+  assert.ok((await hero.getAttribute('src')).length>10,'hero photo src exists');
+  assert.equal(await page.locator('#kbDishPeek').isVisible(),true,'persistent view dish button');
+  await page.locator('#kbDishPeek').click();
+  await page.waitForSelector('dialog.kb-dish-lightbox[open] img');
+  await page.locator('.kb-lightbox-close').click();
+  assert.equal(await page.locator('dialog.kb-dish-lightbox[open]').count(),0,'large photo can be closed');
+  await page.locator('#cbCookTabs button').last().click();
+  assert.ok(await page.locator('#cbCookContent .cb-step').count()>0,'cook steps remain intact');
+  await page.locator('nav.tabs [data-tab="plan"]').click();
+  assert.equal(await page.locator('#plan').isVisible(),true,'plan navigation works');
+  await page.locator('nav.tabs [data-tab="home"]').click();
+  assert.equal(await page.locator('#home').isVisible(),true,'recipe navigation works');
+  assert.deepEqual(errs,[],'no JavaScript page errors');
+  console.log('PASS: 393px mobile layout, search, diet popovers, recipe photos, cook steps and tab navigation');
+ }finally{await browser.close()}
+})().catch(e=>{console.error(e);process.exitCode=1});
