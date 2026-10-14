@@ -606,8 +606,8 @@ pickupPanel.innerHTML=
  '<textarea id="cbPickupList" class="cb-pickup-preview" readonly rows="5" aria-label="Prepared grocery pickup list"></textarea>'+
  '<div class="cb-pickup-actions">'+
  '<button type="button" id="cbPickupCopy" class="btn secondary">📋 Copy grocery list</button>'+
- '<a class="btn" id="cbPickupShop" href="https://www.instacart.com/retailer/stop-shop-delivery/ma/near-me-in-springfield-ma" target="_blank" rel="noopener noreferrer">🛒 Open Instacart pickup ↗</a></div>'+
- '<p class="cb-pickup-footnote"><strong>Thursday test:</strong> Select Pickup and <strong>1600 Boston Road</strong> in Instacart, then add the items and choose an available pickup slot. The list is <strong>not</strong> automatically sent to the cart. The time above is a reminder, not a reservation; products, prices and pickup availability need confirmation at checkout. Only mark items Bought after receiving them.</p>'+
+ '<a class="btn" id="cbPickupShop" href="https://www.instacart.com/retailer/stop-shop-delivery/ma/near-me-in-springfield-ma" target="_blank" rel="noopener noreferrer">🛒 Continue to Instacart ↗</a></div>'+
+ '<p class="cb-pickup-footnote"><strong>Thursday test:</strong> Instacart first asks for your ZIP code and login. Enter <strong>01129</strong>, sign in, select Pickup, and verify <strong>1600 Boston Road</strong> is available. Then add your ingredients and choose a pickup slot. The list is <strong>not</strong> automatically sent to the cart. The time above is a reminder, not a reservation; products, prices and pickup availability need confirmation at checkout. Only mark items Bought after receiving them.</p>'+
  '</div>';
 const groceryHeading=groceries.querySelector('.cb-intro');
 if(groceryHeading)groceryHeading.after(pickupPanel);
