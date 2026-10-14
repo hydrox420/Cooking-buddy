@@ -37,5 +37,9 @@ jobs:
           git add preview-1-2/assets/recipes/*.webp preview-1-2/photo-download-report.json
           if ! git diff --cached --quiet; then
             git commit -m "Bundle optimized Kitchen Buddy recipe photography"
+            # The review branch may have advanced while photos were downloading.
+            # Rebase our image-only commit onto the newest branch head; never force-push.
+            git fetch origin feature/recipe-library-real-photos
+            git rebase origin/feature/recipe-library-real-photos
             git push origin HEAD:feature/recipe-library-real-photos
           fi
