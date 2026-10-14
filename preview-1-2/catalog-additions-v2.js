@@ -319,7 +319,7 @@ const incoming=[
     "photo": "https://commons.wikimedia.org/wiki/Special:FilePath/Chicken%20teriyaki.jpg?width=800",
     "photoSource": "https://commons.wikimedia.org/wiki/File:Chicken_teriyaki.jpg",
     "photoCredit": "Blue Lotus",
-    "photoLicense": "Creative Commons (see source)",
+    "photoLicense": "CC BY 2.0",
     "photoIsIllustrative": true,
     "ingredients": [
       "12 oz boneless skinless chicken breast",
