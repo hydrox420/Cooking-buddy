@@ -1,0 +1,158 @@
+{
+  "note": "Curated licensed real-food photos. Image crops may be illustrative. Review fidelity and license details before publishing.",
+  "images": [
+    {
+      "id": "garlic-chicken-rice",
+      "name": "Garlic Chicken & Cheesy Brown Rice",
+      "url": "https://images.pexels.com/photos/30635713/pexels-photo-30635713.jpeg?auto=compress&cs=tinysrgb&w=850",
+      "source": "https://www.pexels.com/photo/healthy-meal-prep-with-chicken-and-broccoli-30635713/",
+      "credit": "IARA MELO / Pexels",
+      "license": "Pexels License",
+      "customization": "cover crop 4:3"
+    },
+    {
+      "id": "lemon-garlic-tilapia-broccoli-rice",
+      "name": "Lemon-Garlic Tilapia with Broccoli & Brown Rice",
+      "url": "https://images.pexels.com/photos/6200044/pexels-photo-6200044.jpeg?auto=compress&cs=tinysrgb&w=850",
+      "source": "https://www.pexels.com/photo/healthy-food-on-a-container-and-white-plate-6200044/",
+      "credit": "Gustavo Santana / Pexels",
+      "license": "Pexels License",
+      "customization": "cover crop 4:3"
+    },
+    {
+      "id": "easy-honey-garlic-chicken-broccoli-rice",
+      "name": "Honey-Garlic Chicken & Broccoli Rice Bowls",
+      "url": "https://images.pexels.com/photos/105588/pexels-photo-105588.jpeg?auto=compress&cs=tinysrgb&w=850",
+      "source": "https://www.pexels.com/photo/white-rice-chicken-and-broccoli-on-black-non-stick-pan-105588/",
+      "credit": "Keegan Evans / Pexels",
+      "license": "Pexels License",
+      "customization": "cover crop 4:3"
+    },
+    {
+      "id": "easy-turkey-taco-rice-bowls",
+      "name": "Turkey Taco Rice Bowls",
+      "url": "https://images.pexels.com/photos/8363975/pexels-photo-8363975.jpeg?auto=compress&cs=tinysrgb&w=850",
+      "source": "https://www.pexels.com/photo/choice-of-healthy-food-8363975/",
+      "credit": "Cecilia Cavazos / Pexels",
+      "license": "Pexels License",
+      "customization": "cover crop 4:3"
+    },
+    {
+      "id": "easy-sheet-pan-sausage-potatoes-peppers",
+      "name": "Sheet-Pan Sausage, Peppers & Potatoes",
+      "url": "https://images.pexels.com/photos/37275057/pexels-photo-37275057.jpeg?auto=compress&cs=tinysrgb&w=850",
+      "source": "https://www.pexels.com/photo/rustic-potato-and-sausage-dish-on-checkered-cloth-37275057/",
+      "credit": "cami / Pexels",
+      "license": "Pexels License",
+      "customization": "cover crop 4:3"
+    },
+    {
+      "id": "easy-spinach-egg-cheese-wraps",
+      "name": "Spinach, Egg & Cheese Breakfast Wraps",
+      "url": "https://images.pexels.com/photos/4869465/pexels-photo-4869465.jpeg?auto=compress&cs=tinysrgb&w=850",
+      "source": "https://www.pexels.com/photo/a-close-up-shot-of-a-delicious-wrap-4869465/",
+      "credit": "ROMAN ODINTSOV / Pexels",
+      "license": "Pexels License",
+      "customization": "cover crop 4:3"
+    },
+    {
+      "id": "easy-tomato-spinach-chickpea-pasta",
+      "name": "Tomato, Spinach & Chickpea Pasta",
+      "url": "https://images.pexels.com/photos/19805084/pexels-photo-19805084.jpeg?auto=compress&cs=tinysrgb&w=850",
+      "source": "https://www.pexels.com/photo/tomato-pasta-on-a-black-plate-19805084/",
+      "credit": "mustafa türkeri / Pexels",
+      "license": "Pexels License",
+      "customization": "cover crop 4:3"
+    },
+    {
+      "id": "easy-garlic-shrimp-green-bean-rice",
+      "name": "Garlic Shrimp, Green Beans & Brown Rice",
+      "url": "https://images.pexels.com/photos/11015917/pexels-photo-11015917.jpeg?auto=compress&cs=tinysrgb&w=850",
+      "source": "https://www.pexels.com/photo/delicious-shrimps-in-a-rice-bowl-11015917/",
+      "credit": "FOX ^.ᆽ.^= ∫ / Pexels",
+      "license": "Pexels License",
+      "customization": "cover crop 4:3"
+    },
+    {
+      "id": "kb-overnight-oats-berry",
+      "name": "Berry Overnight Oats",
+      "url": "https://commons.wikimedia.org/wiki/Special:FilePath/Protein%20overnight%20oats.jpg?width=800",
+      "source": "https://commons.wikimedia.org/wiki/File:Protein_overnight_oats.jpg",
+      "credit": "Nervy8924",
+      "license": "CC BY-SA 4.0",
+      "customization": "cover crop 4:3"
+    },
+    {
+      "id": "kb-chana-masala",
+      "name": "Easy Chana Masala",
+      "url": "https://commons.wikimedia.org/wiki/Special:FilePath/Channa%20Masala.jpg?width=800",
+      "source": "https://commons.wikimedia.org/wiki/File:Channa_Masala.jpg",
+      "credit": "Bhavana Homecook",
+      "license": "CC BY-SA 4.0",
+      "customization": "cover crop 4:3"
+    },
+    {
+      "id": "kb-korean-bibimbap",
+      "name": "Easy Vegetable Bibimbap",
+      "url": "https://commons.wikimedia.org/wiki/Special:FilePath/The%20Bibimbap.jpg?width=800",
+      "source": "https://commons.wikimedia.org/wiki/File:The_Bibimbap.jpg",
+      "credit": "Loozrboy",
+      "license": "CC BY-SA 2.0",
+      "customization": "cover crop 4:3"
+    },
+    {
+      "id": "kb-chicken-teriyaki",
+      "name": "Chicken Teriyaki Rice Bowls",
+      "url": "https://commons.wikimedia.org/wiki/Special:FilePath/Chicken%20teriyaki.jpg?width=800",
+      "source": "https://commons.wikimedia.org/wiki/File:Chicken_teriyaki.jpg",
+      "credit": "Blue Lotus",
+      "license": "CC BY 2.0",
+      "customization": "cover crop 4:3"
+    },
+    {
+      "id": "kb-chicken-fajitas",
+      "name": "Chicken Fajitas",
+      "url": "https://commons.wikimedia.org/wiki/Special:FilePath/Chicken%20fajitas.jpg?width=800",
+      "source": "https://commons.wikimedia.org/wiki/File:Chicken_fajitas.jpg",
+      "credit": "jeffreyw",
+      "license": "CC BY 2.0",
+      "customization": "cover crop 4:3"
+    },
+    {
+      "id": "kb-chicken-adobo",
+      "name": "Filipino Chicken Adobo",
+      "url": "https://commons.wikimedia.org/wiki/Special:FilePath/Chicken%20adobo.jpg?width=800",
+      "source": "https://commons.wikimedia.org/wiki/File:Chicken_adobo.jpg",
+      "credit": "dbgg1979",
+      "license": "CC BY 2.0",
+      "customization": "cover crop 4:3"
+    },
+    {
+      "id": "kb-lentil-soup",
+      "name": "Cozy Lentil Vegetable Soup",
+      "url": "https://commons.wikimedia.org/wiki/Special:FilePath/Lentil%20Soup.jpg?width=800",
+      "source": "https://commons.wikimedia.org/wiki/File:Lentil_Soup.jpg",
+      "credit": "Serine Ben Brahim",
+      "license": "CC BY-SA 4.0",
+      "customization": "cover crop 4:3"
+    },
+    {
+      "id": "kb-salt-onigiri",
+      "name": "Simple Japanese Onigiri",
+      "url": "https://commons.wikimedia.org/wiki/Special:FilePath/Onigiri.JPG?width=800",
+      "source": "https://commons.wikimedia.org/wiki/File:Onigiri.JPG",
+      "credit": "Pcs34560",
+      "license": "Public domain",
+      "customization": "cover crop 4:3"
+    },
+    {
+      "id": "kb-easy-pad-thai-tofu",
+      "name": "Easy Tofu Pad Thai",
+      "url": "https://commons.wikimedia.org/wiki/Special:FilePath/Pad%20thai.jpg?width=800",
+      "source": "https://commons.wikimedia.org/wiki/File:Pad_thai.jpg",
+      "credit": "BenFrantzDale",
+      "license": "CC BY-SA 3.0",
+      "customization": "cover crop 4:3"
+    }
+  ]
+}
