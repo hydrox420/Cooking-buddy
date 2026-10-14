@@ -67,6 +67,26 @@ addEventListener('popstate',event=>{
   try{history.pushState(makeRoute('home'),'')}catch(_){}
  }
 });
+/* A fridge form is a nested screen. Back closes the form before changing tabs. */
+if(typeof window.openFridgeAdd==='function'&&typeof window.closeFridgeAdd==='function'){
+ const previousOpen=window.openFridgeAdd,previousClose=window.closeFridgeAdd;
+ window.openFridgeAdd=function(...args){
+  const form=document.getElementById('cbFridgeAddPanel');
+  const alreadyOpen=form&&!form.classList.contains('hide');
+  const out=previousOpen.apply(this,args);
+  if(!alreadyOpen&&!restoring&&currentTab==='fridge'){
+   try{history.pushState(makeRoute('fridge',{addingFridge:true}),'')}catch(_){}
+  }
+  return out;
+ };
+ window.closeFridgeAdd=function(...args){
+  const out=previousClose.apply(this,args);
+  if(!restoring&&history.state?.[marker]&&history.state.addingFridge){
+   history.back();
+  }
+  return out;
+ };
+}
 window.kbBack=function(){
  if(document.querySelector('dialog.kb-dish-lightbox[open]')){
    document.querySelector('dialog.kb-dish-lightbox[open]').close();return;
