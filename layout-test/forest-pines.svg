@@ -18,6 +18,8 @@
  <use href="#spruce" transform="translate(20 122) scale(.85)"/>
  <use href="#spruce" transform="translate(86 137) scale(.77)"/>
  <use href="#spruce" transform="translate(130 168) scale(.48)"/>
+ <use href="#spruce" transform="translate(160 154) scale(.60)"/>
+ <use href="#spruce" transform="translate(305 151) scale(.58)"/>
  <use href="#spruce" transform="translate(350 168) scale(.52)"/>
  <use href="#spruce" transform="translate(408 135) scale(.78)"/>
  <use href="#spruce" transform="translate(468 124) scale(.9)"/>
@@ -26,6 +28,8 @@
  <use href="#spruce" transform="translate(0 153) scale(1.04)"/>
  <use href="#spruce" transform="translate(55 174) scale(.73)"/>
  <use href="#spruce" transform="translate(114 190) scale(.58)"/>
+ <use href="#spruce" transform="translate(147 186) scale(.61)"/>
+ <use href="#spruce" transform="translate(322 185) scale(.62)"/>
  <use href="#spruce" transform="translate(371 190) scale(.59)"/>
  <use href="#spruce" transform="translate(429 165) scale(.76)"/>
  <use href="#spruce" transform="translate(490 154) scale(1.04)"/>
@@ -33,6 +37,8 @@
 <g fill="#132e23" opacity=".78">
  <use href="#spruce" transform="translate(26 193) scale(.59)"/>
  <use href="#spruce" transform="translate(76 211) scale(.46)"/>
+ <use href="#spruce" transform="translate(186 220) scale(.44)"/>
+ <use href="#spruce" transform="translate(297 219) scale(.46)"/>
  <use href="#spruce" transform="translate(408 214) scale(.47)"/>
  <use href="#spruce" transform="translate(460 190) scale(.62)"/>
 </g>

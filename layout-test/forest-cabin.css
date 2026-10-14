@@ -454,3 +454,30 @@ header.cb-app-brand h1{
 #home #recipeCount,#home .filters{display:none!important}
 #home #recipes.kb-library.cards{margin-top:7px}
 #recipes .kb-recipe-section:first-child{padding-top:4px}
+
+
+/* Forest Cabin v5 — lift the brand and cookbook into the canopy. */
+header.cb-app-brand{
+  justify-content:flex-start;
+  min-height:149px;
+  padding:9px 12px 2px;
+  margin:0 -14px 2px!important;
+}
+header.cb-app-brand .kb-brand-emblem{width:43px;height:43px;padding:7px}
+header.cb-app-brand h1{
+  font-size:clamp(36px,10vw,52px);
+  line-height:1.04;
+  margin:3px 0 0;
+  letter-spacing:-1.1px;
+}
+#home .kb-home-tools{margin:0 0 7px!important}
+#home .kb-home-tools .library-intro h2{
+  font-size:clamp(23px,6vw,32px)!important;
+  line-height:1.16;
+}
+#home .kb-home-tools .library-intro::after{margin-top:6px}
+#home #kbSearchField{margin:0 0 15px!important}
+@media(max-width:370px){
+  header.cb-app-brand{min-height:145px;padding-top:8px;margin-bottom:2px!important}
+  header.cb-app-brand h1{font-size:clamp(33px,9.7vw,44px)}
+}
