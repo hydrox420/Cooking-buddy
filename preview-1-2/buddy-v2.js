@@ -92,12 +92,12 @@ const groceries=$cb('shopping'),oldFridge=$cb('fridge');
 const plan=document.createElement('section');plan.id='plan';plan.className='hide';
 plan.innerHTML='<div class="cb-intro"><span class="eyebrow">YOUR WEEK AHEAD</span><h2>📅 Meal Plan</h2><p>Choose recipes, set servings, and make one combined grocery list.</p></div><div class="cb-tiles" id="planStats"></div><div class="cb-panel"><h3>Meals you have planned</h3><div id="plannedMeals"></div></div><button class="btn" onclick="showTab(\'shopping\')">🛒 View combined groceries →</button>';
 groceries.before(plan);
-groceries.innerHTML='<div class="cb-intro"><span class="eyebrow">YOUR SHOPPING TRIP</span><h2>🛒 Groceries</h2><p>Tap an item when you buy it to move it directly to your Kitchen.</p></div><div id="cbPendingOrder"></div><div id="groceryStats" class="cb-check-total"></div><div id="shoppingItems"></div><div class="cb-order-action" id="cbPlaceOrderPanel"><button class="btn" type="button" onclick="markInstacartOrderPlaced()">🛒 I placed my Instacart order</button><p class="cb-sub">Only tap after completing checkout. The ordered ingredients leave your list and wait for pickup.</p></div><details class="cb-panel"><summary>＋ Add a grocery item</summary><label>Item<input id="shopName" placeholder="Bananas"></label><label>Amount<input id="shopQty" type="number" step="any" min="0.01" value="1"></label><label>Unit<input id="shopUnit" placeholder="each"></label><button class="btn" onclick="addShopManual()">Add to grocery list</button></details><div id="pantryOptional" class="cb-panel"></div>';
+groceries.innerHTML='<div class="cb-intro cb-shopping-title"><div><span class="eyebrow">YOUR SHOPPING LIST</span><h2>Groceries</h2></div><button type="button" id="cbOpenOrder" class="cb-icon-button" aria-label="Shopping and pickup options" aria-expanded="false" title="Shopping and pickup options" onclick="togglePickupOptions()">\uD83D\uDED2</button></div><div id="groceryStats" class="cb-check-total"></div><div id="shoppingItems"></div><div id="cbPendingOrder"></div><details class="cb-panel cb-add-grocery"><summary>＋ Add an item</summary><label>Item<input id="shopName" placeholder="Bananas"></label><label>Amount<input id="shopQty" type="number" step="any" min="0.01" value="1"></label><label>Unit<input id="shopUnit" placeholder="each"></label><button class="btn" onclick="addShopManual()">Add to grocery list</button></details><div id="pantryOptional" class="cb-panel"></div>';
 const kitchen=document.createElement('section');kitchen.id='kitchen';kitchen.className='hide';
-kitchen.innerHTML='<div class="cb-intro"><span class="eyebrow">WHAT YOU HAVE AT HOME</span><h2>🥬 My Kitchen</h2><p>Pantry and purchased groceries; leftovers have their own Fridge tab.</p></div><details class="cb-panel" open><summary>📦 Kitchen inventory</summary><div id="inventoryItems"></div></details>';
+kitchen.innerHTML='<div class="cb-intro"><span class="eyebrow">WHAT YOU HAVE AT HOME</span><h2>My Kitchen</h2></div><div class="cb-panel cb-kitchen-stock"><h3>Kitchen inventory</h3><div id="inventoryItems"></div></div>';
 groceries.after(kitchen);
 if(oldFridge)oldFridge.classList.add('hide');
-oldSettings.innerHTML='<div class="cb-intro"><span class="eyebrow">MAKE IT YOURS</span><h2>⚙️ Preferences</h2><p>Set your default serving size, timer alerts and food preferences.</p></div><div class="cb-panel"><h3>🍽️ Cooking preferences</h3><div class="cb-field"><label for="cbDefaultServings">Default meal size</label><select id="cbDefaultServings"></select></div><div class="cb-field"><label for="cbAutoFloat">Floating timer</label><select id="cbAutoFloat"><option value="0">Open manually</option><option value="1">Try automatically when a timer starts</option></select></div><p class="cb-settings-note">Automatic floating windows depend on browser support and a user tap. They may not open on iPhones or while another video uses picture-in-picture.</p></div><div class="cb-panel"><h3>🔔 Alarm sound & notifications</h3><div id="cbSoundSlot"></div><p class="cb-settings-note">A browser timer cannot guarantee a background alert after Android or iOS suspends the app. Use the Clock app as backup for important cooking times.</p></div><div class="cb-panel"><h3>🥗 Dietary preferences</h3><div class="cb-field"><label for="cbDislikes">Ingredients you dislike (comma-separated)</label><input id="cbDislikes" placeholder="olives, mushrooms"></div><div class="cb-field"><label for="cbAllergies">Allergies / restrictions (comma-separated)</label><input id="cbAllergies" placeholder="e.g. peanuts"></div><p class="cb-settings-note">Keyword warnings are informational only. We cannot verify allergens, product labels, or cross-contact. Always check ingredients yourself.</p></div><div class="cb-panel"><h3>💾 Your recipes and data</h3><p class="cb-sub">This beta saves its data locally on this device. Back up your recipes regularly.</p><button class="btn secondary" onclick="exportData()">Export backup</button></div>';
+oldSettings.innerHTML='<div class="cb-intro"><span class="eyebrow">YOUR CORNER</span><h2>My Profile</h2></div><div class="cb-profile-hero"><div class="cb-profile-avatar" aria-hidden="true">K</div><div><strong>Home cook</strong><p class="cb-sub">Your cozy kitchen space — stored on this device.</p></div></div><details class="cb-panel cb-profile-preferences" id="cbProfilePreferences"><summary>Preferences and app settings</summary><div class="cb-profile-preference-body"><h3>Cooking preferences</h3><div class="cb-field"><label for="cbDefaultServings">Default meal size</label><select id="cbDefaultServings"></select></div><div class="cb-field"><label for="cbAutoFloat">Floating timer</label><select id="cbAutoFloat"><option value="0">Open manually</option><option value="1">Try automatically when a timer starts</option></select></div><p class="cb-settings-note">Floating windows depend on browser support. Timer alerts may be delayed when your phone suspends the app.</p><h3>Alarm sound and notifications</h3><div id="cbSoundSlot"></div><h3>Dietary preferences</h3><div class="cb-field"><label for="cbDislikes">Ingredients you dislike (comma-separated)</label><input id="cbDislikes" placeholder="olives, mushrooms"></div><div class="cb-field"><label for="cbAllergies">Allergies / restrictions (comma-separated)</label><input id="cbAllergies" placeholder="e.g. peanuts"></div><p class="cb-settings-note">Allergy warnings are keyword-based, not verified allergen or cross-contact information.</p><h3>Backups and app</h3><p class="cb-sub">Your data is saved locally. Accounts, profile customization and cross-device sync are future features.</p><button class="btn secondary" onclick="exportData()">Export backup</button><p class="cb-sub">Cooking Buddy test build 2.0.5</p></div></details>';
 const soundSlot=$cb('cbSoundSlot');
 if(oldTimerOptions){
  oldTimerOptions.classList.remove('hide');oldTimerOptions.open=true;
@@ -109,7 +109,7 @@ const allNavigation=$cb('home')?.closest('main')?.nextElementSibling;
 const nav=document.querySelector('nav.tabs');
 if(nav){nav.classList.add('cb-six-tabs');nav.innerHTML=[
  ['home','📖','Recipes'],['plan','📅','Plan'],['shopping','🛒','Groceries'],
- ['kitchen','🥬','Kitchen'],['fridge','🧊','Fridge'],['settings','⚙️','Settings']
+ ['kitchen','🥬','Kitchen'],['fridge','🧊','Fridge'],['settings','◯','Profile']
 ].map(row=>'<button class="btn secondary" data-tab="'+row[0]+'" onclick="showTab(\''+row[0]+'\')">'+row[1]+' '+row[2]+'</button>').join('');}
 legacySeedCook.innerHTML='<div class="cb-row"><div><span class="eyebrow">COOKING BUDDY</span><h2 id="recipeTitle">Recipe</h2></div><button class="btn secondary" onclick="showTab(\'home\')">← Recipes</button></div><div class="cb-panel" id="cbRecipeHead"></div><div id="cbDietWarning"></div><div class="cb-switches" id="cbCookTabs"></div><div id="cbCookContent"></div><div id="cbActiveTimers" class="cb-timer-dock hide"></div><div class="cb-panel"><button class="btn" style="width:100%" onclick="finishCooking()">✓ Finished cooking</button><p class="cb-sub">Finish cooking only after your food is safely cooked; any running alarms will stop.</p></div>';
 const $q=sel=>document.querySelector(sel);
@@ -637,7 +637,7 @@ renderRecipes=function(){
 // Kitchen Buddy pickup-prep beta: hand off a local list; checkout stays at retailer.
 const pickupPanel=document.createElement('details');
 pickupPanel.className='cb-pickup';
-pickupPanel.open=true;
+pickupPanel.open=false;
 pickupPanel.innerHTML=
  '<summary>🚗 Pickup at Stop &amp; Shop #0404</summary>'+
  '<div class="cb-pickup-body">'+
@@ -653,8 +653,18 @@ pickupPanel.innerHTML=
  '<a class="btn" id="cbPickupShop" href="https://www.instacart.com/retailer/stop-shop-delivery/ma/near-me-in-springfield-ma" target="_blank" rel="noopener noreferrer">🛒 Continue to Instacart ↗</a></div>'+
  '<p class="cb-pickup-footnote"><strong>Thursday test:</strong> Instacart first asks for your ZIP code and login. Enter <strong>01129</strong>, sign in, select Pickup, and verify <strong>1600 Boston Road</strong> is available. Then add your ingredients and choose a pickup slot. The list is <strong>not</strong> automatically sent to the cart. The time above is a reminder, not a reservation; products, prices and pickup availability need confirmation at checkout. Only mark items Bought after receiving them.</p>'+
  '</div>';
-const groceryHeading=groceries.querySelector('.cb-intro');
-if(groceryHeading)groceryHeading.after(pickupPanel);
+// Keep the grocery list first; pickup actions live after the list and are opened from the cart icon.
+const groceryExtras=groceries.querySelector('.cb-add-grocery');
+if(groceryExtras)groceryExtras.before(pickupPanel);
+const orderAction=document.createElement('div');
+orderAction.id='cbPlaceOrderPanel';orderAction.className='cb-order-action';
+orderAction.innerHTML='<button class="btn" type="button" onclick="markInstacartOrderPlaced()">I completed my Instacart order</button><p class="cb-sub">The app cannot read Instacart checkout confirmations yet. Mark ordered only after checkout succeeds; the groceries enter Kitchen after pickup.</p>';
+pickupPanel.querySelector('.cb-pickup-body').append(orderAction);
+window.togglePickupOptions=()=>{
+ pickupPanel.open=!pickupPanel.open;
+ const toggle=$cb('cbOpenOrder');if(toggle)toggle.setAttribute('aria-expanded',pickupPanel.open?'true':'false');
+ if(pickupPanel.open&&pickupPanel.scrollIntoView)pickupPanel.scrollIntoView({behavior:'smooth',block:'nearest'});
+};
 const pickupTimeField=$cb('cbPickupTime');
 pickupTimeField.value=(typeof prefs.pickupTime==='string'&&/^\d{2}:\d{2}$/.test(prefs.pickupTime))?prefs.pickupTime:'15:30';
 pickupTimeField.onchange=()=>{
