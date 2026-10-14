@@ -418,11 +418,14 @@ addRecipeShopping=function(i){
  const p=state.planned.find(x=>x.recipeId===r.id&&Number(x.servings||baseCount(r))===servings);
  if(p)p.count=Math.max(1,Number(p.count)||1)+1;
  else state.planned.push({recipeId:r.id,servings,count:1});
- state.cartChecked={};save();showTab('plan');
- toast(r.name+' added for '+servings+' '+(servings===1?'person':'people')+'! 🛒');
+ state.cartChecked={};save();renderPlan();
+ toast('✓ '+r.name+' added to your plan! Keep browsing or open Plan when ready.');
 };
 function renderPlan(){
  state.planned=Array.isArray(state.planned)?state.planned:[];
+ const planTab=document.querySelector('nav.tabs [data-tab="plan"]');
+ const plannedTotal=state.planned.reduce((n,p)=>n+Math.max(1,Number(p.count)||1),0);
+ if(planTab)planTab.textContent='📅 Plan'+(plannedTotal?' ('+plannedTotal+')':'');
  const root=$cb('plannedMeals');if(!root)return;
  root.innerHTML='';const cards=state.planned.filter(p=>byID(p.recipeId));
  const mealCount=cards.reduce((n,p)=>n+Math.max(1,Number(p.count)||1),0);
@@ -656,6 +659,6 @@ const drawGroceriesBeforePickup=renderShopping;
 renderShopping=function(){drawGroceriesBeforePickup();paintPickup()};
 paintPickup();
 
-renderRecipes();paintSettings();showTab('home');
+renderRecipes();paintSettings();showTab('home');renderPlan();
 // No timer in a web app can guarantee alarm delivery when the OS suspends the page.
 })();
