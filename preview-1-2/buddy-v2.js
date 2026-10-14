@@ -92,7 +92,7 @@ const groceries=$cb('shopping'),oldFridge=$cb('fridge');
 const plan=document.createElement('section');plan.id='plan';plan.className='hide';
 plan.innerHTML='<div class="cb-intro"><span class="eyebrow">YOUR WEEK AHEAD</span><h2>📅 Meal Plan</h2><p>Choose recipes, set servings, and make one combined grocery list.</p></div><div class="cb-tiles" id="planStats"></div><div class="cb-panel"><h3>Meals you have planned</h3><div id="plannedMeals"></div></div><button class="btn" onclick="showTab(\'shopping\')">🛒 View combined groceries →</button>';
 groceries.before(plan);
-groceries.innerHTML='<div class="cb-intro cb-shopping-title"><div><span class="eyebrow">YOUR SHOPPING LIST</span><h2>Groceries</h2></div><button type="button" id="cbOpenOrder" class="cb-icon-button" aria-label="Shopping and pickup options" aria-expanded="false" title="Shopping and pickup options" onclick="togglePickupOptions()"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="9" cy="20" r="1"/><circle cx="19" cy="20" r="1"/><path d="M2 3h2l3 12h13l2-9H5"/></svg></button></div><div class="cb-shopping-handoff"><button type="button" id="cbShareChatGPT" class="btn secondary cb-chatgpt-share" onclick="sendGroceriesToChatGPT()"><svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12h13M12 7l5 5-5 5"/><path d="M18 4h2v16h-2"/></svg> Send to ChatGPT</button><span class="cb-handoff-hint">Share your list to build an Instacart cart with me</span></div><div id="groceryStats" class="cb-check-total"></div><div id="shoppingItems"></div><div id="cbPendingOrder"></div><details class="cb-panel cb-add-grocery"><summary>＋ Add an item</summary><label>Item<input id="shopName" placeholder="Bananas"></label><label>Amount<input id="shopQty" type="number" step="any" min="0.01" value="1"></label><label>Unit<input id="shopUnit" placeholder="each"></label><button class="btn" onclick="addShopManual()">Add to grocery list</button></details><div id="pantryOptional" class="cb-panel"></div>';
+groceries.innerHTML='<div class="cb-intro cb-shopping-title"><div><span class="eyebrow">YOUR SHOPPING LIST</span><h2>Groceries</h2></div><button type="button" id="cbOpenOrder" class="cb-icon-button" aria-label="Shopping and pickup options" aria-expanded="false" title="Shopping and pickup options" onclick="togglePickupOptions()"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="9" cy="20" r="1"/><circle cx="19" cy="20" r="1"/><path d="M2 3h2l3 12h13l2-9H5"/></svg></button></div><div class="cb-shopping-handoff"><button type="button" id="cbShareChatGPT" class="btn secondary cb-chatgpt-share" onclick="sendGroceriesToChatGPT()"><svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12h13M12 7l5 5-5 5"/><path d="M18 4h2v16h-2"/></svg> Send to ChatGPT</button><span class="cb-handoff-hint">Opens ChatGPT with your Instacart request ready to send</span></div><div id="groceryStats" class="cb-check-total"></div><div id="shoppingItems"></div><div id="cbPendingOrder"></div><details class="cb-panel cb-add-grocery"><summary>＋ Add an item</summary><label>Item<input id="shopName" placeholder="Bananas"></label><label>Amount<input id="shopQty" type="number" step="any" min="0.01" value="1"></label><label>Unit<input id="shopUnit" placeholder="each"></label><button class="btn" onclick="addShopManual()">Add to grocery list</button></details><div id="pantryOptional" class="cb-panel"></div>';
 const kitchen=document.createElement('section');kitchen.id='kitchen';kitchen.className='hide';
 kitchen.innerHTML='<div class="cb-intro"><span class="eyebrow">WHAT YOU HAVE AT HOME</span><h2>My Kitchen</h2></div><div class="cb-panel cb-kitchen-stock"><h3>Kitchen inventory</h3><div id="inventoryItems"></div></div>';
 groceries.after(kitchen);
@@ -134,7 +134,7 @@ addFood=function(){
   $cb('foodNotes').value='';
  }
 };
-oldSettings.innerHTML='<div class="cb-intro"><span class="eyebrow">YOUR CORNER</span><h2>My Profile</h2></div><div class="cb-profile-hero"><div class="cb-profile-avatar" aria-hidden="true">K</div><div><strong>Home cook</strong><p class="cb-sub">Your cozy kitchen space — stored on this device.</p></div></div><details class="cb-panel cb-profile-preferences" id="cbProfilePreferences"><summary>Preferences and app settings</summary><div class="cb-profile-preference-body"><h3>Cooking preferences</h3><div class="cb-field"><label for="cbDefaultServings">Default meal size</label><select id="cbDefaultServings"></select></div><div class="cb-field"><label for="cbAutoFloat">Floating timer</label><select id="cbAutoFloat"><option value="0">Open manually</option><option value="1">Try automatically when a timer starts</option></select></div><p class="cb-settings-note">Floating windows depend on browser support. Timer alerts may be delayed when your phone suspends the app.</p><h3>Alarm sound and notifications</h3><div id="cbSoundSlot"></div><h3>Dietary preferences</h3><div class="cb-field"><label for="cbDislikes">Ingredients you dislike (comma-separated)</label><input id="cbDislikes" placeholder="olives, mushrooms"></div><div class="cb-field"><label for="cbAllergies">Allergies / restrictions (comma-separated)</label><input id="cbAllergies" placeholder="e.g. peanuts"></div><p class="cb-settings-note">Allergy warnings are keyword-based, not verified allergen or cross-contact information.</p><h3>Backups and app</h3><p class="cb-sub">Your data is saved locally. Accounts, profile customization and cross-device sync are future features.</p><button class="btn secondary" onclick="exportData()">Export backup</button><p class="cb-sub">Kitchen Buddy beta 2.0.6</p></div></details>';
+oldSettings.innerHTML='<div class="cb-intro"><span class="eyebrow">YOUR CORNER</span><h2>My Profile</h2></div><div class="cb-profile-hero"><div class="cb-profile-avatar" aria-hidden="true">K</div><div><strong>Home cook</strong><p class="cb-sub">Your cozy kitchen space — stored on this device.</p></div></div><details class="cb-panel cb-profile-preferences" id="cbProfilePreferences"><summary>Preferences and app settings</summary><div class="cb-profile-preference-body"><h3>Cooking preferences</h3><div class="cb-field"><label for="cbDefaultServings">Default meal size</label><select id="cbDefaultServings"></select></div><div class="cb-field"><label for="cbAutoFloat">Floating timer</label><select id="cbAutoFloat"><option value="0">Open manually</option><option value="1">Try automatically when a timer starts</option></select></div><p class="cb-settings-note">Floating windows depend on browser support. Timer alerts may be delayed when your phone suspends the app.</p><h3>Alarm sound and notifications</h3><div id="cbSoundSlot"></div><h3>Dietary preferences</h3><div class="cb-field"><label for="cbDislikes">Ingredients you dislike (comma-separated)</label><input id="cbDislikes" placeholder="olives, mushrooms"></div><div class="cb-field"><label for="cbAllergies">Allergies / restrictions (comma-separated)</label><input id="cbAllergies" placeholder="e.g. peanuts"></div><p class="cb-settings-note">Allergy warnings are keyword-based, not verified allergen or cross-contact information.</p><h3>Backups and app</h3><p class="cb-sub">Your data is saved locally. Accounts, profile customization and cross-device sync are future features.</p><button class="btn secondary" onclick="exportData()">Export backup</button><p class="cb-sub">Kitchen Buddy beta 2.0.7</p></div></details>';
 const soundSlot=$cb('cbSoundSlot');
 if(oldTimerOptions){
  oldTimerOptions.classList.remove('hide');oldTimerOptions.open=true;
@@ -770,45 +770,34 @@ function groceryChatPrompt(){
  const items=pickupRemaining();
  if(!items.length)return '';
  const lines=[
-  'KITCHEN BUDDY → INSTACART HANDOFF',
+  'KITCHEN BUDDY → INSTACART CART',
   '',
-  'Please add ALL the following items to my connected Instacart shopping cart. Do not place an order or check out.',
-  'I prefer Stop & Shop. If no retailer has been selected, show me the retailer selection and let me choose.',
-  'Choose sensible grocery packages for recipe measurements, and tell me about substitutes or items you cannot find. Do not guess sizes or prices.',
-  'Review the completed cart with me before checkout.',
+  'Please use my connected Instacart app to add ALL these groceries to my cart in one batch.',
+  'I want Stop & Shop. If the retailer is not selected in this ChatGPT session, let me choose Stop & Shop.',
+  'I prefer store PICKUP, not delivery. Check whether pickup is supported and available; never assume it is selected.',
+  'Use practical package quantities for these recipe amounts, tell me if any products are missing, and show the cart for review.',
+  'Do NOT check out, place an order, or charge me.',
   '',
   'GROCERY LIST:'
  ];
  for(const item of items)lines.push('- '+item.name+' — '+fmtQty(amountToBuy(item.qty,item.unit),item.unit));
  return lines.join('\n');
 }
-window.sendGroceriesToChatGPT=async()=>{
+window.sendGroceriesToChatGPT=()=>{
  const prompt=groceryChatPrompt();
  if(!prompt){toast('Your grocery list is empty. Plan a meal or add groceries first.');return}
- // Android's native share sheet may offer ChatGPT as a target; it cannot target this specific chat.
- if(typeof navigator.share==='function'){
-  try{
-   await navigator.share({title:'Kitchen Buddy groceries for Instacart',text:prompt});
-   return;
-  }catch(err){
-   if(err&&err.name==='AbortError')return;
-  }
- }
- // Without a supported share target, copy the request and open ChatGPT for manual pasting.
- try{
-  if(!navigator.clipboard?.writeText)throw Error('Clipboard not supported');
-  await navigator.clipboard.writeText(prompt);
-  toast('List copied. Paste it into ChatGPT to fill your Instacart cart.');
-  window.location.assign('https://chatgpt.com/');
- }catch(err){
-  // Keep the message available for manual copy if clipboard access is denied.
-  const preview=$cb('cbPickupList');
-  if(preview){
-   pickupPanel.open=true;
-   preview.value=prompt;preview.focus();preview.select();
-  }
-  toast('Copy the selected shopping request, then paste it into ChatGPT.');
- }
+ // Browser ChatGPT supports prefilled prompts via the ?q= query parameter. Some Android app handlers ignore it.
+ const url='https://chatgpt.com/?q='+encodeURIComponent(prompt);
+ // Best-effort safety net: the user can paste if Android opens the ChatGPT app without pre-filling.
+ try{navigator.clipboard?.writeText(prompt)?.catch(()=>{})}catch(err){}
+ // Open directly in a separate tab so the grocery list stays intact in Kitchen Buddy.
+ const link=document.createElement('a');
+ link.href=url;link.target='_blank';link.rel='noopener noreferrer';
+ link.style.display='none';
+ document.body.append(link);
+ link.click();
+ link.remove();
+ toast('Opening ChatGPT. If your message is blank, paste your copied grocery list.');
 };
 function paintPickup(){
  const items=pickupRemaining();
