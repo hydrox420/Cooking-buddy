@@ -3,6 +3,36 @@
 (function(){
 'use strict';
 let selectedCategory='All';
+// Prefer local optimized food photography when available; never overwrite custom uploads.
+// If an asset is not yet bundled, the browser falls back to the original source.
+const originals={
+ "garlic-chicken-rice":{"remote":"https://images.pexels.com/photos/30635713/pexels-photo-30635713.jpeg?auto=compress&cs=tinysrgb&w=850","local":"./assets/recipes/garlic-chicken-rice.webp"},
+ "lemon-garlic-tilapia-broccoli-rice":{"remote":"https://images.pexels.com/photos/6200044/pexels-photo-6200044.jpeg?auto=compress&cs=tinysrgb&w=850","local":"./assets/recipes/lemon-garlic-tilapia-broccoli-rice.webp"},
+ "easy-honey-garlic-chicken-broccoli-rice":{"remote":"https://images.pexels.com/photos/105588/pexels-photo-105588.jpeg?auto=compress&cs=tinysrgb&w=850","local":"./assets/recipes/easy-honey-garlic-chicken-broccoli-rice.webp"},
+ "easy-turkey-taco-rice-bowls":{"remote":"https://images.pexels.com/photos/8363975/pexels-photo-8363975.jpeg?auto=compress&cs=tinysrgb&w=850","local":"./assets/recipes/easy-turkey-taco-rice-bowls.webp"},
+ "easy-sheet-pan-sausage-potatoes-peppers":{"remote":"https://images.pexels.com/photos/37275057/pexels-photo-37275057.jpeg?auto=compress&cs=tinysrgb&w=850","local":"./assets/recipes/easy-sheet-pan-sausage-potatoes-peppers.webp"},
+ "easy-spinach-egg-cheese-wraps":{"remote":"https://images.pexels.com/photos/4869465/pexels-photo-4869465.jpeg?auto=compress&cs=tinysrgb&w=850","local":"./assets/recipes/easy-spinach-egg-cheese-wraps.webp"},
+ "easy-tomato-spinach-chickpea-pasta":{"remote":"https://images.pexels.com/photos/19805084/pexels-photo-19805084.jpeg?auto=compress&cs=tinysrgb&w=850","local":"./assets/recipes/easy-tomato-spinach-chickpea-pasta.webp"},
+ "easy-garlic-shrimp-green-bean-rice":{"remote":"https://images.pexels.com/photos/11015917/pexels-photo-11015917.jpeg?auto=compress&cs=tinysrgb&w=850","local":"./assets/recipes/easy-garlic-shrimp-green-bean-rice.webp"},
+ "kb-overnight-oats-berry":{"remote":"https://commons.wikimedia.org/wiki/Special:FilePath/Protein%20overnight%20oats.jpg?width=800","local":"./assets/recipes/kb-overnight-oats-berry.webp"},
+ "kb-chana-masala":{"remote":"https://commons.wikimedia.org/wiki/Special:FilePath/Channa%20Masala.jpg?width=800","local":"./assets/recipes/kb-chana-masala.webp"},
+ "kb-korean-bibimbap":{"remote":"https://commons.wikimedia.org/wiki/Special:FilePath/The%20Bibimbap.jpg?width=800","local":"./assets/recipes/kb-korean-bibimbap.webp"},
+ "kb-chicken-teriyaki":{"remote":"https://commons.wikimedia.org/wiki/Special:FilePath/Chicken%20teriyaki.jpg?width=800","local":"./assets/recipes/kb-chicken-teriyaki.webp"},
+ "kb-chicken-fajitas":{"remote":"https://commons.wikimedia.org/wiki/Special:FilePath/Chicken%20fajitas.jpg?width=800","local":"./assets/recipes/kb-chicken-fajitas.webp"},
+ "kb-chicken-adobo":{"remote":"https://commons.wikimedia.org/wiki/Special:FilePath/Chicken%20adobo.jpg?width=800","local":"./assets/recipes/kb-chicken-adobo.webp"},
+ "kb-lentil-soup":{"remote":"https://commons.wikimedia.org/wiki/Special:FilePath/Lentil%20Soup.jpg?width=800","local":"./assets/recipes/kb-lentil-soup.webp"},
+ "kb-salt-onigiri":{"remote":"https://commons.wikimedia.org/wiki/Special:FilePath/Onigiri.JPG?width=800","local":"./assets/recipes/kb-salt-onigiri.webp"},
+ "kb-easy-pad-thai-tofu":{"remote":"https://commons.wikimedia.org/wiki/Special:FilePath/Pad%20thai.jpg?width=800","local":"./assets/recipes/kb-easy-pad-thai-tofu.webp"},
+};
+let localDefaultChanges=0;
+for(const r of state.recipes){
+ const entry=originals[r.id];if(!entry)continue;
+ if(!r.photo || r.photo===entry.remote){
+  r.photo=entry.local;localDefaultChanges++;
+ }
+}
+if(localDefaultChanges)save();
+
 const ORDER=['Breakfast','Quick Meals','Dinner','Lunch','Indian','Korean','Japanese','Mexican','Italian','Chinese','Thai','Filipino','Mediterranean','Seafood','Soups & Stews','Vegetarian & Vegan','Snacks & Sides','Desserts','Other Recipes'];
 const byName={
  'garlic-chicken-rice':['Dinner','Quick Meals'],
@@ -32,7 +62,7 @@ function card(r){
  const photo=build('button','kb-card-picture');
  photo.type='button';photo.setAttribute('aria-label','Open '+r.name);photo.onclick=()=>openCookingRecipe(i);
  const img=document.createElement('img');img.loading='lazy';img.decoding='async';img.src=r.photo||'../meal-placeholder.svg';img.alt=r.name;
- img.onerror=()=>{img.onerror=null;img.src='../meal-placeholder.svg'};
+ img.onerror=()=>{const entry=originals[r.id];if(entry&&img.src.indexOf('/assets/recipes/')>=0){img.onerror=()=>{img.onerror=null;img.src='../meal-placeholder.svg'};img.src=entry.remote;}else{img.onerror=null;img.src='../meal-placeholder.svg'}};
  photo.append(img);root.append(photo);
  const info=build('div','kb-compact-info');
  const title=build('button','kb-card-title',r.name);title.type='button';title.onclick=()=>openCookingRecipe(i);
