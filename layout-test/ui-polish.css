@@ -21,18 +21,14 @@ header.cb-app-brand h1{text-align:center;width:100%;font-weight:850;letter-spaci
 .kb-diet-tag[data-kind="gluten-free"]{background:#dceaff!important;border-color:#7ea8de!important;color:#163963!important}
 .kb-diet-tag[data-kind="dairy-free"]{background:#e8dcff!important;border-color:#ad95d6!important;color:#45356b!important}
 .kb-diet-tag[data-kind="spicy"]{background:#ffd6cb!important;border-color:#de9782!important;color:#733527!important}
-.kb-diet-tag:focus-visible,.kb-search-toggle:focus-visible,.kb-dish-photo:focus-visible,.kb-dish-peek:focus-visible{outline:3px solid #ffdf9b;outline-offset:2px}
+.kb-diet-tag:focus-visible,.kb-search-toggle:focus-visible,.kb-dish-photo:focus-visible{outline:3px solid #ffdf9b;outline-offset:2px}
 .kb-diet-popover{position:fixed;z-index:1100;width:min(280px,calc(100vw - 24px));background:#f7ecd6;color:#233429;border:1px solid #cfa86b;box-shadow:0 12px 32px #0007;border-radius:13px;padding:13px 15px;line-height:1.35}
 .kb-diet-popover strong{font-size:14px}.kb-diet-popover p{font-size:12px;margin:5px 0 9px}.kb-diet-popover button{padding:5px 11px;font-size:12px;color:#24402f;background:#fff;border:1px solid #b9a076;border-radius:7px;cursor:pointer}
 #cook .kb-dish-photo{display:block;width:100%;max-width:560px;margin:12px auto;border:1px solid #4f6a52;border-radius:16px;padding:0;overflow:hidden;background:#22372b;cursor:zoom-in;color:#e8f3e6;text-align:left}
 #cook .kb-dish-photo img{width:100%;height:clamp(150px,30vh,285px);object-fit:cover;display:block}
 #cook .kb-dish-photo span{display:block;font-size:11px;padding:7px 12px;background:#283c2e}
-#cook .kb-dish-peek{position:fixed;right:max(12px,calc((100vw - 760px)/2 + 14px));bottom:calc(86px + env(safe-area-inset-bottom,0px));z-index:35;display:flex;align-items:center;gap:7px;padding:5px 9px 5px 5px;background:#fff0d7;color:#243628;border:1px solid #bda87b;border-radius:32px;box-shadow:0 5px 22px #0007;cursor:pointer;font:750 12px system-ui}
-#cook .kb-dish-peek img{height:41px;width:52px;border-radius:26px;object-fit:cover;flex-shrink:0}
-#cook.hide .kb-dish-peek{display:none}
 .kb-dish-lightbox{background:#16251e;border:1px solid #728472;border-radius:15px;padding:8px;color:#fff;max-width:min(95vw,740px);max-height:90vh}
 .kb-dish-lightbox::backdrop{background:rgba(0,0,0,.84)}
 .kb-dish-lightbox .kb-lightbox-top{display:flex;align-items:center;justify-content:space-between;gap:8px;font-size:13px;padding:5px 7px 10px}
 .kb-dish-lightbox .kb-lightbox-close{background:#f8e5c3;color:#253727;border:0;border-radius:9px;font-size:23px;width:42px;height:38px;cursor:pointer}
 .kb-dish-lightbox img{width:100%;max-height:75vh;object-fit:contain;display:block;border-radius:7px}
-@media(max-width:350px){.kb-dish-peek{bottom:calc(80px + env(safe-area-inset-bottom,0px))!important}header.cb-app-brand h1{font-size:24px}}
