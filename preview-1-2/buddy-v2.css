@@ -117,3 +117,40 @@ nav.tabs.cb-six-tabs button{min-width:0;max-width:none;flex:1 1 0;padding:8px 2p
  #recipes .meal-desc{font-size:12px}
  nav.tabs.cb-six-tabs button{font-size:9px;padding:8px 1px}
 }
+
+/* Beta 2.0.5: list-first shopping, always-visible Kitchen, low-clutter Fridge and Profile */
+.cb-shopping-title,.cb-fridge-heading{display:flex;align-items:center;justify-content:space-between;gap:12px}
+.cb-shopping-title h2,.cb-fridge-heading h2{margin:5px 0}
+.cb-icon-button{width:47px;height:47px;display:grid;place-items:center;border-radius:14px;flex:0 0 47px;border:1px solid #66876d;background:#385845;color:#fff0d9;cursor:pointer;box-shadow:0 2px 12px #0002}
+.cb-icon-button:focus-visible{outline:3px solid #b9d6ab;outline-offset:2px}
+.cb-icon-button svg{width:22px;height:22px;stroke:currentColor;stroke-width:1.8;fill:none;stroke-linecap:round;stroke-linejoin:round}
+#shoppingItems{margin-top:7px;margin-bottom:16px}
+#shopping .cb-check-total{padding:4px 1px 7px}
+#shopping .cb-pickup{margin:13px 0 18px}
+#shopping .cb-pickup summary{cursor:pointer}
+#shopping .cb-add-grocery{margin:16px 0}
+#shopping .cb-kitchen-stock summary{display:none}
+#kitchen .cb-kitchen-stock h3{margin:0 0 12px}
+#kitchen .cb-kitchen-stock{background:#253b2d;border:1px solid #4b694f}
+#fridge .cb-fridge-add-button{min-height:44px;white-space:nowrap;font-size:13px;padding:10px 13px}
+#fridge #foods{margin:15px 0}
+#fridge #foods .panel{margin:9px 0}
+#fridge .cb-fridge-form{margin-top:18px}
+#fridge .cb-fridge-form.hide{display:none!important}
+#fridge .cb-fridge-form .btn:not(.mini){min-height:47px;width:100%;margin-top:14px}
+.cb-profile-hero{display:flex;align-items:center;gap:15px;margin:17px 0;padding:18px 15px;border-radius:18px;background:#2d4b39;border:1px solid #517458}
+.cb-profile-avatar{width:58px;height:58px;min-width:58px;display:grid;place-items:center;border-radius:20px;color:#314b3b;background:#b9d6ab;font-size:28px;font-weight:800}
+.cb-profile-hero strong{font-size:19px;color:#fff0d9}
+.cb-profile-hero p{margin:5px 0 0}
+.cb-profile-preferences summary{font-size:16px;font-weight:750;cursor:pointer;padding:5px 0}
+.cb-profile-preference-body{padding-top:13px}
+.cb-profile-preference-body h3{font-size:16px;margin:25px 0 7px}
+.cb-profile-preference-body h3:first-child{margin-top:8px}
+.cb-leftovers-overlay{position:fixed;inset:0;background:#0b1e15bc;backdrop-filter:blur(5px);display:flex;align-items:center;justify-content:center;padding:20px;z-index:200}
+.cb-leftovers-overlay.hide{display:none!important}
+.cb-leftovers-modal{background:#314b3b;border:1px solid #77977d;box-shadow:0 25px 80px #0008;border-radius:22px;max-width:420px;width:100%;padding:24px 20px}
+.cb-leftovers-modal h2{font-size:26px;line-height:1.2;color:#fff0d9;margin:8px 0 11px}
+.cb-leftovers-modal p{font-size:14px;line-height:1.5}
+.cb-leftovers-actions{display:flex;gap:9px;margin-top:19px}
+.cb-leftovers-actions button{flex:1;padding:12px 8px;min-height:49px}
+@media(max-width:385px){.cb-shopping-title h2,.cb-fridge-heading h2{font-size:25px}.cb-fridge-add-button{padding:8px!important}.cb-leftovers-actions{flex-direction:column-reverse}}
