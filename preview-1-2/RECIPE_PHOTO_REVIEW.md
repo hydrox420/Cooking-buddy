@@ -2,7 +2,9 @@
 
 **UNAPPROVED CANDIDATE IMAGES — NOT CONFIRMED REAL PHOTOGRAPHS.** A photographer name, website listing, or image license does not establish how the picture was produced. These files are bundled in the draft, not deployed. Each is sized to 800×600. Click each photographer/source link to inspect attribution and image rights. The cooking instructions in this initial set have **no verifiable original recipe page** recorded; do not interpret the photographs below as photos from those exact instructions.
 
-**Approval status:** 0 of 17 approved; verify whether each is a real photograph, as well as whether the food matches the recipe. **Review checklist:** Does the picture visibly include the key ingredients? Is the finished dish appetizing and not an empty pan? Are the mobile 4:3 crop and framing useful? Mark discrepancies before approving release.
+**Approval status:** 0 of 17 approved; verify whether each is a real photograph, as well as whether the food matches the recipe. **New:** [Review four exact-dish cooking photo candidates](FOUR_RECIPE_PHOTO_CANDIDATES.md). Their original recipe photos are linked, **not copied**, until image reuse rights are confirmed.
+
+**Review checklist:** Does the picture visibly include the key ingredients? Is the finished dish appetizing and not an empty pan? Are the mobile 4:3 crop and framing useful? Mark discrepancies before approving release.
 
 ### 1. Garlic Chicken & Cheesy Brown Rice
 
