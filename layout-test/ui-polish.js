@@ -3,6 +3,25 @@
 'use strict';
 const byId=id=>document.getElementById(id);
 const fallback='../meal-placeholder.svg';
+const realRecipePages={
+ 'garlic-chicken-rice':'https://unboundwellness.com/one-pot-broccoli-cheddar-chicken-and-rice/',
+ 'lemon-garlic-tilapia-broccoli-rice':'https://www.skinnytaste.com/broiled-garlic-tilapia/',
+ 'easy-honey-garlic-chicken-broccoli-rice':'https://www.familyfoodonthetable.com/honey-garlic-chicken-rice-bowls/',
+ 'easy-turkey-taco-rice-bowls':'https://www.fromvalerieskitchen.com/southwest-turkey-taco-bowls/',
+ 'easy-sheet-pan-sausage-potatoes-peppers':'https://www.powellfamilycooking.com/sheet-pan-sausage-and-potatoes/',
+ 'easy-spinach-egg-cheese-wraps':'https://www.thetastybiteblog.com/spinach-egg-cheese-breakfast-wrap/',
+ 'easy-tomato-spinach-chickpea-pasta':'https://www.frontrangefed.com/pasta-with-chickpeas-spinach-and-tomatoes-pasta-e-ceci/',
+ 'easy-garlic-shrimp-green-bean-rice':'https://www.self.com/recipe/tomatoey-shrimp-and-green-beans',
+ 'kb-overnight-oats-berry':'https://simplymacros.com/mixed-berry-overnight-oats/',
+ 'kb-chana-masala':'https://www.vegrecipesofindia.com/chana-masala-recipe/',
+ 'kb-korean-bibimbap':'https://www.funkyasiankitchen.com/blog/vegetarian-bibimbap/',
+ 'kb-chicken-teriyaki':'https://feelgoodfoodie.net/recipe/chicken-teriyaki-brown-rice-and-broccoli/',
+ 'kb-chicken-fajitas':'https://www.budgetbytes.com/stovetop-chicken-fajitas/',
+ 'kb-chicken-adobo':'https://panlasangpinoy.com/how-to-cook-chicken-adobo-using-boneless-chicken/',
+ 'kb-lentil-soup':'https://feelgoodfoodie.net/recipe/tomato-lentil-soup/',
+ 'kb-salt-onigiri':'https://sudachirecipes.com/salted-onigiri-recipe/',
+ 'kb-easy-pad-thai-tofu':'https://simpleveganblog.com/vegan-pad-thai/'
+};
 
 /* A search icon replaces the always-open search field. */
 const searchToggle=byId('kbSearchToggle'), searchField=byId('kbSearchField'), searchInput=byId('recipeSearch');
@@ -95,7 +114,7 @@ function renderCookPhoto(){
  if(!hero){
    hero=document.createElement('button');hero.id='kbDishPhoto';hero.className='kb-dish-photo';hero.type='button';
    const img=document.createElement('img');img.alt='Finished dish reference photo';
-   const caption=document.createElement('span');caption.textContent='Finished-dish reference · tap to enlarge';
+   const caption=document.createElement('span');caption.className='kb-dish-caption';
    hero.append(img,caption);
    head.before(hero);
  }
@@ -104,8 +123,22 @@ function renderCookPhoto(){
    safeImg(hero.querySelector('img'),src);
    hero.dataset.photo=src;
  }
- hero.querySelector('img').alt='Reference photo of '+recipe.name;
- hero.onclick=()=>showPhotoLarge(recipe);
+ const pending=src==='./photo-pending.svg';
+ const caption=hero.querySelector('.kb-dish-caption');
+ if(caption)caption.textContent=pending?'Original recipe photo not licensed yet':'Finished-dish reference · tap to enlarge';
+ hero.querySelector('img').alt=pending?'Photo not yet selected for '+recipe.name:'Reference photo of '+recipe.name;
+ hero.onclick=pending?null:()=>showPhotoLarge(recipe);
+ hero.style.cursor=pending?'default':'zoom-in';
+ let reference=byId('kbRealRecipeRef');
+ if(pending && realRecipePages[recipe.id]){
+   if(!reference){
+     reference=document.createElement('a');reference.id='kbRealRecipeRef';reference.className='kb-real-recipe-link';
+     reference.target='_blank';reference.rel='noopener noreferrer';
+     hero.after(reference);
+   }
+   reference.href=realRecipePages[recipe.id];
+   reference.textContent='See the original cook’s real food photos ↗';
+ }else if(reference)reference.remove();
 }
 /* The app owns its cook-state transitions; hook its existing tab navigation
    instead of changing recipes, timers, or grocery calculation logic. */
