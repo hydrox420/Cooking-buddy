@@ -95,3 +95,28 @@ header.cb-app-brand .kb-brand-buddy{font-style:normal;color:#f3c884;font-weight:
 #recipes .kb-unpictured-shelf .kb-shelf-list{display:grid;gap:6px;margin-top:13px}
 #recipes .kb-unpictured-shelf button{width:100%;border:1px solid #455d4b;background:#26392c;color:#e4eee0;border-radius:10px;padding:11px 12px;text-align:left;font-weight:650;font-size:13px;cursor:pointer}
 #recipes .kb-unpictured-shelf button:focus-visible{outline:2px solid #ffe1ad;outline-offset:2px}
+
+/* A cohesive editorial cookbook heading on each screen. */
+#plan .kb-tab-intro,#shopping .kb-tab-intro,#kitchen .kb-tab-intro,#fridge .kb-tab-intro,#settings .kb-tab-intro{
+  position:relative;display:flex;justify-content:center;align-items:center;
+  text-align:center;padding:16px 55px 17px;margin:7px 0 16px;
+  border-bottom:1px solid rgba(217,185,133,.27);
+}
+#plan .kb-tab-intro h2,#shopping .kb-tab-intro h2,#kitchen .kb-tab-intro h2,#fridge .kb-tab-intro h2,#settings .kb-tab-intro h2{
+  color:#f5dec0;font:700 clamp(25px,6.6vw,32px)/1.12 Georgia,"Times New Roman",serif;
+  letter-spacing:-.5px;margin:0!important;text-align:center;
+}
+#plan .kb-tab-intro::after,#shopping .kb-tab-intro::after,#kitchen .kb-tab-intro::after,#fridge .kb-tab-intro::after,#settings .kb-tab-intro::after{
+  content:"";height:2px;width:38px;position:absolute;bottom:-1px;left:calc(50% - 19px);
+  background:#dfb875;border-radius:10px;
+}
+#shopping .cb-shopping-title,#fridge .cb-fridge-heading{justify-content:center;min-height:74px}
+#shopping .cb-shopping-title>div,#fridge .cb-fridge-heading>div{min-width:0}
+#shopping #cbOpenOrder{position:absolute;right:5px;top:50%;transform:translateY(-50%);height:42px;width:42px;min-width:42px;min-height:42px;border-radius:12px;z-index:2}
+#shopping #cbOpenOrder svg{width:21px;height:21px}
+#fridge #cbFridgeAddButton{position:absolute;right:3px;top:50%;transform:translateY(-50%);min-height:39px;padding:8px;font-size:12px;z-index:2}
+@media(max-width:380px){
+ #plan .kb-tab-intro,#shopping .kb-tab-intro,#kitchen .kb-tab-intro,#fridge .kb-tab-intro,#settings .kb-tab-intro{padding-left:46px;padding-right:46px}
+ #fridge .kb-tab-intro{padding-right:0;padding-left:0;padding-bottom:61px}
+ #fridge #cbFridgeAddButton{top:auto;bottom:9px;left:50%;right:auto;transform:translateX(-50%)}
+}
