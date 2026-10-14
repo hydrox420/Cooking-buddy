@@ -32,7 +32,7 @@ const explanations={
 let tip=null,tipButton=null;
 function hideDietTip(){
  if(tip){tip.remove();tip=null}
- if(tipButton){tipButton.setAttribute('aria-expanded','false');tipButton=null}
+ if(tipButton){tipButton.setAttribute('aria-expanded','false');tipButton.removeAttribute('aria-describedby');tipButton=null}
 }
 window.kbShowDietInfo=function(btn,tag){
  if(tipButton===btn){hideDietTip();return}
