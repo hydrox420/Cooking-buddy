@@ -39,10 +39,10 @@ const assert=require('node:assert/strict');
   assert.equal(await page.locator('#plan').isVisible(),true,'Back from Shopping returns to Plan');
   await page.evaluate(()=>history.back());
   await page.waitForFunction(()=>window.kbCurrentScreen()==='home');
-  // Home itself may have an older visited screen. Here that screen is Profile.
+  // Home has an older visited screen. Our added cart test made it Shopping.
   await page.evaluate(()=>history.back());
-  await page.waitForFunction(()=>window.kbCurrentScreen()==='settings');
-  assert.equal(await page.locator('#settings').isVisible(),true,'Back on home returns to previous visited Profile screen');
+  await page.waitForFunction(()=>window.kbCurrentScreen()==='shopping');
+  assert.equal(await page.locator('#shopping').isVisible(),true,'Back on home returns to previously visited Shopping screen');
   await page.evaluate(()=>history.forward());
   await page.waitForFunction(()=>window.kbCurrentScreen()==='home');
   const fresh=await browser.newPage({viewport:{width:393,height:852},isMobile:true,hasTouch:true});
