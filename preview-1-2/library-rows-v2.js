@@ -10,7 +10,7 @@ const originals={
     "oldRemote": "https://images.pexels.com/photos/30635713/pexels-photo-30635713.jpeg?auto=compress&cs=tinysrgb&w=850",
     "oldLocal": "./assets/recipes/garlic-chicken-rice.webp",
     "remote": "https://images.pexels.com/photos/36275016/pexels-photo-36275016.jpeg?auto=compress&cs=tinysrgb&w=1200",
-    "local": "./assets/recipes/garlic-chicken-rice.webp?v=2",
+    "local": "./assets/recipes/garlic-chicken-rice.webp?v=3",
     "source": "https://www.pexels.com/photo/delicious-chicken-meal-with-rice-and-broccoli-36275016/",
     "credit": "Evans Joel / Pexels",
     "license": "Pexels License"
@@ -19,7 +19,7 @@ const originals={
     "oldRemote": "https://images.pexels.com/photos/6200044/pexels-photo-6200044.jpeg?auto=compress&cs=tinysrgb&w=850",
     "oldLocal": "./assets/recipes/lemon-garlic-tilapia-broccoli-rice.webp",
     "remote": "https://images.pexels.com/photos/30635698/pexels-photo-30635698.jpeg?auto=compress&cs=tinysrgb&w=1200",
-    "local": "./assets/recipes/lemon-garlic-tilapia-broccoli-rice.webp?v=2",
+    "local": "./assets/recipes/lemon-garlic-tilapia-broccoli-rice.webp?v=3",
     "source": "https://www.pexels.com/photo/grilled-tilapia-fillets-with-fresh-lime-wedges-30635698/",
     "credit": "IARA MELO / Pexels",
     "license": "Pexels License"
@@ -28,7 +28,7 @@ const originals={
     "oldRemote": "https://images.pexels.com/photos/105588/pexels-photo-105588.jpeg?auto=compress&cs=tinysrgb&w=850",
     "oldLocal": "./assets/recipes/easy-honey-garlic-chicken-broccoli-rice.webp",
     "remote": "https://images.pexels.com/photos/105588/pexels-photo-105588.jpeg?auto=compress&cs=tinysrgb&w=850",
-    "local": "./assets/recipes/easy-honey-garlic-chicken-broccoli-rice.webp?v=2",
+    "local": "./assets/recipes/easy-honey-garlic-chicken-broccoli-rice.webp?v=3",
     "source": "https://www.pexels.com/photo/white-rice-chicken-and-broccoli-on-black-non-stick-pan-105588/",
     "credit": "Keegan Evans / Pexels",
     "license": "Pexels License"
@@ -36,17 +36,17 @@ const originals={
   "easy-turkey-taco-rice-bowls": {
     "oldRemote": "https://images.pexels.com/photos/8363975/pexels-photo-8363975.jpeg?auto=compress&cs=tinysrgb&w=850",
     "oldLocal": "./assets/recipes/easy-turkey-taco-rice-bowls.webp",
-    "remote": "https://images.pexels.com/photos/8363975/pexels-photo-8363975.jpeg?auto=compress&cs=tinysrgb&w=850",
-    "local": "./assets/recipes/easy-turkey-taco-rice-bowls.webp?v=2",
-    "source": "https://www.pexels.com/photo/choice-of-healthy-food-8363975/",
-    "credit": "Cecilia Cavazos / Pexels",
+    "remote": "https://images.pexels.com/photos/14302291/pexels-photo-14302291.jpeg?auto=compress&cs=tinysrgb&w=1200",
+    "local": "./assets/recipes/easy-turkey-taco-rice-bowls.webp?v=3",
+    "source": "https://www.pexels.com/photo/bowl-with-mexican-food-14302291/",
+    "credit": "Steve House / Pexels",
     "license": "Pexels License"
   },
   "easy-sheet-pan-sausage-potatoes-peppers": {
     "oldRemote": "https://images.pexels.com/photos/37275057/pexels-photo-37275057.jpeg?auto=compress&cs=tinysrgb&w=850",
     "oldLocal": "./assets/recipes/easy-sheet-pan-sausage-potatoes-peppers.webp",
     "remote": "https://images.pexels.com/photos/37275057/pexels-photo-37275057.jpeg?auto=compress&cs=tinysrgb&w=850",
-    "local": "./assets/recipes/easy-sheet-pan-sausage-potatoes-peppers.webp?v=2",
+    "local": "./assets/recipes/easy-sheet-pan-sausage-potatoes-peppers.webp?v=3",
     "source": "https://www.pexels.com/photo/rustic-potato-and-sausage-dish-on-checkered-cloth-37275057/",
     "credit": "cami / Pexels",
     "license": "Pexels License"
@@ -54,17 +54,17 @@ const originals={
   "easy-spinach-egg-cheese-wraps": {
     "oldRemote": "https://images.pexels.com/photos/4869465/pexels-photo-4869465.jpeg?auto=compress&cs=tinysrgb&w=850",
     "oldLocal": "./assets/recipes/easy-spinach-egg-cheese-wraps.webp",
-    "remote": "https://images.pexels.com/photos/4869465/pexels-photo-4869465.jpeg?auto=compress&cs=tinysrgb&w=850",
-    "local": "./assets/recipes/easy-spinach-egg-cheese-wraps.webp?v=2",
-    "source": "https://www.pexels.com/photo/a-close-up-shot-of-a-delicious-wrap-4869465/",
-    "credit": "ROMAN ODINTSOV / Pexels",
+    "remote": "https://images.pexels.com/photos/5848057/pexels-photo-5848057.jpeg?auto=compress&cs=tinysrgb&w=1200",
+    "local": "./assets/recipes/easy-spinach-egg-cheese-wraps.webp?v=3",
+    "source": "https://www.pexels.com/photo/wrap-with-chicken-and-cheese-5848057/",
+    "credit": "Polina Tankilevitch / Pexels",
     "license": "Pexels License"
   },
   "easy-tomato-spinach-chickpea-pasta": {
     "oldRemote": "https://images.pexels.com/photos/19805084/pexels-photo-19805084.jpeg?auto=compress&cs=tinysrgb&w=850",
     "oldLocal": "./assets/recipes/easy-tomato-spinach-chickpea-pasta.webp",
     "remote": "https://images.pexels.com/photos/19805084/pexels-photo-19805084.jpeg?auto=compress&cs=tinysrgb&w=850",
-    "local": "./assets/recipes/easy-tomato-spinach-chickpea-pasta.webp?v=2",
+    "local": "./assets/recipes/easy-tomato-spinach-chickpea-pasta.webp?v=3",
     "source": "https://www.pexels.com/photo/tomato-pasta-on-a-black-plate-19805084/",
     "credit": "mustafa türkeri / Pexels",
     "license": "Pexels License"
@@ -73,7 +73,7 @@ const originals={
     "oldRemote": "https://images.pexels.com/photos/11015917/pexels-photo-11015917.jpeg?auto=compress&cs=tinysrgb&w=850",
     "oldLocal": "./assets/recipes/easy-garlic-shrimp-green-bean-rice.webp",
     "remote": "https://images.pexels.com/photos/11015917/pexels-photo-11015917.jpeg?auto=compress&cs=tinysrgb&w=850",
-    "local": "./assets/recipes/easy-garlic-shrimp-green-bean-rice.webp?v=2",
+    "local": "./assets/recipes/easy-garlic-shrimp-green-bean-rice.webp?v=3",
     "source": "https://www.pexels.com/photo/delicious-shrimps-in-a-rice-bowl-11015917/",
     "credit": "FOX ^.ᆽ.^= ∫ / Pexels",
     "license": "Pexels License"
@@ -82,7 +82,7 @@ const originals={
     "oldRemote": "https://commons.wikimedia.org/wiki/Special:FilePath/Protein%20overnight%20oats.jpg?width=800",
     "oldLocal": "./assets/recipes/kb-overnight-oats-berry.webp",
     "remote": "https://images.pexels.com/photos/27850091/pexels-photo-27850091.jpeg?auto=compress&cs=tinysrgb&w=1200",
-    "local": "./assets/recipes/kb-overnight-oats-berry.webp?v=2",
+    "local": "./assets/recipes/kb-overnight-oats-berry.webp?v=3",
     "source": "https://www.pexels.com/photo/a-bowl-of-oatmeal-with-berries-and-milk-27850091/",
     "credit": "Livilla Latini / Pexels",
     "license": "Pexels License"
@@ -91,7 +91,7 @@ const originals={
     "oldRemote": "https://commons.wikimedia.org/wiki/Special:FilePath/Channa%20Masala.jpg?width=800",
     "oldLocal": "./assets/recipes/kb-chana-masala.webp",
     "remote": "https://images.pexels.com/photos/6544375/pexels-photo-6544375.jpeg?auto=compress&cs=tinysrgb&w=1200",
-    "local": "./assets/recipes/kb-chana-masala.webp?v=2",
+    "local": "./assets/recipes/kb-chana-masala.webp?v=3",
     "source": "https://www.pexels.com/photo/food-healthy-beans-dinner-6544375/",
     "credit": "Alesia Kozik / Pexels",
     "license": "Pexels License"
@@ -100,7 +100,7 @@ const originals={
     "oldRemote": "https://commons.wikimedia.org/wiki/Special:FilePath/The%20Bibimbap.jpg?width=800",
     "oldLocal": "./assets/recipes/kb-korean-bibimbap.webp",
     "remote": "https://images.pexels.com/photos/5773960/pexels-photo-5773960.jpeg?auto=compress&cs=tinysrgb&w=1200",
-    "local": "./assets/recipes/kb-korean-bibimbap.webp?v=2",
+    "local": "./assets/recipes/kb-korean-bibimbap.webp?v=3",
     "source": "https://www.pexels.com/photo/egg-on-top-of-a-bibimbap-5773960/",
     "credit": "Luis Becerra Fotógrafo / Pexels",
     "license": "Pexels License"
@@ -109,7 +109,7 @@ const originals={
     "oldRemote": "https://commons.wikimedia.org/wiki/Special:FilePath/Chicken%20teriyaki.jpg?width=800",
     "oldLocal": "./assets/recipes/kb-chicken-teriyaki.webp",
     "remote": "https://images.pexels.com/photos/28442544/pexels-photo-28442544.jpeg?auto=compress&cs=tinysrgb&w=1200",
-    "local": "./assets/recipes/kb-chicken-teriyaki.webp?v=2",
+    "local": "./assets/recipes/kb-chicken-teriyaki.webp?v=3",
     "source": "https://www.pexels.com/photo/delicious-teriyaki-chicken-rice-bowl-close-up-28442544/",
     "credit": "Nadin Sh / Pexels",
     "license": "Pexels License"
@@ -118,7 +118,7 @@ const originals={
     "oldRemote": "https://commons.wikimedia.org/wiki/Special:FilePath/Chicken%20fajitas.jpg?width=800",
     "oldLocal": "./assets/recipes/kb-chicken-fajitas.webp",
     "remote": "https://images.pexels.com/photos/32371267/pexels-photo-32371267.jpeg?auto=compress&cs=tinysrgb&w=1200",
-    "local": "./assets/recipes/kb-chicken-fajitas.webp?v=2",
+    "local": "./assets/recipes/kb-chicken-fajitas.webp?v=3",
     "source": "https://www.pexels.com/photo/grilled-chicken-fajitas-with-fresh-peppers-32371267/",
     "credit": "DΛVΞ GΛRCIΛ / Pexels",
     "license": "Pexels License"
@@ -127,7 +127,7 @@ const originals={
     "oldRemote": "https://commons.wikimedia.org/wiki/Special:FilePath/Chicken%20adobo.jpg?width=800",
     "oldLocal": "./assets/recipes/kb-chicken-adobo.webp",
     "remote": "https://commons.wikimedia.org/wiki/Special:FilePath/Chicken%20adobo.jpg?width=800",
-    "local": "./assets/recipes/kb-chicken-adobo.webp?v=2",
+    "local": "./assets/recipes/kb-chicken-adobo.webp?v=3",
     "source": "https://commons.wikimedia.org/wiki/File:Chicken_adobo.jpg",
     "credit": "dbgg1979",
     "license": "CC BY 2.0"
@@ -135,17 +135,17 @@ const originals={
   "kb-lentil-soup": {
     "oldRemote": "https://commons.wikimedia.org/wiki/Special:FilePath/Lentil%20Soup.jpg?width=800",
     "oldLocal": "./assets/recipes/kb-lentil-soup.webp",
-    "remote": "https://commons.wikimedia.org/wiki/Special:FilePath/Lentil%20Soup.jpg?width=800",
-    "local": "./assets/recipes/kb-lentil-soup.webp?v=2",
-    "source": "https://commons.wikimedia.org/wiki/File:Lentil_Soup.jpg",
-    "credit": "Serine Ben Brahim",
-    "license": "CC BY-SA 4.0"
+    "remote": "https://commons.wikimedia.org/wiki/Special:FilePath/Lentil_soup.JPG?width=1200",
+    "local": "./assets/recipes/kb-lentil-soup.webp?v=3",
+    "source": "https://commons.wikimedia.org/wiki/File:Lentil_soup.JPG",
+    "credit": "Lemur12",
+    "license": "CC BY-SA 3.0"
   },
   "kb-salt-onigiri": {
     "oldRemote": "https://commons.wikimedia.org/wiki/Special:FilePath/Onigiri.JPG?width=800",
     "oldLocal": "./assets/recipes/kb-salt-onigiri.webp",
     "remote": "https://images.pexels.com/photos/30874708/pexels-photo-30874708.jpeg?auto=compress&cs=tinysrgb&w=1200",
-    "local": "./assets/recipes/kb-salt-onigiri.webp?v=2",
+    "local": "./assets/recipes/kb-salt-onigiri.webp?v=3",
     "source": "https://www.pexels.com/photo/delicious-onigiri-on-wooden-board-close-up-30874708/",
     "credit": "Airam Dato-on / Pexels",
     "license": "Pexels License"
@@ -154,7 +154,7 @@ const originals={
     "oldRemote": "https://commons.wikimedia.org/wiki/Special:FilePath/Pad%20thai.jpg?width=800",
     "oldLocal": "./assets/recipes/kb-easy-pad-thai-tofu.webp",
     "remote": "https://images.pexels.com/photos/32083373/pexels-photo-32083373.jpeg?auto=compress&cs=tinysrgb&w=1200",
-    "local": "./assets/recipes/kb-easy-pad-thai-tofu.webp?v=2",
+    "local": "./assets/recipes/kb-easy-pad-thai-tofu.webp?v=3",
     "source": "https://www.pexels.com/photo/delicious-pad-thai-with-tofu-and-fresh-herbs-32083373/",
     "credit": "Valeria Boltneva / Pexels",
     "license": "Pexels License"
@@ -163,8 +163,8 @@ const originals={
 let localDefaultChanges=0;
 for(const r of state.recipes){
  const entry=originals[r.id];if(!entry)continue;
- // Never override a picture chosen by the cook (upload or custom URL).
- if(!r.photo || r.photo===entry.oldRemote || r.photo===entry.oldLocal || r.photo===entry.remote || r.photo===entry.local){
+ // Update only built-in defaults; never replace an image uploaded by the user.
+ if(!r.photo || r.photo===entry.oldRemote || r.photo===entry.oldLocal || r.photo===entry.remote || r.photo===entry.local || (r.photo.startsWith('./assets/recipes/') && r.photo.split('?')[0]===entry.oldLocal)){
   r.photo=entry.local;
   r.photoSource=entry.source;
   r.photoCredit=entry.credit;
