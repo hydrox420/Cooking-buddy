@@ -54,10 +54,12 @@ function returnTo(route){
 addEventListener('popstate',event=>{
  const target=event.state;
  if(target?.[marker]){
-  // Back reached the initial safety net; return to visible home instead of closing.
+  // Back reached the initial safety net. Replace the forward route with a
+  // fresh home history entry synchronously (Android Chrome may ignore go(1)
+  // inside a popstate callback when no further gesture is available).
   if(target.base){
     returnTo({tab:'home'});
-    try{history.go(1)}catch(_){}
+    try{history.pushState(makeRoute('home'),'')}catch(_){}
     return;
   }
   returnTo(target);
