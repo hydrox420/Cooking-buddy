@@ -62,3 +62,17 @@
 .cb-warning{color:#f9d2a1;font-size:12px;padding:8px 10px;background:#3c3828;border-radius:9px;line-height:1.4}
 @media(min-width:640px){.cb-tiles{grid-template-columns:repeat(4,1fr)}.cb-step{padding:20px}.cb-step p{font-size:17px}}
 @media(max-width:350px){.cb-time-row{grid-template-columns:1fr 1fr}.cb-time-row button:first-child{grid-column:1/-1}.cb-row{flex-wrap:wrap}.cb-grocery-row{gap:7px}}
+
+/* 2.0.2: Pickup prep at preferred Stop & Shop; no API/cart sync. */
+.cb-pickup{border:1px solid #6b956f;background:linear-gradient(155deg,#23432f,#1b3126);border-radius:17px;padding:13px;margin:13px 0 17px}
+.cb-pickup summary{font-size:16px;font-weight:800;cursor:pointer;list-style-position:inside}
+.cb-pickup-body{padding-top:9px}
+.cb-pickup-location{font-size:14px;font-weight:700;margin:9px 0 1px}
+.cb-pickup-grid{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:8px;align-items:end;margin:9px 0}
+.cb-pickup-grid label{margin:0;font-size:12px;color:#d1e2d4}
+.cb-pickup-grid input{margin-top:5px;min-height:44px}
+.cb-pickup-actions{display:flex;gap:8px;flex-wrap:wrap}
+.cb-pickup-actions .btn{flex:1;min-height:46px;display:inline-flex;align-items:center;justify-content:center;text-decoration:none;text-align:center}
+.cb-pickup-preview{font:13px/1.45 ui-monospace,SFMono-Regular,Consolas,monospace;width:100%;min-height:122px;max-height:170px;resize:vertical;margin:7px 0 11px}
+.cb-pickup-footnote{font-size:12px;line-height:1.45;color:#c2d6c6;margin:10px 0 0}
+@media(max-width:390px){.cb-pickup-actions{display:grid;grid-template-columns:1fr}.cb-pickup-grid{grid-template-columns:1fr}}
