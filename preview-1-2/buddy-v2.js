@@ -590,13 +590,13 @@ renderInventory=function(){
 let currentCategory='All';
 const categoryFilter=document.createElement('div');
 categoryFilter.id='cbCategoryFilters';
-categoryFilter.className='filters';
-categoryFilter.style.marginTop='-6px';
+categoryFilter.className='filters cb-unified-filters';
+categoryFilter.setAttribute('aria-label','Recipe filters');
 const oldFilters=$q('#home .filters');
-if(oldFilters)oldFilters.after(categoryFilter);
+if(oldFilters)oldFilters.replaceWith(categoryFilter);
 function recipeMatchesCategory(r,tag){
  const n=r.name.toLowerCase();
- if(tag==='All')return true;
+ if(tag==='All'||tag==='Favorites'||tag==='Use tonight')return true;
  if(tag==='Test')return n.includes('timer test');
  if(n.includes('timer test'))return false;
  if(tag==='Seafood')return /tilapia|shrimp|salmon|seafood|fish/.test(n);
@@ -606,14 +606,14 @@ function recipeMatchesCategory(r,tag){
  if(tag==='Dinner')return !/breakfast|egg.*wrap/.test(n);
  return true;
 }
-window.setBuddyCategory=tag=>{currentCategory=tag;renderRecipes()};
+window.setBuddyCategory=tag=>{currentCategory=tag;filter=tag==='Favorites'?'favorites':tag==='Use tonight'?'tonight':'all';renderRecipes()};
 const renderWithServing=renderRecipes;
 renderRecipes=function(){
  renderWithServing();
  categoryFilter.innerHTML='';
- for(const tag of ['All','Quick','Vegetarian','Seafood','Breakfast','Dinner','Test']){
+ for(const tag of ['All','Quick','Vegetarian','Seafood','Breakfast','Dinner','Favorites','Use tonight','Test']){
   const btn=document.createElement('button');btn.className='btn secondary'+(tag===currentCategory?' selected':'');
-  btn.textContent=tag;btn.onclick=()=>window.setBuddyCategory(tag);categoryFilter.append(btn);
+  btn.textContent=tag==='Favorites'?'♥ Favorites':tag==='Use tonight'?'🥦 Use tonight':tag;btn.onclick=()=>window.setBuddyCategory(tag);categoryFilter.append(btn);
  }
  let visible=0;
  for(const card of document.querySelectorAll('#recipes .mealcard')){
