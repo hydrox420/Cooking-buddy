@@ -78,7 +78,8 @@ def main():
     print(json.dumps(result, indent=2))
     # Failure does not erase other successfully downloaded assets; keep report.
     if result['failed']:
-        print(f"WARNING: {len(result['failed'])} photos need a different source.")
+        print(f"ERROR: {len(result['failed'])} photos need a different source.")
+        raise SystemExit(1)  # Never report a partially bundled photo pack as success.
 
 if __name__=='__main__':
     main()
