@@ -92,7 +92,7 @@ const groceries=$cb('shopping'),oldFridge=$cb('fridge');
 const plan=document.createElement('section');plan.id='plan';plan.className='hide';
 plan.innerHTML='<div class="cb-intro"><span class="eyebrow">YOUR WEEK AHEAD</span><h2>📅 Meal Plan</h2><p>Choose recipes, set servings, and make one combined grocery list.</p></div><div class="cb-tiles" id="planStats"></div><div class="cb-panel"><h3>Meals you have planned</h3><div id="plannedMeals"></div></div><button class="btn" onclick="showTab(\'shopping\')">🛒 View combined groceries →</button>';
 groceries.before(plan);
-groceries.innerHTML='<div class="cb-intro cb-shopping-title"><div><span class="eyebrow">YOUR SHOPPING LIST</span><h2>Groceries</h2></div><button type="button" id="cbOpenOrder" class="cb-icon-button" aria-label="Shopping and pickup options" aria-expanded="false" title="Shopping and pickup options" onclick="togglePickupOptions()">\uD83D\uDED2</button></div><div id="groceryStats" class="cb-check-total"></div><div id="shoppingItems"></div><div id="cbPendingOrder"></div><details class="cb-panel cb-add-grocery"><summary>＋ Add an item</summary><label>Item<input id="shopName" placeholder="Bananas"></label><label>Amount<input id="shopQty" type="number" step="any" min="0.01" value="1"></label><label>Unit<input id="shopUnit" placeholder="each"></label><button class="btn" onclick="addShopManual()">Add to grocery list</button></details><div id="pantryOptional" class="cb-panel"></div>';
+groceries.innerHTML='<div class="cb-intro cb-shopping-title"><div><span class="eyebrow">YOUR SHOPPING LIST</span><h2>Groceries</h2></div><button type="button" id="cbOpenOrder" class="cb-icon-button" aria-label="Shopping and pickup options" aria-expanded="false" title="Shopping and pickup options" onclick="togglePickupOptions()"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="9" cy="20" r="1"/><circle cx="19" cy="20" r="1"/><path d="M2 3h2l3 12h13l2-9H5"/></svg></button></div><div id="groceryStats" class="cb-check-total"></div><div id="shoppingItems"></div><div id="cbPendingOrder"></div><details class="cb-panel cb-add-grocery"><summary>＋ Add an item</summary><label>Item<input id="shopName" placeholder="Bananas"></label><label>Amount<input id="shopQty" type="number" step="any" min="0.01" value="1"></label><label>Unit<input id="shopUnit" placeholder="each"></label><button class="btn" onclick="addShopManual()">Add to grocery list</button></details><div id="pantryOptional" class="cb-panel"></div>';
 const kitchen=document.createElement('section');kitchen.id='kitchen';kitchen.className='hide';
 kitchen.innerHTML='<div class="cb-intro"><span class="eyebrow">WHAT YOU HAVE AT HOME</span><h2>My Kitchen</h2></div><div class="cb-panel cb-kitchen-stock"><h3>Kitchen inventory</h3><div id="inventoryItems"></div></div>';
 groceries.after(kitchen);
@@ -144,10 +144,19 @@ if(oldTimerOptions){
 if($cb('alarmSound'))$cb('alarmSound').value=getTimerSound();
 const allNavigation=$cb('home')?.closest('main')?.nextElementSibling;
 const nav=document.querySelector('nav.tabs');
+const navArt={
+ home:'<rect x="4" y="3" width="16" height="18" rx="2"/><path d="M8 7h8M8 11h7M8 15h6"/>',
+ plan:'<rect x="3" y="5" width="18" height="16" rx="2"/><path d="M7 3v4M17 3v4M3 10h18M8 14h2M14 14h2"/>',
+ shopping:'<path d="M2 3h2l3 12h13l2-9H5"/><circle cx="9" cy="20" r="1"/><circle cx="19" cy="20" r="1"/>',
+ kitchen:'<path d="M4 12h16l-2 8H6l-2-8ZM7 12V6h10v6M9 6V3h6v3"/>',
+ fridge:'<rect x="5" y="2.5" width="14" height="19" rx="2"/><path d="M5 11h14M8 6v3M8 15v3"/>',
+ settings:'<circle cx="12" cy="8" r="3.5"/><path d="M4.5 21v-1.5a7.5 7.5 0 0 1 15 0V21"/>'
+};
+function navSvg(tab){return '<svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">'+navArt[tab]+'</svg>'}
 if(nav){nav.classList.add('cb-six-tabs');nav.innerHTML=[
- ['home','📖','Recipes'],['plan','📅','Plan'],['shopping','🛒','Groceries'],
- ['kitchen','🥬','Kitchen'],['fridge','🧊','Fridge'],['settings','◯','Profile']
-].map(row=>'<button class="btn secondary" data-tab="'+row[0]+'" onclick="showTab(\''+row[0]+'\')">'+row[1]+' '+row[2]+'</button>').join('');}
+ ['home','Recipes'],['plan','Plan'],['shopping','Groceries'],
+ ['kitchen','Kitchen'],['fridge','Fridge'],['settings','Profile']
+].map(row=>'<button class="btn secondary" data-tab="'+row[0]+'" onclick="showTab(\''+row[0]+'\')"><span class="cb-nav-icon">'+navSvg(row[0])+'</span><span class="cb-nav-text">'+row[1]+'</span></button>').join('');}
 legacySeedCook.innerHTML='<div class="cb-row"><div><span class="eyebrow">COOKING BUDDY</span><h2 id="recipeTitle">Recipe</h2></div><button class="btn secondary" onclick="showTab(\'home\')">← Recipes</button></div><div class="cb-panel" id="cbRecipeHead"></div><div id="cbDietWarning"></div><div class="cb-switches" id="cbCookTabs"></div><div id="cbCookContent"></div><div id="cbActiveTimers" class="cb-timer-dock hide"></div><div class="cb-panel"><button class="btn" style="width:100%" onclick="finishCooking()">✓ Finished cooking</button><p class="cb-sub">Finish cooking only after your food is safely cooked; any running alarms will stop.</p></div>';
 const $q=sel=>document.querySelector(sel);
 function fillSettings(){
@@ -493,7 +502,7 @@ function renderPlan(){
  state.planned=Array.isArray(state.planned)?state.planned:[];
  const planTab=document.querySelector('nav.tabs [data-tab="plan"]');
  const plannedTotal=state.planned.reduce((n,p)=>n+Math.max(1,Number(p.count)||1),0);
- if(planTab)planTab.textContent='📅 Plan'+(plannedTotal?' ('+plannedTotal+')':'');
+ if(planTab){const label=planTab.querySelector('.cb-nav-text');if(label)label.textContent='Plan'+(plannedTotal?' ('+plannedTotal+')':'');}
  const root=$cb('plannedMeals');if(!root)return;
  root.innerHTML='';const cards=state.planned.filter(p=>byID(p.recipeId));
  const mealCount=cards.reduce((n,p)=>n+Math.max(1,Number(p.count)||1),0);
