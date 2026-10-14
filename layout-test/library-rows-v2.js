@@ -290,8 +290,12 @@ function card(r){
  const tags=Array.isArray(r.tags)?r.tags:[];
  for(const tag of tags.slice(0,2)){
   let sym={'Vegan':'🌱','Vegetarian':'🥬','Gluten-free':'GF','Dairy-free':'DF','Spicy':'🌶️'}[tag]||'';
-  const pill=build('span','kb-diet-tag',sym||tag);
-  pill.setAttribute('aria-label',tag);pill.title=tag;meta.append(pill);
+  const pill=build('button','kb-diet-tag',sym||tag);pill.type='button';
+  pill.dataset.kind=tag.toLowerCase().replace(/[^a-z]+/g,'-');
+  pill.setAttribute('aria-label','What does '+tag+' mean?');
+  pill.setAttribute('aria-expanded','false');pill.title='Tap to explain '+tag;
+  pill.onclick=event=>{event.stopPropagation();window.kbShowDietInfo?.(pill,tag)};
+  meta.append(pill);
  }
  info.append(meta);
  const actions=build('div','kb-card-actions');
@@ -335,11 +339,12 @@ renderRecipes=function(){
    flatGrid(root,selectedCategory,match);return;
  }
  const favorites=matches.filter(r=>r.favorite);
- const favSection=build('section','kb-recipe-section');
- favSection.append(heading('Favorites',favorites,true));
- if(favorites.length){const rail=build('div','kb-recipe-rail');for(const r of favorites)rail.append(card(r));favSection.append(rail)}
- else favSection.append(build('p','kb-empty','Tap ♡ on a recipe to keep your favorites here.'));
- root.append(favSection);
+ if(favorites.length){
+  const favSection=build('section','kb-recipe-section');
+  favSection.append(heading('Favorites',favorites,true));
+  const rail=build('div','kb-recipe-rail');for(const r of favorites)rail.append(card(r));
+  favSection.append(rail);root.append(favSection);
+ }
  for(const cat of ORDER){
   const items=matches.filter(r=>categories(r).includes(cat));
   if(!items.length)continue;
