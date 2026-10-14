@@ -8,10 +8,10 @@ const assert=require('node:assert/strict');
   await page.goto('http://127.0.0.1:8765/layout-test/',{waitUntil:'networkidle'});
   await page.waitForSelector('.kb-compact-card');
   const counts=await page.evaluate(()=>{
-   const pic=state.recipes.filter(r=>r.photo?.includes('/assets/verified/'));
-   return {total:state.recipes.length,withRealPictures:pic.length,ids:new Set(pic.map(r=>r.id)).size,recipeSources:pic.every(r=>r.recipeSourceUrl?.startsWith('https://'))};
+   const pic=state.recipes.filter(r=>typeof r.photo==='string'&&/\/assets\/(verified|recipes)\//.test(r.photo));
+   return {total:state.recipes.length,withPictures:pic.length,ids:new Set(pic.map(r=>r.id)).size,withSources:pic.filter(r=>r.photoSource?.startsWith('https://')).length};
   });
-  assert.ok(counts.total>=39&&counts.withRealPictures>=22&&counts.withRealPictures===counts.ids&&counts.recipeSources,'39 recipes, including 22 photographed, with source links');
+  assert.ok(counts.total>=39&&counts.withPictures>=39&&counts.withPictures===counts.ids&&counts.withSources>=39,'all 39 built-in recipes have pictures and credits');
   const headers=[['plan','Meal Plan'],['shopping','Your Shopping List'],['kitchen','My Kitchen'],['fridge','My Fridge'],['settings','My Profile']];
   for(const [tab,label] of headers){
    await page.locator('nav.tabs [data-tab="'+tab+'"]').click();
@@ -21,6 +21,11 @@ const assert=require('node:assert/strict');
    assert.ok(rect && Math.abs(rect.x+rect.width/2-393/2)<=16,tab+' heading is visually centered');
    assert.ok(!/\p{Extended_Pictographic}/u.test(label),'no emoji in heading');
   }
+  await page.locator('nav.tabs [data-tab="shopping"]').click();
+  const cartHeader=await page.locator('#shopping .kb-tab-intro').boundingBox();
+  const cartButton=await page.locator('#cbOpenOrder').boundingBox();
+  assert.ok(cartButton&&cartHeader&&cartButton.y>=cartHeader.y+cartHeader.height-1,'cart sits below heading divider');
+  assert.equal(await page.locator('#recipes .kb-discover-section').count(),0,'Explore section removed');
   await page.locator('nav.tabs [data-tab="home"]').click();
   await page.locator('#recipes .kb-card-picture').first().click();
   assert.equal(await page.locator('#cook').isVisible(),true,'cooking opened');
@@ -82,6 +87,6 @@ const assert=require('node:assert/strict');
   await page.waitForFunction(()=>window.kbCurrentScreen()==='shopping');
   assert.equal(await page.locator('#shopping').isVisible(),true,'Back from fridge returns to previous Shopping tab');
   assert.deepEqual(errors,[],'no page errors');
-  console.log('PASS: '+counts.withRealPictures+' source-photographed recipes, centered tabs, browser Back, plan/shopping handoff, fridge add/save');
+  console.log('PASS: '+counts.withPictures+' pictured recipes, cart below title, no Explore section, Back, plan/shopping handoff, fridge add/save');
  }finally{await browser.close()}
 })().catch(error=>{console.error(error);process.exitCode=1});

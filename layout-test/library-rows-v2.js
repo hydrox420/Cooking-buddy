@@ -3,9 +3,8 @@
 (function(){
 'use strict';
 let selectedCategory='All';
-// The 17 bundled stock-photo candidates were not verified genuine or dish-accurate.
-// Display a neutral illustration until a rights-cleared photograph from the actual recipe
-// is available. Never overwrite a user-customized recipe picture.
+// The 17 older recipes now use existing bundled illustrative food images.
+// Images may be AI-generated or imperfect dish matches. Never overwrite user photos.
 const originals={
   "garlic-chicken-rice": {
     "oldRemote": "https://images.pexels.com/photos/30635713/pexels-photo-30635713.jpeg?auto=compress&cs=tinysrgb&w=850",
@@ -233,23 +232,21 @@ const photoPending='./photo-pending.svg';
 let localDefaultChanges=0;
 for(const r of state.recipes){
  const entry=originals[r.id];if(!entry)continue;
- // Recognize only our bundled/default candidates (including previously saved URLs).
- // User-selected data: photos or their own uploaded URLs are preserved untouched.
+ // Migrate only built-in pictures or the old pending placeholder, not user uploads.
  const isBuiltIn=typeof r.photo==='string'&&(
   (r.photo.startsWith('./assets/recipes/')&&r.photo.split('?')[0]===entry.oldLocal)||
   r.photo===entry.oldRemote||r.photo===entry.remote||r.photo===entry.local||
   r.photo===photoPending
  );
  if(!r.photo||isBuiltIn){
-  if(r.photo!==photoPending||r.photoSource||r.photoCredit||r.photoLicense){
-   r.photo=photoPending;
-   // Avoid showing credits for a stock picture that is no longer displayed.
-   delete r.photoSource;
-   delete r.photoCredit;
-   delete r.photoLicense;
-   delete r.photoLicenseUrl;
-   delete r.photoMatchNote;
-   r.photoKind='original-cooking-photo-pending';
+  if(r.photo!==entry.local||r.photoSource!==entry.source||r.photoCredit!==entry.credit||r.photoKind!=='illustrative-recipe-image'){
+   r.photo=entry.local;
+   r.photoSource=entry.source;
+   r.photoCredit=entry.credit;
+   r.photoLicense=entry.license;
+   if(entry.licenseUrl)r.photoLicenseUrl=entry.licenseUrl;else delete r.photoLicenseUrl;
+   if(entry.photoMatchNote)r.photoMatchNote=entry.photoMatchNote;else delete r.photoMatchNote;
+   r.photoKind='illustrative-recipe-image';
    localDefaultChanges++;
   }
  }
@@ -355,7 +352,7 @@ renderRecipes=function(){
  const pictured=all.filter(isPhotographed);
  const unpictured=all.filter(r=>!isPhotographed(r));
  root.innerHTML='';root.classList.add('kb-library');
- const count=document.getElementById('recipeCount');if(count)count.textContent=pictured.length+' photographed recipes';
+ const count=document.getElementById('recipeCount');if(count)count.textContent=pictured.length+' recipes with pictures';
  const old=document.getElementById('cbCategoryFilters');if(old)old.hidden=true;
  const matches=pictured.filter(r=>!q||searchMatch(r,q));
  const hiddenMatches=unpictured.filter(r=>!q||searchMatch(r,q));
@@ -372,24 +369,7 @@ renderRecipes=function(){
    savedRecipeShelf(root,older);
    return;
  }
- // Browsing is the primary flow, even when the user has saved favorites.
- // Rotate discovery picks by local day and prefer dishes not already favorited.
- const today=new Date();
- const dayKey=Math.floor(new Date(today.getFullYear(),today.getMonth(),today.getDate()).getTime()/86400000);
- function stableRecipeScore(r){
-  let value=2166136261;
-  for(const ch of r.id||r.name){value=Math.imul(value^ch.charCodeAt(0),16777619)>>>0}
-  return (value^Math.imul(dayKey,2654435761))>>>0;
- }
- const sourced=matches.filter(r=>r.id&&r.id.startsWith('kb-pd-')).sort((a,b)=>stableRecipeScore(a)-stableRecipeScore(b));
- const others=matches.filter(r=>!r.id||!r.id.startsWith('kb-pd-')).sort((a,b)=>(+a.favorite)-(+b.favorite)||stableRecipeScore(a)-stableRecipeScore(b));
- const explore=[...sourced,...others].slice(0,Math.min(6,matches.length));
- if(explore.length){
-  const discover=build('section','kb-recipe-section kb-discover-section');
-  discover.append(heading('Explore new recipes',explore,false));
-  const rail=build('div','kb-recipe-rail');for(const r of explore)rail.append(card(r));
-  discover.append(rail);root.append(discover);
- }
+ // Browse directly by food category without a duplicate discovery rail.
  const favorites=matches.filter(r=>r.favorite);
  if(favorites.length){
   const favSection=build('section','kb-recipe-section');
@@ -442,7 +422,7 @@ if(profile && !document.getElementById('kbPhotoCredits')){
  details.id='kbPhotoCredits';
  const summary=build('summary','', 'Photo Credits');
  details.append(summary);
- details.append(build('p','kb-credit-explainer','Image sources, credited contributors, and listed licenses. Source links do not guarantee images are genuine photographs. Current pictures are awaiting review and may not match the finished recipes.'));
+ details.append(build('p','kb-credit-explainer','Food images are illustrative, may be AI-generated, and may differ from the finished recipe. Source links and credits are listed when available.'));
  details.append(build('div','kb-credits-list'));
  details.lastElementChild.id='kbPhotoCreditsList';
  details.addEventListener('toggle',()=>{if(details.open)displayCredits()});
