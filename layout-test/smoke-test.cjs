@@ -7,6 +7,10 @@ const assert=require('node:assert/strict');
  try{
   await page.goto('http://127.0.0.1:8765/layout-test/',{waitUntil:'networkidle'});
   await page.waitForSelector('.kb-compact-card',{timeout:15000});
+  // The first-visit timer-permission banner sits above the cookbook; dismiss it
+  // so the design geometry check measures the hero rather than setup UI.
+  const firstVisitTimer=page.locator('#timerSetupPanel');
+  if(await firstVisitTimer.isVisible())await firstVisitTimer.getByRole('button',{name:'Not now'}).click();
   assert.ok((await page.locator('.kb-compact-card').count())>=17,'show all recipe rows');
   const headline=page.locator('.kb-home-tools h2');
   assert.equal(await headline.textContent(),'What sounds good?','browsing headline is timeless');
