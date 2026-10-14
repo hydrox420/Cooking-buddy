@@ -157,7 +157,7 @@ if(nav){nav.classList.add('cb-six-tabs');nav.innerHTML=[
  ['home','Recipes'],['plan','Plan'],['shopping','Groceries'],
  ['kitchen','Kitchen'],['fridge','Fridge'],['settings','Profile']
 ].map(row=>'<button class="btn secondary" data-tab="'+row[0]+'" onclick="showTab(\''+row[0]+'\')"><span class="cb-nav-icon">'+navSvg(row[0])+'</span><span class="cb-nav-text">'+row[1]+'</span></button>').join('');}
-legacySeedCook.innerHTML='<div class="cb-row"><div><span class="eyebrow">COOKING BUDDY</span><h2 id="recipeTitle">Recipe</h2></div><button class="btn secondary" onclick="showTab(\'home\')">← Recipes</button></div><div class="cb-panel" id="cbRecipeHead"></div><div id="cbDietWarning"></div><div class="cb-switches" id="cbCookTabs"></div><div id="cbCookContent"></div><div id="cbActiveTimers" class="cb-timer-dock hide"></div><div class="cb-panel"><button class="btn" style="width:100%" onclick="finishCooking()">✓ Finished cooking</button><p class="cb-sub">Finish cooking only after your food is safely cooked; any running alarms will stop.</p></div>';
+legacySeedCook.innerHTML='<div class="cb-row"><div><span class="eyebrow">KITCHEN BUDDY</span><h2 id="recipeTitle">Recipe</h2></div><button class="btn secondary" onclick="showTab(\'home\')">← Recipes</button></div><div class="cb-panel" id="cbRecipeHead"></div><div id="cbDietWarning"></div><div class="cb-switches" id="cbCookTabs"></div><div id="cbCookContent"></div><div id="cbActiveTimers" class="cb-timer-dock hide"></div><div class="cb-panel"><button class="btn" style="width:100%" onclick="finishCooking()">✓ Finished cooking</button><p class="cb-sub">Finish cooking only after your food is safely cooked; any running alarms will stop.</p></div>';
 const $q=sel=>document.querySelector(sel);
 function fillSettings(){
  const size=$cb('cbDefaultServings');size.innerHTML='';
@@ -272,8 +272,10 @@ function drawCook(){
    }
    const footer=document.createElement('div');footer.className='cb-step-bottom';
    const tickBox=document.createElement('input');tickBox.type='checkbox';tickBox.checked=doneSteps.has(i);
+   tickBox.id='kbStepDone'+i;
+   tickBox.setAttribute('aria-label','Mark step '+(i+1)+' complete');
    tickBox.onchange=()=>{if(tickBox.checked)doneSteps.add(i);else doneSteps.delete(i);card.classList.toggle('done',tickBox.checked)};
-   const label=document.createElement('label');label.append(tickBox,document.createTextNode('Done with this step'));
+   const label=document.createElement('label');label.htmlFor=tickBox.id;label.append(tickBox,document.createTextNode('Step complete'));
    footer.append(label);card.append(footer);panel.append(card);
   });
  }
