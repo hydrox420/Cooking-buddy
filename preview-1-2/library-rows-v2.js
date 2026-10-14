@@ -384,7 +384,7 @@ if(profile && !document.getElementById('kbPhotoCredits')){
  details.id='kbPhotoCredits';
  const summary=build('summary','', 'Photo Credits');
  details.append(summary);
- details.append(build('p','kb-credit-explainer','Sources, photographers, and licenses for recipe photos. Some pictures illustrate the dish rather than the exact finished recipe.'));
+ details.append(build('p','kb-credit-explainer','Image sources, credited contributors, and listed licenses. Source links do not guarantee images are genuine photographs. Current pictures are awaiting review and may not match the finished recipes.'));
  details.append(build('div','kb-credits-list'));
  details.lastElementChild.id='kbPhotoCreditsList';
  details.addEventListener('toggle',()=>{if(details.open)displayCredits()});
