@@ -16,7 +16,7 @@
 .kb-card-meta{display:flex;align-items:center;min-height:21px;gap:5px;flex-wrap:wrap}
 .kb-card-time{font-size:10.5px;font-weight:650;color:#d6dec7;white-space:nowrap}
 .kb-diet-tag{font-size:9px;line-height:1;background:#315b40;border:1px solid #719b74;border-radius:5px;color:#eaffdf;display:inline-flex;padding:4px;white-space:nowrap}
-.kb-image-credit{font-size:12px;color:#aecba9;text-decoration:none;margin-left:auto;padding:0 2px}
+
 .kb-card-actions{display:flex;align-items:center;gap:6px;margin-top:auto}
 .kb-favorite{flex:0 0 35px;width:35px;height:35px;border-radius:8px;border:1px solid #60765e;background:#304939;color:#f7baba;font-size:22px;cursor:pointer}
 .kb-card-add{flex:1;min-width:0;height:35px;border-radius:8px;border:1px solid #a4c4a2;background:#d1e5be;color:#1d3624;font-size:12px;font-weight:850;cursor:pointer}
@@ -29,3 +29,15 @@
 #home .library-intro{margin-bottom:12px}
 #home .library-intro h2{font-size:22px}
 @media(max-width:360px){.kb-compact-card{flex-basis:clamp(139px,45vw,175px);width:clamp(139px,45vw,175px)}.kb-recipe-grid{gap:9px}.kb-compact-info{padding:8px}.kb-card-title{font-size:12.5px}}
+
+/* Attribution is tucked inside Profile → Photo Credits, not on food cards. */
+#kbPhotoCredits{margin-top:16px;padding:0;overflow:hidden}
+#kbPhotoCredits>summary{padding:15px 16px;cursor:pointer;font-size:14px;font-weight:800}
+#kbPhotoCredits>summary:focus-visible{outline:2px solid #b5e5a7;outline-offset:-3px}
+.kb-credit-explainer{font-size:12px;line-height:1.5;color:#c6d3c3;margin:0;padding:0 16px 9px}
+.kb-credits-list{padding:0 16px 14px;display:grid;gap:11px}
+.kb-credit-row{display:flex;flex-direction:column;gap:4px;min-width:0;padding:0 0 10px;border-bottom:1px solid #516553}
+.kb-credit-row:last-child{border-bottom:0}
+.kb-credit-title{font-size:13px;color:#f0f6ec;overflow-wrap:anywhere}
+.kb-credit-byline{font-size:12px;color:#cbd7c8;overflow-wrap:anywhere}
+.kb-credit-link{font-size:12px;color:#b7e3a1;text-decoration:underline;text-underline-offset:3px;width:fit-content}
