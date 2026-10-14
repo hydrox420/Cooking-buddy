@@ -34,11 +34,20 @@ const assert=require('node:assert/strict');
   assert.equal(await page.locator('#plan').isVisible(),true,'Back from Shopping returns to Plan');
   await page.evaluate(()=>history.back());
   await page.waitForFunction(()=>window.kbCurrentScreen()==='home');
+  // Home itself may have an older visited screen. Here that screen is Profile.
   await page.evaluate(()=>history.back());
-  await page.waitForTimeout(600);
-  const homeDebug=await page.evaluate(()=>({url:location.href,tab:window.kbCurrentScreen?.(),state:history.state,length:history.length,homeVisible:!document.getElementById('home')?.classList.contains('hide')}));
-  console.log('HOME BACK DEBUG',JSON.stringify(homeDebug));
-  assert.ok(homeDebug.url.includes('/layout-test/')&&homeDebug.homeVisible,'Back on home stays in app');
+  await page.waitForFunction(()=>window.kbCurrentScreen()==='settings');
+  assert.equal(await page.locator('#settings').isVisible(),true,'Back on home returns to previous visited Profile screen');
+  await page.evaluate(()=>history.forward());
+  await page.waitForFunction(()=>window.kbCurrentScreen()==='home');
+  const fresh=await browser.newPage({viewport:{width:393,height:852},isMobile:true,hasTouch:true});
+  try{
+   await fresh.goto('http://127.0.0.1:8765/layout-test/',{waitUntil:'networkidle'});
+   await fresh.evaluate(()=>history.back());
+   await fresh.waitForTimeout(400);
+   const freshHome=await fresh.evaluate(()=>({url:location.href,visible:!document.getElementById('home')?.classList.contains('hide'),route:history.state?.tab}));
+   assert.ok(freshHome.url.includes('/layout-test/')&&freshHome.visible&&freshHome.route==='home','fresh home Back stays inside Kitchen Buddy');
+  }finally{await fresh.close()}
   await page.locator('#recipes .kb-card-picture').first().click();
   await page.getByRole('button',{name:'Plan this meal'}).click();
   const selected=await page.evaluate(()=>({planSize:state.planned.length,name:state.recipes.find(r=>r.id===state.planned[0]?.recipeId)?.name}));
