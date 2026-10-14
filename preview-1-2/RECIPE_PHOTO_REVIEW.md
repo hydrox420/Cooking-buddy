@@ -2,9 +2,9 @@
 
 **UNAPPROVED CANDIDATE IMAGES — NOT CONFIRMED REAL PHOTOGRAPHS.** A photographer name, website listing, or image license does not establish how the picture was produced. These files are bundled in the draft, not deployed. Each is sized to 800×600. Click each photographer/source link to inspect attribution and image rights. The cooking instructions in this initial set have **no verifiable original recipe page** recorded; do not interpret the photographs below as photos from those exact instructions.
 
-**Approval status:** 0 of 17 approved; verify whether each is a real photograph, as well as whether the food matches the recipe. **Original cooking-source reviews:** [Batch 1 — first four dishes](FOUR_RECIPE_PHOTO_CANDIDATES.md) · [Batch 2 — next four dishes](NEXT_FOUR_RECIPE_PHOTO_CANDIDATES.md). Original recipe photos are linked, **not copied**, until image reuse rights are confirmed.
+**Stock placeholder status:** None of the 17 bundled stock/Commons image candidates is certified as an authentic matching recipe photograph. **Source-page research:** 17 of 17 recipe cards now have a verified, reachable cooking-source candidate page across three reference files. These are NOT copied photos or licensed app artwork. Assistant handles routine selection; user approval is not required for each image. **Original cooking-source reviews:** [Batch 1 — first four dishes](FOUR_RECIPE_PHOTO_CANDIDATES.md) · [Batch 2 — next four dishes](NEXT_FOUR_RECIPE_PHOTO_CANDIDATES.md) · [Batch 3 — remaining nine recipes](REMAINING_NINE_RECIPE_SOURCES.md). Original recipe photos are linked, **not copied**, until image reuse rights are confirmed.
 
-**Review checklist:** Does the picture visibly include the key ingredients? Is the finished dish appetizing and not an empty pan? Are the mobile 4:3 crop and framing useful? Mark discrepancies before approving release.
+**Assistant verification checklist:** Does the proposed original recipe photograph show the correct ingredients and plated meal? Is image provenance credible, license/permission established, and mobile crop usable? Publish only after those checks and final deployment approval.
 
 ### 1. Garlic Chicken & Cheesy Brown Rice
 
