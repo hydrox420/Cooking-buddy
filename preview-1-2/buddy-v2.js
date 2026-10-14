@@ -524,7 +524,8 @@ function drawGroceries(){
   const btn=document.createElement('button');btn.className='btn secondary mini';btn.style.margin='5px';
   btn.textContent='+ '+name;
   const exists=state.shopping.some(x=>x.name.trim().toLowerCase()===name.trim().toLowerCase());
-  btn.disabled=exists;if(exists)btn.textContent='✓ '+name+' on list';
+  const inKitchen=stock(name,'jar')>0;
+  btn.disabled=exists||inKitchen;if(exists)btn.textContent='✓ '+name+' on list';else if(inKitchen)btn.textContent='✓ In Kitchen: '+name;
   btn.onclick=()=>addSeasoningToList(name);pantry.append(btn);
  }
 }
@@ -611,7 +612,7 @@ const renderWithServing=renderRecipes;
 renderRecipes=function(){
  renderWithServing();
  categoryFilter.innerHTML='';
- for(const tag of ['All','Quick','Vegetarian','Seafood','Breakfast','Dinner','Favorites','Use tonight','Test']){
+ for(const tag of ['All','Favorites','Use tonight','Quick','Vegetarian','Seafood','Breakfast','Dinner','Test']){
   const btn=document.createElement('button');btn.className='btn secondary'+(tag===currentCategory?' selected':'');
   btn.textContent=tag==='Favorites'?'♥ Favorites':tag==='Use tonight'?'🥦 Use tonight':tag;btn.onclick=()=>window.setBuddyCategory(tag);categoryFilter.append(btn);
  }
