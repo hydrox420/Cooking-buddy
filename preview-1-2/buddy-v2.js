@@ -493,7 +493,7 @@ function drawGroceries(){
   const row=document.createElement('div');row.className='cb-grocery-row'+(state.cartChecked[item.key]?' checked':'');
   const input=document.createElement('input');input.type='checkbox';input.checked=!!state.cartChecked[item.key];
   input.setAttribute('aria-label','Bought '+item.name);const id='cart-'+list.indexOf(item);input.id=id;
-  input.onchange=()=>{if(input.checked)state.cartChecked[item.key]=true;else delete state.cartChecked[item.key];save();drawGroceries()};
+  input.onchange=()=>{if(input.checked)state.cartChecked[item.key]=true;else delete state.cartChecked[item.key];save();renderShopping()};
   const label=document.createElement('label');label.htmlFor=id;label.textContent=item.name;
   const amount=document.createElement('span');amount.className='cb-amount';amount.textContent=fmtQty(amountToBuy(item.qty,item.unit),item.unit);
   row.append(input,label,amount);root.append(row);
