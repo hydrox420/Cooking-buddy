@@ -57,10 +57,9 @@ const assert=require('node:assert/strict');
   assert.equal(await page.locator('#recipes .kb-favorite, #recipes .kb-card-add').count(),0,'no card heart or bottom Add');
   const countBefore=await page.evaluate(()=>state.planned.reduce((sum,p)=>sum+p.count,0));
   await firstPlus.click();
-  assert.equal(await page.locator('#shopping').isVisible(),true,'plus opens shopping list');
+  assert.equal(await page.locator('#home').isVisible(),true,'plus adds to plan without leaving cookbook');
   const countAfter=await page.evaluate(()=>state.planned.reduce((sum,p)=>sum+p.count,0));
   assert.equal(countAfter,countBefore+1,'plus adds exactly one meal');
-  await page.locator('nav.tabs [data-tab="home"]').click();
 
   assert.equal(await page.locator('#kbSearchToggle').count(),0,'mini search button removed');
   const searchSize=await page.locator('#kbSearchField').boundingBox();
