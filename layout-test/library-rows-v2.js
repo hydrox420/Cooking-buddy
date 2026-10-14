@@ -353,10 +353,12 @@ renderRecipes=function(){
   for(const ch of r.id||r.name){value=Math.imul(value^ch.charCodeAt(0),16777619)>>>0}
   return (value^Math.imul(dayKey,2654435761))>>>0;
  }
- const explore=[...matches].sort((a,b)=>(+a.favorite)-(+b.favorite)||stableRecipeScore(a)-stableRecipeScore(b)).slice(0,Math.min(6,matches.length));
+ const sourced=matches.filter(r=>r.id&&r.id.startsWith('kb-pd-')).sort((a,b)=>stableRecipeScore(a)-stableRecipeScore(b));
+ const others=matches.filter(r=>!r.id||!r.id.startsWith('kb-pd-')).sort((a,b)=>(+a.favorite)-(+b.favorite)||stableRecipeScore(a)-stableRecipeScore(b));
+ const explore=[...sourced,...others].slice(0,Math.min(6,matches.length));
  if(explore.length){
   const discover=build('section','kb-recipe-section kb-discover-section');
-  discover.append(heading('Discover something different',explore,false));
+  discover.append(heading('Explore new recipes',explore,false));
   const rail=build('div','kb-recipe-rail');for(const r of explore)rail.append(card(r));
   discover.append(rail);root.append(discover);
  }
