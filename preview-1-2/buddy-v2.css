@@ -154,3 +154,9 @@ nav.tabs.cb-six-tabs button{min-width:0;max-width:none;flex:1 1 0;padding:8px 2p
 .cb-leftovers-actions{display:flex;gap:9px;margin-top:19px}
 .cb-leftovers-actions button{flex:1;padding:12px 8px;min-height:49px}
 @media(max-width:385px){.cb-shopping-title h2,.cb-fridge-heading h2{font-size:25px}.cb-fridge-add-button{padding:8px!important}.cb-leftovers-actions{flex-direction:column-reverse}}
+
+/* Beta 2.0.5: compact line-icon navigation */
+nav.tabs.cb-six-tabs button{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;padding:7px 1px;min-height:66px}
+nav.tabs.cb-six-tabs .cb-nav-icon{height:22px;width:22px;display:grid;place-items:center;line-height:1}
+nav.tabs.cb-six-tabs .cb-nav-icon svg{height:21px;width:21px;display:block}
+nav.tabs.cb-six-tabs .cb-nav-text{font-size:clamp(9px,2.4vw,12px);line-height:1.12;font-weight:700;max-width:100%}
