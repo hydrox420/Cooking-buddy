@@ -91,7 +91,7 @@ function renderCookPhoto(){
  const cook=byId('cook'),head=byId('cbRecipeHead');
  if(!cook||!head||cook.classList.contains('hide'))return;
  const recipe=getActiveRecipe();if(!recipe)return;
- let hero=byId('kbDishPhoto'), peek=byId('kbDishPeek');
+ let hero=byId('kbDishPhoto');
  if(!hero){
    hero=document.createElement('button');hero.id='kbDishPhoto';hero.className='kb-dish-photo';hero.type='button';
    const img=document.createElement('img');img.alt='Finished dish reference photo';
@@ -99,22 +99,13 @@ function renderCookPhoto(){
    hero.append(img,caption);
    head.before(hero);
  }
- if(!peek){
-   peek=document.createElement('button');peek.id='kbDishPeek';peek.type='button';peek.className='kb-dish-peek';
-   peek.setAttribute('aria-label','View finished dish photograph while cooking');
-   const small=document.createElement('img');small.alt='';small.setAttribute('aria-hidden','true');
-   const text=document.createElement('span');text.textContent='View dish';
-   peek.append(small,text);cook.append(peek);
- }
  const src=recipe.photo||fallback;
  if(hero.dataset.photo!==src){
    safeImg(hero.querySelector('img'),src);
-   safeImg(peek.querySelector('img'),src);
    hero.dataset.photo=src;
  }
  hero.querySelector('img').alt='Reference photo of '+recipe.name;
  hero.onclick=()=>showPhotoLarge(recipe);
- peek.onclick=()=>showPhotoLarge(recipe);
 }
 /* The app owns its cook-state transitions; hook its existing tab navigation
    instead of changing recipes, timers, or grocery calculation logic. */
