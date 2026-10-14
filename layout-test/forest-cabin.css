@@ -402,7 +402,7 @@ nav.tabs.cb-six-tabs button.active{
 html{background:#0b241b}
 body{
  background:
-   url("./forest-pines.svg?v=4") center 0 / 100% 264px no-repeat,
+   url("./forest-pines.svg?v=5") center 0 / 100% 264px no-repeat,
    radial-gradient(ellipse 92% 320px at 50% 165px,rgba(73,126,86,.37) 0%,rgba(35,83,59,.14) 70%,transparent 100%),
    linear-gradient(180deg,#081f17 0px,#153e2c 110px,#28573d 245px,#183b2c 440px,#0f2b22 750px)!important;
  background-attachment:scroll,scroll,scroll!important;
@@ -459,9 +459,9 @@ header.cb-app-brand h1{
 /* Forest Cabin v5 — lift the brand and cookbook into the canopy. */
 header.cb-app-brand{
   justify-content:flex-start;
-  min-height:149px;
-  padding:9px 12px 2px;
-  margin:0 -14px 2px!important;
+  min-height:122px;
+  padding:8px 12px 1px;
+  margin:0 -14px 0!important;
 }
 header.cb-app-brand .kb-brand-emblem{width:43px;height:43px;padding:7px}
 header.cb-app-brand h1{
@@ -478,6 +478,6 @@ header.cb-app-brand h1{
 #home .kb-home-tools .library-intro::after{margin-top:6px}
 #home #kbSearchField{margin:0 0 15px!important}
 @media(max-width:370px){
-  header.cb-app-brand{min-height:145px;padding-top:8px;margin-bottom:2px!important}
+  header.cb-app-brand{min-height:120px;padding-top:7px;margin-bottom:0!important}
   header.cb-app-brand h1{font-size:clamp(33px,9.7vw,44px)}
 }
