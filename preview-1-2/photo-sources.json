@@ -9,7 +9,11 @@
       "credit": "Evans Joel / Pexels",
       "license": "Pexels License",
       "customization": "cover crop 4:3",
-      "photoIsIllustrative": true
+      "photoIsIllustrative": true,
+      "recipeOrigin": "no_external_source_recorded",
+      "recipeSourceUrl": null,
+      "photoKind": "licensed-illustrative-dish-photo",
+      "photoReviewed": false
     },
     {
       "id": "lemon-garlic-tilapia-broccoli-rice",
@@ -19,7 +23,11 @@
       "credit": "IARA MELO / Pexels",
       "license": "Pexels License",
       "customization": "cover crop 4:3",
-      "photoIsIllustrative": true
+      "photoIsIllustrative": true,
+      "recipeOrigin": "no_external_source_recorded",
+      "recipeSourceUrl": null,
+      "photoKind": "licensed-illustrative-dish-photo",
+      "photoReviewed": false
     },
     {
       "id": "easy-honey-garlic-chicken-broccoli-rice",
@@ -28,7 +36,11 @@
       "source": "https://www.pexels.com/photo/white-rice-chicken-and-broccoli-on-black-non-stick-pan-105588/",
       "credit": "Keegan Evans / Pexels",
       "license": "Pexels License",
-      "customization": "cover crop 4:3"
+      "customization": "cover crop 4:3",
+      "recipeOrigin": "no_external_source_recorded",
+      "recipeSourceUrl": null,
+      "photoKind": "licensed-illustrative-dish-photo",
+      "photoReviewed": false
     },
     {
       "id": "easy-turkey-taco-rice-bowls",
@@ -37,7 +49,11 @@
       "source": "https://www.pexels.com/photo/bowl-with-mexican-food-14302291/",
       "credit": "Steve House / Pexels",
       "license": "Pexels License",
-      "customization": "cover crop 4:3"
+      "customization": "cover crop 4:3",
+      "recipeOrigin": "no_external_source_recorded",
+      "recipeSourceUrl": null,
+      "photoKind": "licensed-illustrative-dish-photo",
+      "photoReviewed": false
     },
     {
       "id": "easy-sheet-pan-sausage-potatoes-peppers",
@@ -46,7 +62,11 @@
       "source": "https://www.pexels.com/photo/rustic-potato-and-sausage-dish-on-checkered-cloth-37275057/",
       "credit": "cami / Pexels",
       "license": "Pexels License",
-      "customization": "cover crop 4:3"
+      "customization": "cover crop 4:3",
+      "recipeOrigin": "no_external_source_recorded",
+      "recipeSourceUrl": null,
+      "photoKind": "licensed-illustrative-dish-photo",
+      "photoReviewed": false
     },
     {
       "id": "easy-spinach-egg-cheese-wraps",
@@ -55,7 +75,11 @@
       "source": "https://www.pexels.com/photo/wrap-with-chicken-and-cheese-5848057/",
       "credit": "Polina Tankilevitch / Pexels",
       "license": "Pexels License",
-      "customization": "cover crop 4:3"
+      "customization": "cover crop 4:3",
+      "recipeOrigin": "no_external_source_recorded",
+      "recipeSourceUrl": null,
+      "photoKind": "licensed-illustrative-dish-photo",
+      "photoReviewed": false
     },
     {
       "id": "easy-tomato-spinach-chickpea-pasta",
@@ -64,16 +88,26 @@
       "source": "https://www.pexels.com/photo/tomato-pasta-on-a-black-plate-19805084/",
       "credit": "mustafa türkeri / Pexels",
       "license": "Pexels License",
-      "customization": "cover crop 4:3"
+      "customization": "cover crop 4:3",
+      "recipeOrigin": "no_external_source_recorded",
+      "recipeSourceUrl": null,
+      "photoKind": "licensed-illustrative-dish-photo",
+      "photoReviewed": false
     },
     {
       "id": "easy-garlic-shrimp-green-bean-rice",
       "name": "Garlic Shrimp, Green Beans & Brown Rice",
-      "url": "https://images.pexels.com/photos/11015917/pexels-photo-11015917.jpeg?auto=compress&cs=tinysrgb&w=850",
-      "source": "https://www.pexels.com/photo/delicious-shrimps-in-a-rice-bowl-11015917/",
-      "credit": "FOX ^.ᆽ.^= ∫ / Pexels",
-      "license": "Pexels License",
-      "customization": "cover crop 4:3"
+      "url": "https://commons.wikimedia.org/wiki/Special:FilePath/DFC%202196%20Close-up%20of%20a%20stir-fry%20featuring%20shrimp%20tossed%20with%20sliced%20green%20beans%20and%20carrots%20in%20a%20savory%20sauce.jpg?width=1200",
+      "source": "https://commons.wikimedia.org/wiki/File:DFC_2196_Close-up_of_a_stir-fry_featuring_shrimp_tossed_with_sliced_green_beans_and_carrots_in_a_savory_sauce.jpg",
+      "credit": "PattayaPatrol",
+      "license": "CC BY-SA 4.0",
+      "customization": "cover crop 4:3",
+      "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0/",
+      "photoKind": "licensed-illustrative-dish-photo",
+      "photoMatchNote": "Dish photo depicts shrimp and sliced green vegetables; rice is not pictured, and carrots are extra.",
+      "recipeOrigin": "no_external_source_recorded",
+      "recipeSourceUrl": null,
+      "photoReviewed": false
     },
     {
       "id": "kb-overnight-oats-berry",
@@ -83,7 +117,11 @@
       "credit": "Livilla Latini / Pexels",
       "license": "Pexels License",
       "customization": "cover crop 4:3",
-      "photoIsIllustrative": true
+      "photoIsIllustrative": true,
+      "recipeOrigin": "no_external_source_recorded",
+      "recipeSourceUrl": null,
+      "photoKind": "licensed-illustrative-dish-photo",
+      "photoReviewed": false
     },
     {
       "id": "kb-chana-masala",
@@ -93,7 +131,11 @@
       "credit": "Alesia Kozik / Pexels",
       "license": "Pexels License",
       "customization": "cover crop 4:3",
-      "photoIsIllustrative": true
+      "photoIsIllustrative": true,
+      "recipeOrigin": "no_external_source_recorded",
+      "recipeSourceUrl": null,
+      "photoKind": "licensed-illustrative-dish-photo",
+      "photoReviewed": false
     },
     {
       "id": "kb-korean-bibimbap",
@@ -103,7 +145,11 @@
       "credit": "Luis Becerra Fotógrafo / Pexels",
       "license": "Pexels License",
       "customization": "cover crop 4:3",
-      "photoIsIllustrative": true
+      "photoIsIllustrative": true,
+      "recipeOrigin": "no_external_source_recorded",
+      "recipeSourceUrl": null,
+      "photoKind": "licensed-illustrative-dish-photo",
+      "photoReviewed": false
     },
     {
       "id": "kb-chicken-teriyaki",
@@ -113,7 +159,11 @@
       "credit": "Nadin Sh / Pexels",
       "license": "Pexels License",
       "customization": "cover crop 4:3",
-      "photoIsIllustrative": true
+      "photoIsIllustrative": true,
+      "recipeOrigin": "no_external_source_recorded",
+      "recipeSourceUrl": null,
+      "photoKind": "licensed-illustrative-dish-photo",
+      "photoReviewed": false
     },
     {
       "id": "kb-chicken-fajitas",
@@ -123,16 +173,26 @@
       "credit": "DΛVΞ GΛRCIΛ / Pexels",
       "license": "Pexels License",
       "customization": "cover crop 4:3",
-      "photoIsIllustrative": true
+      "photoIsIllustrative": true,
+      "recipeOrigin": "no_external_source_recorded",
+      "recipeSourceUrl": null,
+      "photoKind": "licensed-illustrative-dish-photo",
+      "photoReviewed": false
     },
     {
       "id": "kb-chicken-adobo",
       "name": "Filipino Chicken Adobo",
-      "url": "https://commons.wikimedia.org/wiki/Special:FilePath/Chicken%20adobo.jpg?width=800",
-      "source": "https://commons.wikimedia.org/wiki/File:Chicken_adobo.jpg",
-      "credit": "dbgg1979",
-      "license": "CC BY 2.0",
-      "customization": "cover crop 4:3"
+      "url": "https://commons.wikimedia.org/wiki/Special:FilePath/Filipino%20Chicken%20Adobo%20with%20rice.jpg?width=1200",
+      "source": "https://commons.wikimedia.org/wiki/File:Filipino_Chicken_Adobo_with_rice.jpg",
+      "credit": "Obsidian Soul",
+      "license": "CC BY-SA 3.0",
+      "customization": "cover crop 4:3",
+      "licenseUrl": "https://creativecommons.org/licenses/by-sa/3.0/",
+      "photoKind": "licensed-illustrative-dish-photo",
+      "photoMatchNote": "Chicken adobo served with white rice; preparation may differ from Kitchen Buddy's boneless version.",
+      "recipeOrigin": "no_external_source_recorded",
+      "recipeSourceUrl": null,
+      "photoReviewed": false
     },
     {
       "id": "kb-lentil-soup",
@@ -141,7 +201,11 @@
       "source": "https://commons.wikimedia.org/wiki/File:Lentil_soup.JPG",
       "credit": "Lemur12",
       "license": "CC BY-SA 3.0",
-      "customization": "cover crop 4:3"
+      "customization": "cover crop 4:3",
+      "recipeOrigin": "no_external_source_recorded",
+      "recipeSourceUrl": null,
+      "photoKind": "licensed-illustrative-dish-photo",
+      "photoReviewed": false
     },
     {
       "id": "kb-salt-onigiri",
@@ -151,7 +215,11 @@
       "credit": "Airam Dato-on / Pexels",
       "license": "Pexels License",
       "customization": "cover crop 4:3",
-      "photoIsIllustrative": true
+      "photoIsIllustrative": true,
+      "recipeOrigin": "no_external_source_recorded",
+      "recipeSourceUrl": null,
+      "photoKind": "licensed-illustrative-dish-photo",
+      "photoReviewed": false
     },
     {
       "id": "kb-easy-pad-thai-tofu",
@@ -161,7 +229,11 @@
       "credit": "Valeria Boltneva / Pexels",
       "license": "Pexels License",
       "customization": "cover crop 4:3",
-      "photoIsIllustrative": true
+      "photoIsIllustrative": true,
+      "recipeOrigin": "no_external_source_recorded",
+      "recipeSourceUrl": null,
+      "photoKind": "licensed-illustrative-dish-photo",
+      "photoReviewed": false
     }
   ]
 }
