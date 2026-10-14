@@ -1,5 +1,5 @@
 {
-  "note": "Curated licensed real-food photos. Image crops may be illustrative. Review fidelity and license details before publishing.",
+  "note": "All images in this manifest are candidate illustrations. A source URL or free-use license does not verify they are real photographs, human-produced, accurate depictions of recipes, or approved. Do not publish as final photo set before user review.",
   "images": [
     {
       "id": "garlic-chicken-rice",
@@ -12,8 +12,12 @@
       "photoIsIllustrative": true,
       "recipeOrigin": "no_external_source_recorded",
       "recipeSourceUrl": null,
-      "photoKind": "licensed-illustrative-dish-photo",
-      "photoReviewed": false
+      "photoKind": "illustrative-image-unverified-origin",
+      "photoReviewed": false,
+      "photographicAuthenticity": "unverified",
+      "originalRecipePhoto": false,
+      "photoApprovalStatus": "pending_human_review",
+      "photoOriginEvidence": null
     },
     {
       "id": "lemon-garlic-tilapia-broccoli-rice",
@@ -26,8 +30,12 @@
       "photoIsIllustrative": true,
       "recipeOrigin": "no_external_source_recorded",
       "recipeSourceUrl": null,
-      "photoKind": "licensed-illustrative-dish-photo",
-      "photoReviewed": false
+      "photoKind": "illustrative-image-unverified-origin",
+      "photoReviewed": false,
+      "photographicAuthenticity": "unverified",
+      "originalRecipePhoto": false,
+      "photoApprovalStatus": "pending_human_review",
+      "photoOriginEvidence": null
     },
     {
       "id": "easy-honey-garlic-chicken-broccoli-rice",
@@ -39,8 +47,12 @@
       "customization": "cover crop 4:3",
       "recipeOrigin": "no_external_source_recorded",
       "recipeSourceUrl": null,
-      "photoKind": "licensed-illustrative-dish-photo",
-      "photoReviewed": false
+      "photoKind": "illustrative-image-unverified-origin",
+      "photoReviewed": false,
+      "photographicAuthenticity": "unverified",
+      "originalRecipePhoto": false,
+      "photoApprovalStatus": "pending_human_review",
+      "photoOriginEvidence": null
     },
     {
       "id": "easy-turkey-taco-rice-bowls",
@@ -52,8 +64,12 @@
       "customization": "cover crop 4:3",
       "recipeOrigin": "no_external_source_recorded",
       "recipeSourceUrl": null,
-      "photoKind": "licensed-illustrative-dish-photo",
-      "photoReviewed": false
+      "photoKind": "illustrative-image-unverified-origin",
+      "photoReviewed": false,
+      "photographicAuthenticity": "unverified",
+      "originalRecipePhoto": false,
+      "photoApprovalStatus": "pending_human_review",
+      "photoOriginEvidence": null
     },
     {
       "id": "easy-sheet-pan-sausage-potatoes-peppers",
@@ -65,8 +81,12 @@
       "customization": "cover crop 4:3",
       "recipeOrigin": "no_external_source_recorded",
       "recipeSourceUrl": null,
-      "photoKind": "licensed-illustrative-dish-photo",
-      "photoReviewed": false
+      "photoKind": "illustrative-image-unverified-origin",
+      "photoReviewed": false,
+      "photographicAuthenticity": "unverified",
+      "originalRecipePhoto": false,
+      "photoApprovalStatus": "pending_human_review",
+      "photoOriginEvidence": null
     },
     {
       "id": "easy-spinach-egg-cheese-wraps",
@@ -78,8 +98,12 @@
       "customization": "cover crop 4:3",
       "recipeOrigin": "no_external_source_recorded",
       "recipeSourceUrl": null,
-      "photoKind": "licensed-illustrative-dish-photo",
-      "photoReviewed": false
+      "photoKind": "illustrative-image-unverified-origin",
+      "photoReviewed": false,
+      "photographicAuthenticity": "unverified",
+      "originalRecipePhoto": false,
+      "photoApprovalStatus": "pending_human_review",
+      "photoOriginEvidence": null
     },
     {
       "id": "easy-tomato-spinach-chickpea-pasta",
@@ -91,8 +115,12 @@
       "customization": "cover crop 4:3",
       "recipeOrigin": "no_external_source_recorded",
       "recipeSourceUrl": null,
-      "photoKind": "licensed-illustrative-dish-photo",
-      "photoReviewed": false
+      "photoKind": "illustrative-image-unverified-origin",
+      "photoReviewed": false,
+      "photographicAuthenticity": "unverified",
+      "originalRecipePhoto": false,
+      "photoApprovalStatus": "pending_human_review",
+      "photoOriginEvidence": null
     },
     {
       "id": "easy-garlic-shrimp-green-bean-rice",
@@ -103,11 +131,15 @@
       "license": "CC BY-SA 4.0",
       "customization": "cover crop 4:3",
       "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0/",
-      "photoKind": "licensed-illustrative-dish-photo",
+      "photoKind": "illustrative-image-unverified-origin",
       "photoMatchNote": "Dish photo depicts shrimp and sliced green vegetables; rice is not pictured, and carrots are extra.",
       "recipeOrigin": "no_external_source_recorded",
       "recipeSourceUrl": null,
-      "photoReviewed": false
+      "photoReviewed": false,
+      "photographicAuthenticity": "unverified",
+      "originalRecipePhoto": false,
+      "photoApprovalStatus": "pending_human_review",
+      "photoOriginEvidence": null
     },
     {
       "id": "kb-overnight-oats-berry",
@@ -120,8 +152,12 @@
       "photoIsIllustrative": true,
       "recipeOrigin": "no_external_source_recorded",
       "recipeSourceUrl": null,
-      "photoKind": "licensed-illustrative-dish-photo",
-      "photoReviewed": false
+      "photoKind": "illustrative-image-unverified-origin",
+      "photoReviewed": false,
+      "photographicAuthenticity": "unverified",
+      "originalRecipePhoto": false,
+      "photoApprovalStatus": "pending_human_review",
+      "photoOriginEvidence": null
     },
     {
       "id": "kb-chana-masala",
@@ -134,8 +170,12 @@
       "photoIsIllustrative": true,
       "recipeOrigin": "no_external_source_recorded",
       "recipeSourceUrl": null,
-      "photoKind": "licensed-illustrative-dish-photo",
-      "photoReviewed": false
+      "photoKind": "illustrative-image-unverified-origin",
+      "photoReviewed": false,
+      "photographicAuthenticity": "unverified",
+      "originalRecipePhoto": false,
+      "photoApprovalStatus": "pending_human_review",
+      "photoOriginEvidence": null
     },
     {
       "id": "kb-korean-bibimbap",
@@ -148,8 +188,12 @@
       "photoIsIllustrative": true,
       "recipeOrigin": "no_external_source_recorded",
       "recipeSourceUrl": null,
-      "photoKind": "licensed-illustrative-dish-photo",
-      "photoReviewed": false
+      "photoKind": "illustrative-image-unverified-origin",
+      "photoReviewed": false,
+      "photographicAuthenticity": "unverified",
+      "originalRecipePhoto": false,
+      "photoApprovalStatus": "pending_human_review",
+      "photoOriginEvidence": null
     },
     {
       "id": "kb-chicken-teriyaki",
@@ -162,8 +206,12 @@
       "photoIsIllustrative": true,
       "recipeOrigin": "no_external_source_recorded",
       "recipeSourceUrl": null,
-      "photoKind": "licensed-illustrative-dish-photo",
-      "photoReviewed": false
+      "photoKind": "illustrative-image-unverified-origin",
+      "photoReviewed": false,
+      "photographicAuthenticity": "unverified",
+      "originalRecipePhoto": false,
+      "photoApprovalStatus": "pending_human_review",
+      "photoOriginEvidence": null
     },
     {
       "id": "kb-chicken-fajitas",
@@ -176,8 +224,12 @@
       "photoIsIllustrative": true,
       "recipeOrigin": "no_external_source_recorded",
       "recipeSourceUrl": null,
-      "photoKind": "licensed-illustrative-dish-photo",
-      "photoReviewed": false
+      "photoKind": "illustrative-image-unverified-origin",
+      "photoReviewed": false,
+      "photographicAuthenticity": "unverified",
+      "originalRecipePhoto": false,
+      "photoApprovalStatus": "pending_human_review",
+      "photoOriginEvidence": null
     },
     {
       "id": "kb-chicken-adobo",
@@ -188,11 +240,15 @@
       "license": "CC BY-SA 3.0",
       "customization": "cover crop 4:3",
       "licenseUrl": "https://creativecommons.org/licenses/by-sa/3.0/",
-      "photoKind": "licensed-illustrative-dish-photo",
+      "photoKind": "illustrative-image-unverified-origin",
       "photoMatchNote": "Chicken adobo served with white rice; preparation may differ from Kitchen Buddy's boneless version.",
       "recipeOrigin": "no_external_source_recorded",
       "recipeSourceUrl": null,
-      "photoReviewed": false
+      "photoReviewed": false,
+      "photographicAuthenticity": "unverified",
+      "originalRecipePhoto": false,
+      "photoApprovalStatus": "pending_human_review",
+      "photoOriginEvidence": null
     },
     {
       "id": "kb-lentil-soup",
@@ -204,8 +260,12 @@
       "customization": "cover crop 4:3",
       "recipeOrigin": "no_external_source_recorded",
       "recipeSourceUrl": null,
-      "photoKind": "licensed-illustrative-dish-photo",
-      "photoReviewed": false
+      "photoKind": "illustrative-image-unverified-origin",
+      "photoReviewed": false,
+      "photographicAuthenticity": "unverified",
+      "originalRecipePhoto": false,
+      "photoApprovalStatus": "pending_human_review",
+      "photoOriginEvidence": null
     },
     {
       "id": "kb-salt-onigiri",
@@ -218,8 +278,12 @@
       "photoIsIllustrative": true,
       "recipeOrigin": "no_external_source_recorded",
       "recipeSourceUrl": null,
-      "photoKind": "licensed-illustrative-dish-photo",
-      "photoReviewed": false
+      "photoKind": "illustrative-image-unverified-origin",
+      "photoReviewed": false,
+      "photographicAuthenticity": "unverified",
+      "originalRecipePhoto": false,
+      "photoApprovalStatus": "pending_human_review",
+      "photoOriginEvidence": null
     },
     {
       "id": "kb-easy-pad-thai-tofu",
@@ -232,8 +296,12 @@
       "photoIsIllustrative": true,
       "recipeOrigin": "no_external_source_recorded",
       "recipeSourceUrl": null,
-      "photoKind": "licensed-illustrative-dish-photo",
-      "photoReviewed": false
+      "photoKind": "illustrative-image-unverified-origin",
+      "photoReviewed": false,
+      "photographicAuthenticity": "unverified",
+      "originalRecipePhoto": false,
+      "photoApprovalStatus": "pending_human_review",
+      "photoOriginEvidence": null
     }
   ]
 }
