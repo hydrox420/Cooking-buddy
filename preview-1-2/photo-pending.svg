@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="800" height="600" viewBox="0 0 800 600" role="img" aria-labelledby="t d">
+<title id="t">Recipe photograph pending</title><desc id="d">Simple plate and utensils placeholder; not a photograph of food.</desc>
+<rect width="800" height="600" fill="#f4ede1"/>
+<rect width="800" height="600" fill="none" stroke="#e0cfae" stroke-width="24"/>
+<circle cx="400" cy="262" r="146" fill="#fdfaf3" stroke="#b7a184" stroke-width="13"/>
+<circle cx="400" cy="262" r="109" fill="#faf5e8" stroke="#e4d6c0" stroke-width="8"/>
+<path d="M214 145v232m-14-232v80m14-80v80m14-80v80m-14 0v140M590 144c-53 40-52 135-14 159v79" fill="none" stroke="#846e59" stroke-width="15" stroke-linecap="round" stroke-linejoin="round"/>
+<text x="400" y="468" text-anchor="middle" fill="#493f32" font-family="system-ui, sans-serif" font-weight="750" font-size="35">Photo coming soon</text>
+<text x="400" y="508" text-anchor="middle" fill="#746857" font-family="system-ui, sans-serif" font-weight="500" font-size="22">Original recipe photography only</text>
+</svg>

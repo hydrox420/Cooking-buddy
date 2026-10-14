@@ -1,0 +1,47 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="480" height="220" viewBox="0 0 480 220" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+<defs>
+ <g id="spruce">
+  <path d="M0-86-13-58-7-58-24-27-13-27-34 9-20 9-43 47H43L20 9H34L13-27H24L7-58H13Z"/>
+  <path d="M-5 47H5V73H-5Z"/>
+ </g>
+
+ <linearGradient id="treeFade" x1="0" y1="0" x2="0" y2="1">
+  <stop offset="0" stop-color="white"/>
+  <stop offset=".65" stop-color="white"/>
+  <stop offset="1" stop-color="black"/>
+ </linearGradient>
+ <mask id="forestBlend"><rect width="480" height="220" fill="url(#treeFade)"/></mask>
+</defs>
+<g mask="url(#forestBlend)">
+<path fill="#2f563f" opacity=".28" d="M0 139q90-45 165-12t148-3 167 12v84H0Z"/>
+<g fill="#61876a" opacity=".37">
+ <use href="#spruce" transform="translate(20 122) scale(.85)"/>
+ <use href="#spruce" transform="translate(86 137) scale(.77)"/>
+ <use href="#spruce" transform="translate(130 168) scale(.48)"/>
+ <use href="#spruce" transform="translate(160 154) scale(.60)"/>
+ <use href="#spruce" transform="translate(305 151) scale(.58)"/>
+ <use href="#spruce" transform="translate(350 168) scale(.52)"/>
+ <use href="#spruce" transform="translate(408 135) scale(.78)"/>
+ <use href="#spruce" transform="translate(468 124) scale(.9)"/>
+</g>
+<g fill="#254a35" opacity=".78">
+ <use href="#spruce" transform="translate(0 153) scale(1.04)"/>
+ <use href="#spruce" transform="translate(55 174) scale(.73)"/>
+ <use href="#spruce" transform="translate(114 190) scale(.58)"/>
+ <use href="#spruce" transform="translate(147 186) scale(.61)"/>
+ <use href="#spruce" transform="translate(322 185) scale(.62)"/>
+ <use href="#spruce" transform="translate(371 190) scale(.59)"/>
+ <use href="#spruce" transform="translate(429 165) scale(.76)"/>
+ <use href="#spruce" transform="translate(490 154) scale(1.04)"/>
+</g>
+<g fill="#132e23" opacity=".78">
+ <use href="#spruce" transform="translate(26 193) scale(.59)"/>
+ <use href="#spruce" transform="translate(76 211) scale(.46)"/>
+ <use href="#spruce" transform="translate(186 220) scale(.44)"/>
+ <use href="#spruce" transform="translate(297 219) scale(.46)"/>
+ <use href="#spruce" transform="translate(408 214) scale(.47)"/>
+ <use href="#spruce" transform="translate(460 190) scale(.62)"/>
+</g>
+<path fill="#0c241b" opacity=".42" d="M0 206q95-21 157-2t151-4 172 6v14H0Z"/>
+</g>
+</svg>

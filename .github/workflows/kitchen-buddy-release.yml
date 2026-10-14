@@ -1,0 +1,28 @@
+name: Kitchen Buddy release smoke test
+on:
+  push:
+    branches: [main]
+    paths:
+      - "preview-1-2/**"
+      - ".github/workflows/kitchen-buddy-release.yml"
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  smoke:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+      - name: Install Chromium browser for mobile smoke test
+        run: |
+          npm install --no-save --no-package-lock playwright@1.56.1
+          npx playwright install --with-deps chromium
+      - name: Test promoted Kitchen Buddy without changing real user data
+        run: |
+          python3 -m http.server 8765 --bind 127.0.0.1 &
+          sleep 3
+          node preview-1-2/release-smoke-test.cjs
