@@ -427,4 +427,13 @@
     ]
   }
 ];
-let added=0;for(const r of incoming){if(!state.recipes.some(x=>x.id===r.id)){state.recipes.push(r);added++}}if(added)save();})();
+let added=0;
+for(const r of incoming){
+ const old=state.recipes.find(x=>x.id===r.id);
+ if(!old){state.recipes.push(r);added++;continue}
+ // Migration only for the earlier built-in remote image. Never override custom photos.
+ const remote='https://raw.githubusercontent.com/ronaldl29/public-domain-recipes/main/static/pix/'+r.photo.split('/').pop();
+ if(old.photo===remote){old.photo=r.photo;old.photoSource=r.photoSource;old.photoLicense=r.photoLicense;added++}
+}
+if(added)save();
+})();
