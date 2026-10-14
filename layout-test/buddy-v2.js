@@ -157,7 +157,7 @@ if(nav){nav.classList.add('cb-six-tabs');nav.innerHTML=[
  ['home','Recipes'],['plan','Plan'],['shopping','List'],
  ['kitchen','Kitchen'],['fridge','Fridge'],['settings','Profile']
 ].map(row=>'<button class="btn secondary" data-tab="'+row[0]+'" onclick="showTab(\''+row[0]+'\')"><span class="cb-nav-icon">'+navSvg(row[0])+'</span><span class="cb-nav-text">'+row[1]+'</span></button>').join('');}
-legacySeedCook.innerHTML='<div class="cb-row"><div><span class="eyebrow">KITCHEN BUDDY</span><h2 id="recipeTitle">Recipe</h2></div><button class="btn secondary" onclick="showTab(\'home\')">← Recipes</button></div><div class="cb-panel" id="cbRecipeHead"></div><div id="cbDietWarning"></div><div class="cb-switches" id="cbCookTabs"></div><div id="cbCookContent"></div><div id="cbActiveTimers" class="cb-timer-dock hide"></div><div class="cb-panel"><button class="btn" style="width:100%" onclick="finishCooking()">✓ Finished cooking</button><p class="cb-sub">Finish cooking only after your food is safely cooked; any running alarms will stop.</p></div>';
+legacySeedCook.innerHTML='<div class="cb-row cb-cook-heading"><div class="cb-cook-title"><span class="eyebrow">KITCHEN BUDDY</span><h2 id="recipeTitle">Recipe</h2></div><div class="cb-cook-head-actions"><button type="button" id="cbRecipeFavorite" class="cb-recipe-favorite" onclick="toggleCurrentRecipeFavorite()" aria-label="Save recipe to favorites" aria-pressed="false" title="Save to favorites">♡</button><button class="btn secondary" onclick="showTab(\'home\')">← Recipes</button></div></div><div class="cb-panel" id="cbRecipeHead"></div><div id="cbDietWarning"></div><div class="cb-switches" id="cbCookTabs"></div><div id="cbCookContent"></div><div id="cbActiveTimers" class="cb-timer-dock hide"></div><div class="cb-panel"><button class="btn" style="width:100%" onclick="finishCooking()">✓ Finished cooking</button><p class="cb-sub">Finish cooking only after your food is safely cooked; any running alarms will stop.</p></div>';
 const $q=sel=>document.querySelector(sel);
 function fillSettings(){
  const size=$cb('cbDefaultServings');size.innerHTML='';
@@ -222,6 +222,14 @@ function drawCook(){
  if(!currentRecipeID)return;
  const r=byID(currentRecipeID);if(!r)return;
  const c=selectedCount(r);$cb('recipeTitle').textContent=r.name;
+ const favorite=$cb('cbRecipeFavorite');
+ if(favorite){
+  favorite.textContent=r.favorite?'♥':'♡';
+  favorite.classList.toggle('is-favorite',!!r.favorite);
+  favorite.setAttribute('aria-pressed',String(!!r.favorite));
+  favorite.setAttribute('aria-label',r.favorite?'Remove '+r.name+' from favorites':'Save '+r.name+' to favorites');
+  favorite.title=r.favorite?'Remove from favorites':'Save to favorites';
+ }
  $cb('cbRecipeHead').innerHTML='<div class="cb-row wrap"><div><strong>'+c+' '+(c===1?'serving':'servings')+'</strong><div class="cb-sub">'+esc(r.description||'Follow along, one step at a time')+'</div></div><div class="cb-quantity"><button type="button" onclick="setRecipeCount(\''+esc(r.id)+'\','+(c-1)+')" '+(c<=1?'disabled':'')+'>−</button><strong>'+c+'</strong><button type="button" onclick="setRecipeCount(\''+esc(r.id)+'\','+(c+1)+')" '+(c>=8?'disabled':'')+'>+</button></div></div><div class="cb-cta"><button class="btn secondary" onclick="planCurrentRecipe()">🛒 Plan this meal</button><button class="btn secondary" onclick="showTab(\'settings\')">⚙️ Timer settings</button></div><p class="cb-sub">Food amounts adjust for your servings. Cooking durations stay safety-based; larger portions may require extra batches.</p>';
  const flags=avoidMatches(r);
  $cb('cbDietWarning').innerHTML=(flags.allergy.length?'<div class="cb-warning">⚠️ Possible restriction keyword: '+esc(flags.allergy.join(', '))+'. Review all actual labels and preparation carefully.</div>':'')+
@@ -285,6 +293,21 @@ function setCookView(name){view=name;drawCook()}
 window.chooseCookView=setCookView;
 window.setRecipeCount=(id,n)=>{if(n<1||n>8)return;setSelected(id,n);if(currentRecipeID===id){drawCook()}};
 window.planCurrentRecipe=()=>{const r=byID(currentRecipeID);if(r)addRecipeShopping(state.recipes.indexOf(r))};
+window.toggleCurrentRecipeFavorite=()=>{
+ const r=byID(currentRecipeID);if(!r)return;
+ r.favorite=!r.favorite;
+ save();
+ const favorite=$cb('cbRecipeFavorite');
+ if(favorite){
+  favorite.textContent=r.favorite?'♥':'♡';
+  favorite.classList.toggle('is-favorite',!!r.favorite);
+  favorite.setAttribute('aria-pressed',String(!!r.favorite));
+  favorite.setAttribute('aria-label',r.favorite?'Remove '+r.name+' from favorites':'Save '+r.name+' to favorites');
+  favorite.title=r.favorite?'Remove from favorites':'Save to favorites';
+ }
+ renderRecipes();
+ toast(r.favorite?'Saved to Favorites ♥':'Removed from Favorites');
+};
 const originalFinish=finishCooking;
 function endCooking(){
  if(!currentRecipeID)return;

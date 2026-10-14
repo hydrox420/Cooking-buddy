@@ -301,13 +301,12 @@ function card(r){
   meta.append(pill);
  }
  info.append(meta);
- const actions=build('div','kb-card-actions');
- const fav=build('button','kb-favorite',r.favorite?'♥':'♡');fav.type='button';
- fav.title=r.favorite?'Remove from favorites':'Save to favorites';fav.setAttribute('aria-label',fav.title);
- fav.onclick=()=>{r.favorite=!r.favorite;save();renderRecipes()};
- const add=build('button','kb-card-add','＋ Add');add.type='button';add.title='Add to meal plan';add.setAttribute('aria-label','Add '+r.name+' to meal plan');
- add.onclick=()=>addRecipeShopping(i);
- actions.append(add);info.append(actions);root.append(info);root.append(fav);return root;
+ // One plus action to add a meal, with favorites reserved for the recipe detail screen.
+ const plus=build('button','kb-card-plan','+');plus.type='button';
+ plus.title='Add to meal plan';
+ plus.setAttribute('aria-label','Add '+r.name+' to meal plan');
+ plus.onclick=()=>addRecipeShopping(i);
+ root.append(info,plus);return root;
 }
 function heading(name,list,viewAll){
  const row=build('div','kb-row-heading');row.append(build('h3','',name+(name==='Favorites'?' ♥':'')));

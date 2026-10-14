@@ -481,3 +481,37 @@ header.cb-app-brand h1{
   header.cb-app-brand{min-height:120px;padding-top:7px;margin-bottom:0!important}
   header.cb-app-brand h1{font-size:clamp(33px,9.7vw,44px)}
 }
+
+/* Forest Cabin: one picture plus to plan; heart inside recipe view. */
+#recipes .kb-compact-card{position:relative}
+#recipes .kb-card-plan{
+ position:absolute;z-index:3;top:9px;right:9px;
+ display:grid;place-items:center;
+ width:42px;height:42px;min-width:42px;min-height:42px;
+ padding:0 0 3px;border-radius:50%;
+ background:#f6ecdaed;border:1.5px solid #fffbf1;
+ color:#5b4228;box-shadow:0 3px 13px #0b171e80;
+ backdrop-filter:blur(6px);
+ font:500 32px/1 system-ui,-apple-system,sans-serif;
+ cursor:pointer;touch-action:manipulation;
+}
+#recipes .kb-card-plan:active{transform:scale(.95);background:#e4bc80}
+#recipes .kb-compact-info{padding-bottom:11px}
+#cook .cb-cook-heading{gap:10px;align-items:flex-start}
+#cook .cb-cook-title{flex:1 1 auto;min-width:0}
+#cook .cb-cook-title h2{overflow-wrap:anywhere;line-height:1.18}
+#cook .cb-cook-head-actions{display:flex;align-items:center;gap:7px;flex:0 0 auto}
+#cook .cb-cook-head-actions>.btn{min-height:42px;white-space:nowrap;padding:9px 10px;font-size:12px}
+#cook .cb-recipe-favorite{
+ width:42px;height:42px;min-width:42px;
+ display:grid;place-items:center;
+ background:#31503e;border:1px solid #7b997d;
+ border-radius:13px;color:#f0d3c3;font-size:26px;line-height:1;cursor:pointer;
+}
+#cook .cb-recipe-favorite.is-favorite{background:#f4e4d3;color:#a84751;border-color:#ddbfa5}
+#recipes .kb-card-plan:focus-visible,#cook .cb-recipe-favorite:focus-visible{outline:3px solid #f3cd89;outline-offset:2px}
+@media(max-width:375px){
+ #cook .cb-cook-heading{gap:6px}
+ #cook .cb-cook-head-actions{gap:5px}
+ #cook .cb-cook-head-actions>.btn{padding:9px 7px}
+}
