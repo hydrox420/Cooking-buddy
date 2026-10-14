@@ -75,3 +75,23 @@ header.cb-app-brand .kb-brand-buddy{font-style:normal;color:#f3c884;font-weight:
 @media(max-width:360px){header.cb-app-brand::before,header.cb-app-brand::after{width:24px}
  header.cb-app-brand h1{font-size:clamp(28px,8.4vw,36px);gap:.2em}
  .kb-home-tools .library-intro h2{font-size:clamp(20px,5.5vw,24px)!important}}
+
+
+/* Completed cooking steps: a warm checklist strike, still fully readable. */
+#cook .cb-step{position:relative;transition:background .22s ease,border-color .22s ease,box-shadow .22s ease}
+#cook .cb-step.done{background:linear-gradient(150deg,#18271f,#15241d)!important;border-color:#7b856d!important;box-shadow:inset 4px 0 #b9a984}
+#cook .cb-step.done .cb-step-number{background:#aa9877!important;color:#14231b!important}
+#cook .cb-step.done .cb-step-number::before{content:'✓';font-size:19px}
+#cook .cb-step.done .cb-step-number{font-size:0!important}
+#cook .cb-step.done .cb-step-header h3,#cook .cb-step.done>p{color:#c6d5c7!important;opacity:1!important;visibility:visible!important}
+#cook .cb-step.done .cb-step-header h3{text-decoration:line-through;text-decoration-color:#c8ab7b;text-decoration-thickness:2px;text-decoration-skip-ink:none}
+#cook .cb-step.done>p{text-decoration:line-through;text-decoration-color:#857f6d;text-decoration-thickness:1.5px;text-decoration-skip-ink:auto}
+#cook .cb-step.done .cb-step-bottom{border-top-color:#3d4c3f}
+#cook .cb-step.done .cb-step-bottom label{color:#d8d0b7!important}
+#cook .cb-step.done .cb-step-bottom input{accent-color:#c6b590}
+/* Cookbook browse: recipes without verified photo rights live in a compact text-only shelf. */
+#recipes .kb-unpictured-shelf{margin:24px 0 16px;border:1px solid #546452;background:#1c2c24;border-radius:14px;padding:12px 14px}
+#recipes .kb-unpictured-shelf summary{font-size:14px;font-weight:750;color:#f1d7ad;cursor:pointer;line-height:1.35}
+#recipes .kb-unpictured-shelf .kb-shelf-list{display:grid;gap:6px;margin-top:13px}
+#recipes .kb-unpictured-shelf button{width:100%;border:1px solid #455d4b;background:#26392c;color:#e4eee0;border-radius:10px;padding:11px 12px;text-align:left;font-weight:650;font-size:13px;cursor:pointer}
+#recipes .kb-unpictured-shelf button:focus-visible{outline:2px solid #ffe1ad;outline-offset:2px}
