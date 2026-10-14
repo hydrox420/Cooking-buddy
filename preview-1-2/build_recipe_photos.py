@@ -55,10 +55,8 @@ def main():
         if not re.fullmatch(r'[a-z0-9-]{3,100}', ident):
             raise ValueError(f'Unsafe file id: {ident}')
         out = ASSETS / f'{ident}.webp'
-        if out.is_file() and out.stat().st_size > 4_000:
-            result['already_present'] += 1
-            print(f'KEEP {ident}: {out.stat().st_size} bytes', flush=True)
-            continue
+        # Always regenerate from the current manifest. Otherwise a new URL
+        # would silently leave the old recipe photograph in the bundle.
         result['processed'] += 1
         failure = None
         for attempt in range(3):
