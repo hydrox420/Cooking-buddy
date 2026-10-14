@@ -75,7 +75,7 @@ document.addEventListener('pointerdown',e=>{
  if(tip && !tip.contains(e.target) && e.target!==tipButton)hideDietTip();
 });
 document.addEventListener('keydown',e=>{if(e.key==='Escape')hideDietTip()});
-window.addEventListener('scroll',hideDietTip,true);
+// Keep explanations open while the page scrolls; close on tap outside or Escape.
 
 /* Real recipe photography isn't finalized yet; keep the same provisional photo
    visible on opening a recipe and during all instruction / ingredients / cookware views. */
