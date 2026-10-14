@@ -22,14 +22,14 @@ const assert=require('node:assert/strict');
       tagline:header?.querySelector('.kb-forest-tagline')?.textContent.trim(),
       trees:getComputedStyle(header).backgroundImage,
       card:getComputedStyle(card).backgroundColor,
-      activeTab:getComputedStyle(active).backgroundColor
+      activeTab:getComputedStyle(active).backgroundImage
     };
   });
   assert.ok(cabin.themeLoaded,'Forest Cabin theme stylesheet loaded');
   assert.equal(cabin.tagline,'GOOD FOOD BRINGS US HOME','woodland header tagline');
   assert.ok(cabin.trees.includes('forest-pines.svg'),'forest trees are in the header background');
   assert.equal(cabin.card,'rgb(244, 234, 216)','cookbook cards use contrasting parchment');
-  assert.ok(cabin.activeTab.startsWith('rgb('),'selected nav tab uses a contrasting sage fill');
+  assert.ok(cabin.activeTab.includes('linear-gradient'),'selected nav tab uses a contrasting sage gradient');
   assert.ok((await page.locator('header.cb-app-brand').boundingBox()).height>=175,'larger illustrated forest hero');
   const chips=page.locator('#kbQuickFilters button');
   assert.equal(await chips.count(),5,'functional cookbook chips are present');
