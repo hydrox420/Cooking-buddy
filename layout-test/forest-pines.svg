@@ -4,7 +4,15 @@
   <path d="M0-86-13-58-7-58-24-27-13-27-34 9-20 9-43 47H43L20 9H34L13-27H24L7-58H13Z"/>
   <path d="M-5 47H5V73H-5Z"/>
  </g>
+
+ <linearGradient id="treeFade" x1="0" y1="0" x2="0" y2="1">
+  <stop offset="0" stop-color="white"/>
+  <stop offset=".65" stop-color="white"/>
+  <stop offset="1" stop-color="black"/>
+ </linearGradient>
+ <mask id="forestBlend"><rect width="480" height="220" fill="url(#treeFade)"/></mask>
 </defs>
+<g mask="url(#forestBlend)">
 <path fill="#2f563f" opacity=".28" d="M0 139q90-45 165-12t148-3 167 12v84H0Z"/>
 <g fill="#61876a" opacity=".37">
  <use href="#spruce" transform="translate(20 122) scale(.85)"/>
@@ -29,4 +37,5 @@
  <use href="#spruce" transform="translate(460 190) scale(.62)"/>
 </g>
 <path fill="#0c241b" opacity=".42" d="M0 206q95-21 157-2t151-4 172 6v14H0Z"/>
+</g>
 </svg>

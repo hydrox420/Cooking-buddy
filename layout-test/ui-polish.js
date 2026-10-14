@@ -23,20 +23,16 @@ const realRecipePages={
  'kb-easy-pad-thai-tofu':'https://simpleveganblog.com/vegan-pad-thai/'
 };
 
-/* A search icon replaces the always-open search field. */
-const searchToggle=byId('kbSearchToggle'), searchField=byId('kbSearchField'), searchInput=byId('recipeSearch');
-if(searchToggle&&searchField&&searchInput){
- const setSearchOpen=open=>{
-   searchField.hidden=!open;
-   searchToggle.setAttribute('aria-expanded',String(open));
-   searchToggle.setAttribute('aria-label',open?'Close recipe search':'Search recipes');
-   searchToggle.title=open?'Close search':'Search recipes';
-   if(open)searchInput.focus();
-   else if(searchInput.value){searchInput.value='';renderRecipes();}
- };
- searchToggle.addEventListener('click',()=>setSearchOpen(searchField.hidden));
+/* Full-size search remains visible. Escape clears the query instead of hiding the bar. */
+const searchField=byId('kbSearchField'),searchInput=byId('recipeSearch');
+if(searchField&&searchInput){
+ searchField.hidden=false;
  searchInput.addEventListener('keydown',e=>{
-   if(e.key==='Escape'){e.preventDefault();setSearchOpen(false);searchToggle.focus()}
+  if(e.key==='Escape'){
+   e.preventDefault();
+   if(searchInput.value){searchInput.value='';renderRecipes()}
+   searchInput.blur();
+  }
  });
 }
 

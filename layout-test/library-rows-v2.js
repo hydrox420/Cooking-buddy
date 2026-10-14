@@ -330,32 +330,6 @@ function searchMatch(r,q){
 function isPhotographed(r){
  return Boolean(r.photo && typeof r.photo==='string' && !r.photo.includes('photo-pending.svg') && !r.photo.includes('meal-placeholder.svg'));
 }
-const topFilters=[
- {name:'All',label:'All',icon:'✦'},
- {name:'Favorites',label:'Favorites',icon:'♡'},
- {name:'Quick Meals',label:'Quick',icon:'◷'},
- {name:'Dinner',label:'Dinner',icon:'♨'},
- {name:'Vegetarian & Vegan',label:'Vegetarian',icon:'❧'}
-];
-function renderQuickFilters(){
- const holder=document.getElementById('kbQuickFilters');if(!holder)return;
- holder.replaceChildren();
- for(const option of topFilters){
-  const button=build('button','kb-quick-chip'+(selectedCategory===option.name?' is-active':''));
-  button.type='button';button.dataset.category=option.name;
-  button.setAttribute('aria-pressed',String(selectedCategory===option.name));
-  const symbol=build('span','kb-chip-icon',option.icon);
-  symbol.setAttribute('aria-hidden','true');
-  button.append(symbol,build('span','',option.label));
-  button.onclick=()=>{
-   selectedCategory=option.name;
-   const search=document.getElementById('recipeSearch');
-   if(search&&search.value)search.value='';
-   renderRecipes();
-  };
-  holder.append(button);
- }
-}
 function savedRecipeShelf(root,recipes){
  if(!recipes.length)return;
  const details=build('details','kb-unpictured-shelf');
@@ -378,7 +352,6 @@ renderRecipes=function(){
  const pictured=all.filter(isPhotographed);
  const unpictured=all.filter(r=>!isPhotographed(r));
  root.innerHTML='';root.classList.add('kb-library');
- renderQuickFilters();
  const count=document.getElementById('recipeCount');if(count)count.textContent=pictured.length+' recipes';
  const old=document.getElementById('cbCategoryFilters');if(old)old.hidden=true;
  const matches=pictured.filter(r=>!q||searchMatch(r,q));

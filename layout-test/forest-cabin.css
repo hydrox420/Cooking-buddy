@@ -396,3 +396,61 @@ nav.tabs.cb-six-tabs button.active{
  #home .kb-quick-chip{padding:9px 11px}
  header.cb-app-brand{min-height:178px}
 }
+
+
+/* Forest Cabin v4: a seamless evergreen treeline, not a framed header card. */
+html{background:#0b241b}
+body{
+ background:
+   url("./forest-pines.svg?v=4") center 0 / 100% 264px no-repeat,
+   radial-gradient(ellipse 92% 320px at 50% 165px,rgba(73,126,86,.37) 0%,rgba(35,83,59,.14) 70%,transparent 100%),
+   linear-gradient(180deg,#081f17 0px,#153e2c 110px,#28573d 245px,#183b2c 440px,#0f2b22 750px)!important;
+ background-attachment:scroll,scroll,scroll!important;
+ padding-top:0;
+}
+header.cb-app-brand{
+ position:relative;overflow:visible;isolation:auto;
+ display:flex;flex-direction:column;align-items:center;justify-content:center;
+ min-height:184px;padding:25px 12px 10px;margin:0 -14px 9px!important;
+ background:none!important;border:0!important;border-radius:0!important;box-shadow:none!important;
+}
+header.cb-app-brand::before,header.cb-app-brand::after{display:none!important}
+header.cb-app-brand .kb-brand-emblem{background:#193f2eaa;box-shadow:0 2px 10px #03160c77}
+header.cb-app-brand h1{
+ flex-wrap:nowrap;max-width:100%;
+ font-size:clamp(32px,9.2vw,48px);line-height:1.08;
+}
+@media(min-width:750px){header.cb-app-brand{border:0!important;border-radius:0!important;margin:0 -14px 13px!important}}
+@media(max-width:370px){
+ header.cb-app-brand{min-height:175px;padding-top:22px}
+ header.cb-app-brand h1{font-size:clamp(29px,8.9vw,38px)}
+}
+/* Single-line question, with no mini-search button or spacer. */
+#home .kb-home-tools{
+ display:flex!important;align-items:center;justify-content:center;
+ width:100%;grid-template-columns:none!important;margin:6px 0 12px;min-height:auto;
+}
+#home .kb-home-tools .library-intro{
+ display:block;flex:1 1 100%;width:100%;min-width:0;
+ text-align:center;margin:0!important;
+}
+#home .kb-home-tools .library-intro h2{
+ display:block;white-space:nowrap;
+ font:700 clamp(22px,5.8vw,31px)/1.23 Georgia,"Times New Roman",serif!important;
+ letter-spacing:-.8px;text-align:center;
+}
+#home .kb-search-balance,#home #kbSearchToggle{display:none!important}
+/* Large always-on recipe search. */
+#home #kbSearchField{
+ display:flex!important;width:100%;min-height:56px;margin:0 0 20px!important;
+ background:#3b6049;border:1px solid #93aa8b;border-radius:17px;
+}
+#home #kbSearchField #recipeSearch{
+ min-height:55px;width:100%;font-size:15px;padding-left:49px;
+}
+#home #kbSearchField .kb-search-leading{left:17px;top:17px;color:#f5d69e}
+/* Category shelves remain below; the duplicate browse controls do not. */
+#home #kbQuickFilters,#home .kb-quick-filters,#home .kb-library-subhead,
+#home #recipeCount,#home .filters{display:none!important}
+#home #recipes.kb-library.cards{margin-top:7px}
+#recipes .kb-recipe-section:first-child{padding-top:4px}

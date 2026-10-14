@@ -20,29 +20,34 @@ const assert=require('node:assert/strict');
     return {
       themeLoaded:!![...document.styleSheets].some(s=>s.href?.includes('forest-cabin.css')),
       tagline:header?.querySelector('.kb-forest-tagline')?.textContent.trim(),
+      bodyTrees:getComputedStyle(document.body).backgroundImage,
+      border:getComputedStyle(header).borderTopWidth,
+      headerBackground:getComputedStyle(header).backgroundImage,
       trees:getComputedStyle(header).backgroundImage,
       card:getComputedStyle(card).backgroundColor,
       activeTab:getComputedStyle(active).backgroundImage
     };
   });
   assert.ok(cabin.themeLoaded,'Forest Cabin theme stylesheet loaded');
-  assert.equal(cabin.tagline,'GOOD FOOD BRINGS US HOME','woodland header tagline');
-  assert.ok(cabin.trees.includes('forest-pines.svg'),'forest trees are in the header background');
+  assert.equal(cabin.tagline,undefined,'woodland motto removed');
+  assert.ok(cabin.bodyTrees.includes('forest-pines.svg'),'trees blend into the page background');
+  assert.equal(cabin.border,'0px','header has no border');
+  assert.equal(cabin.headerBackground,'none','header has no framed background');
   assert.equal(cabin.card,'rgb(244, 234, 216)','cookbook cards use contrasting parchment');
   assert.ok(cabin.activeTab.includes('linear-gradient'),'selected nav tab uses a contrasting sage gradient');
-  assert.ok((await page.locator('header.cb-app-brand').boundingBox()).height>=175,'larger illustrated forest hero');
-  const chips=page.locator('#kbQuickFilters button');
-  assert.equal(await chips.count(),5,'functional cookbook chips are present');
-  await chips.filter({hasText:'Dinner'}).click();
-  assert.equal((await page.locator('#recipes .kb-selected-heading h3').textContent()).trim(),'Dinner','dinner filter changes recipe grid');
-  await page.locator('#kbQuickFilters [data-category="All"]').click();
-  assert.equal(await page.locator('#recipes .kb-recipe-section').count()>0,true,'all categories restored');
+  assert.ok((await page.locator('header.cb-app-brand').boundingBox()).height>=175,'forest hero remains spacious');
+  assert.equal(await page.locator('#kbQuickFilters').count(),0,'top category chips removed');
+  assert.equal(await page.locator('.kb-library-subhead').count(),0,'Recipes and recipe count subheading removed');
+  assert.ok(await page.locator('#recipes .kb-recipe-section').count()>0,'browse categories remain below');
+  const singleLine=await headline.evaluate(h=>({height:h.getBoundingClientRect().height,lineHeight:parseFloat(getComputedStyle(h).lineHeight),wrap:getComputedStyle(h).whiteSpace}));
+  assert.ok(singleLine.height<=singleLine.lineHeight*1.1&&singleLine.wrap==='nowrap','What sounds good? fits one line');
   const firstHeart=page.locator('#recipes .kb-compact-card').first().locator('.kb-favorite');
   assert.equal(await firstHeart.count(),1,'favorite sits independently over food photo');
   assert.equal(await firstHeart.evaluate(x=>getComputedStyle(x).position),'absolute','favorite is overlaid on food photo');
 
-  const searchSize=await page.locator('#kbSearchToggle').boundingBox();
-  assert.ok(searchSize.width<=40.5,'compact search button');
+  assert.equal(await page.locator('#kbSearchToggle').count(),0,'mini search button removed');
+  const searchSize=await page.locator('#kbSearchField').boundingBox();
+  assert.ok(searchSize.width>=320,'big recipe search spans the content width');
   const firstRail=page.locator('#recipes .kb-recipe-section').first();
   assert.equal((await firstRail.locator('.kb-row-heading h3').textContent()).trim(),'Breakfast','first section is a recipe category');
   assert.equal(await page.locator('.kb-discover-section').count(),0,'Explore rail removed');
@@ -66,15 +71,12 @@ const assert=require('node:assert/strict');
   assert.ok(discoverPics.every(x=>(x.src.includes('/assets/verified/')||x.src.includes('/assets/recipes/'))&&x.loaded),'bundled image thumbnails load');
   const h1=await page.locator('header.cb-app-brand h1').boundingBox();
   assert.ok(h1&&Math.abs(h1.x+h1.width/2-393/2)<25,'center app title');
-  assert.equal(await page.locator('#kbSearchField').isVisible(),true,'polished recipe search starts open');
-  await page.locator('#kbSearchToggle').click();
-  assert.equal(await page.locator('#kbSearchField').isVisible(),false,'search can collapse');
-  await page.locator('#kbSearchToggle').click();
-  assert.equal(await page.locator('#kbSearchField').isVisible(),true,'search reopens');
+  assert.equal(await page.locator('#kbSearchField').isVisible(),true,'big search bar always visible');
   await page.locator('#recipeSearch').fill('shrimp');
   assert.ok((await page.locator('.kb-compact-card .kb-card-title').allTextContents()).some(x=>/shrimp/i.test(x)),'search finds original shrimp recipe as a picture card');
   await page.locator('#recipeSearch').press('Escape');
-  assert.equal(await page.locator('#kbSearchField').isVisible(),false,'search closes on Escape');
+  assert.equal(await page.locator('#kbSearchField').isVisible(),true,'Escape leaves search visible');
+  assert.equal(await page.locator('#recipeSearch').inputValue(),'','Escape clears the query');
   const chip=page.locator('.kb-diet-tag').first();
   assert.ok(await chip.count(),'badge available');
   await chip.click();
