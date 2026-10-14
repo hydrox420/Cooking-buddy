@@ -96,7 +96,44 @@ groceries.innerHTML='<div class="cb-intro cb-shopping-title"><div><span class="e
 const kitchen=document.createElement('section');kitchen.id='kitchen';kitchen.className='hide';
 kitchen.innerHTML='<div class="cb-intro"><span class="eyebrow">WHAT YOU HAVE AT HOME</span><h2>My Kitchen</h2></div><div class="cb-panel cb-kitchen-stock"><h3>Kitchen inventory</h3><div id="inventoryItems"></div></div>';
 groceries.after(kitchen);
-if(oldFridge)oldFridge.classList.add('hide');
+if(oldFridge){
+ oldFridge.innerHTML='<div class="cb-intro cb-fridge-heading"><div><span class="eyebrow">KEEP IT FRESH</span><h2>My Fridge</h2></div><button id="cbFridgeAddButton" type="button" class="btn secondary cb-fridge-add-button" onclick="toggleFridgeAdd()">＋ Add item</button></div>'+
+ '<div id="foods" class="cb-fridge-contents"></div>'+
+ '<div id="cbFridgeAddPanel" class="cb-panel cb-fridge-form hide"><div class="cb-row"><h3>Add to my fridge</h3><button type="button" class="btn secondary mini" onclick="closeFridgeAdd()">Close</button></div>'+
+ '<label>Food name<input id="foodName" placeholder="Leftover dinner"></label>'+
+ '<label>Date cooked / refrigerated<input id="foodDate" type="date"></label>'+
+ '<label>Use-within reminder (days)<input id="foodDays" type="number" min="1" max="30" value="3"></label>'+
+ '<label>Amount / notes<input id="foodNotes" placeholder="About 1 serving"></label>'+
+ '<button class="btn" type="button" onclick="addFood()">Save to Fridge</button>'+
+ '<p class="cb-sub">Dates are reminders, not a guarantee of food safety. Refrigerate promptly at 40°F / 4°C or below. Most cooked leftovers keep 3–4 days; use a shorter window when appropriate.</p></div>';
+}
+window.closeFridgeAdd=()=>{
+ const panel=$cb('cbFridgeAddPanel');if(panel)panel.classList.add('hide');
+};
+window.openFridgeAdd=(name='',notes='')=>{
+ const panel=$cb('cbFridgeAddPanel');if(!panel)return;
+ if(name)$cb('foodName').value=name;
+ if(notes)$cb('foodNotes').value=notes;
+ $cb('foodDate').value=today();
+ $cb('foodDays').value='3';
+ panel.classList.remove('hide');
+ if(panel.scrollIntoView)panel.scrollIntoView({behavior:'smooth',block:'nearest'});
+};
+window.toggleFridgeAdd=()=>{
+ const panel=$cb('cbFridgeAddPanel');if(!panel)return;
+ if(panel.classList.contains('hide'))window.openFridgeAdd();
+ else window.closeFridgeAdd();
+};
+const originalAddFood=addFood;
+addFood=function(){
+ const before=state.foods.length;
+ originalAddFood();
+ if(state.foods.length>before){
+  window.closeFridgeAdd();
+  $cb('foodName').value='';
+  $cb('foodNotes').value='';
+ }
+};
 oldSettings.innerHTML='<div class="cb-intro"><span class="eyebrow">YOUR CORNER</span><h2>My Profile</h2></div><div class="cb-profile-hero"><div class="cb-profile-avatar" aria-hidden="true">K</div><div><strong>Home cook</strong><p class="cb-sub">Your cozy kitchen space — stored on this device.</p></div></div><details class="cb-panel cb-profile-preferences" id="cbProfilePreferences"><summary>Preferences and app settings</summary><div class="cb-profile-preference-body"><h3>Cooking preferences</h3><div class="cb-field"><label for="cbDefaultServings">Default meal size</label><select id="cbDefaultServings"></select></div><div class="cb-field"><label for="cbAutoFloat">Floating timer</label><select id="cbAutoFloat"><option value="0">Open manually</option><option value="1">Try automatically when a timer starts</option></select></div><p class="cb-settings-note">Floating windows depend on browser support. Timer alerts may be delayed when your phone suspends the app.</p><h3>Alarm sound and notifications</h3><div id="cbSoundSlot"></div><h3>Dietary preferences</h3><div class="cb-field"><label for="cbDislikes">Ingredients you dislike (comma-separated)</label><input id="cbDislikes" placeholder="olives, mushrooms"></div><div class="cb-field"><label for="cbAllergies">Allergies / restrictions (comma-separated)</label><input id="cbAllergies" placeholder="e.g. peanuts"></div><p class="cb-settings-note">Allergy warnings are keyword-based, not verified allergen or cross-contact information.</p><h3>Backups and app</h3><p class="cb-sub">Your data is saved locally. Accounts, profile customization and cross-device sync are future features.</p><button class="btn secondary" onclick="exportData()">Export backup</button><p class="cb-sub">Cooking Buddy test build 2.0.5</p></div></details>';
 const soundSlot=$cb('cbSoundSlot');
 if(oldTimerOptions){
@@ -252,8 +289,37 @@ function endCooking(){
   state.inventory=state.inventory.filter(x=>Number(x.qty)>0);save();
  }
  acknowledgeAlarm();timers.clear();finishedTimers.clear();running=false;deadline=null;
- currentRecipeID=null;showTab('home');toast('Cooking complete! '+(shouldDeduct?'Inventory adjusted.':'Inventory unchanged.'));
+ currentRecipeID=null;showTab('home');toast('Cooking complete! '+(shouldDeduct?'Inventory adjusted.':'Inventory unchanged.'));askAboutLeftovers(r,servings);
 }
+// A friendly post-cooking step: never claim leftovers exist until the cook confirms.
+const leftOverQuestion=document.createElement('div');
+leftOverQuestion.id='cbLeftoversQuestion';
+leftOverQuestion.className='cb-leftovers-overlay hide';
+leftOverQuestion.setAttribute('role','dialog');
+leftOverQuestion.setAttribute('aria-modal','true');
+leftOverQuestion.setAttribute('aria-labelledby','cbLeftoversTitle');
+leftOverQuestion.innerHTML='<div class="cb-leftovers-modal"><span class="eyebrow">AFTER DINNER</span><h2 id="cbLeftoversTitle">Any leftovers?</h2>'+
+ '<p class="cb-sub" id="cbLeftoversText">Save them to your Fridge so you remember when to eat them.</p>'+
+ '<div class="cb-leftovers-actions"><button class="btn secondary" id="cbNoLeftovers" type="button">No leftovers</button><button class="btn" type="button" id="cbYesLeftovers">Yes, save them</button></div></div>';
+document.body.append(leftOverQuestion);
+let justCooked=null;
+function finishLeftoverQuestion(){
+ leftOverQuestion.classList.add('hide');
+ justCooked=null;
+}
+$cb('cbNoLeftovers').onclick=()=>{finishLeftoverQuestion();showTab('home')};
+$cb('cbYesLeftovers').onclick=()=>{
+ const done=justCooked;finishLeftoverQuestion();
+ showTab('fridge');
+ window.openFridgeAdd(done?.name||'',done?.servings?'Cooked '+done.servings+' serving(s); amount remaining: ':'');
+ const notes=$cb('foodNotes');if(notes){notes.focus();notes.setSelectionRange(notes.value.length,notes.value.length)}
+};
+function askAboutLeftovers(r,servings){
+ justCooked={name:r.name,servings};
+ leftOverQuestion.classList.remove('hide');
+ $cb('cbYesLeftovers').focus();
+}
+
 finishCooking=endCooking;
 
 function newTimer(i){
