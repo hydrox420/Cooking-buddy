@@ -10,6 +10,8 @@ try{Object.assign(prefs,JSON.parse(localStorage.getItem(PKEY))||{})}catch(e){}
 function savePrefs(){localStorage.setItem(PKEY,JSON.stringify(prefs))}
 state.recipeServings=state.recipeServings&&typeof state.recipeServings==='object'?state.recipeServings:{};
 state.cartChecked=state.cartChecked&&typeof state.cartChecked==='object'?state.cartChecked:{};
+// Old checks were not purchases. Discard them on first upgrade to one-tap buying.
+if(!state.groceryOneTapV1){state.cartChecked={};state.groceryOneTapV1=true;save()}
 const baseCount=r=>Number(r.servings)||2;
 const selectedCount=r=>Math.max(1,Math.min(8,Number((state.recipeServings||{})[r.id]||prefs.defaultServings)||1));
 const byID=id=>state.recipes.find(r=>r.id===id);
@@ -45,7 +47,7 @@ function updateNav(tab){
  if(tab==='home'){renderRecipes();renderTimerSetup()}
  if(tab==='plan')renderPlanned();
  if(tab==='shopping')renderShopping();
- if(tab==='kitchen'){renderInventory();renderFoods()}
+ if(tab==='kitchen')renderInventory();if(tab==='fridge')renderFoods()
  if(tab==='settings')paintSettings();
  if(tab==='cook')drawCook();
 }
@@ -90,11 +92,11 @@ const groceries=$cb('shopping'),oldFridge=$cb('fridge');
 const plan=document.createElement('section');plan.id='plan';plan.className='hide';
 plan.innerHTML='<div class="cb-intro"><span class="eyebrow">YOUR WEEK AHEAD</span><h2>📅 Meal Plan</h2><p>Choose recipes, set servings, and make one combined grocery list.</p></div><div class="cb-tiles" id="planStats"></div><div class="cb-panel"><h3>Meals you have planned</h3><div id="plannedMeals"></div></div><button class="btn" onclick="showTab(\'shopping\')">🛒 View combined groceries →</button>';
 groceries.before(plan);
-groceries.innerHTML='<div class="cb-intro"><span class="eyebrow">YOUR SHOPPING TRIP</span><h2>🛒 Groceries</h2><p>One list for all meals, grouped by department. Tap the circles when you buy things.</p></div><div id="groceryStats" class="cb-check-total"></div><div id="shoppingItems"></div><div class="cb-bottom-save"><button class="btn" onclick="moveCheckedToKitchen()">📦 Add checked groceries to Kitchen</button><p class="cb-sub">Checking a box only crosses it off. Nothing enters inventory until you confirm above.</p></div><details class="cb-panel"><summary>＋ Add a grocery item</summary><label>Item<input id="shopName" placeholder="Bananas"></label><label>Amount<input id="shopQty" type="number" step="any" min="0.01" value="1"></label><label>Unit<input id="shopUnit" placeholder="each"></label><button class="btn" onclick="addShopManual()">Add to grocery list</button></details><div id="pantryOptional" class="cb-panel"></div>';
+groceries.innerHTML='<div class="cb-intro"><span class="eyebrow">YOUR SHOPPING TRIP</span><h2>🛒 Groceries</h2><p>Tap an item when you buy it to move it directly to your Kitchen.</p></div><div id="cbPendingOrder"></div><div id="groceryStats" class="cb-check-total"></div><div id="shoppingItems"></div><div class="cb-order-action" id="cbPlaceOrderPanel"><button class="btn" type="button" onclick="markInstacartOrderPlaced()">🛒 I placed my Instacart order</button><p class="cb-sub">Only tap after completing checkout. The ordered ingredients leave your list and wait for pickup.</p></div><details class="cb-panel"><summary>＋ Add a grocery item</summary><label>Item<input id="shopName" placeholder="Bananas"></label><label>Amount<input id="shopQty" type="number" step="any" min="0.01" value="1"></label><label>Unit<input id="shopUnit" placeholder="each"></label><button class="btn" onclick="addShopManual()">Add to grocery list</button></details><div id="pantryOptional" class="cb-panel"></div>';
 const kitchen=document.createElement('section');kitchen.id='kitchen';kitchen.className='hide';
-kitchen.innerHTML='<div class="cb-intro"><span class="eyebrow">WHAT YOU HAVE AT HOME</span><h2>🥬 My Kitchen</h2><p>Pantry inventory, fridge reminders and leftovers live here.</p></div><details class="cb-panel" open><summary>📦 Kitchen Inventory</summary><div id="inventoryItems"></div></details><details class="cb-panel"><summary>🧊 Fridge & leftovers</summary><div id="kitchenFridge"></div></details>';
+kitchen.innerHTML='<div class="cb-intro"><span class="eyebrow">WHAT YOU HAVE AT HOME</span><h2>🥬 My Kitchen</h2><p>Pantry and purchased groceries; leftovers have their own Fridge tab.</p></div><details class="cb-panel" open><summary>📦 Kitchen inventory</summary><div id="inventoryItems"></div></details>';
 groceries.after(kitchen);
-if(oldFridge){const bucket=$cb('kitchenFridge');while(oldFridge.firstChild)bucket.append(oldFridge.firstChild);oldFridge.remove()}
+if(oldFridge)oldFridge.classList.add('hide');
 oldSettings.innerHTML='<div class="cb-intro"><span class="eyebrow">MAKE IT YOURS</span><h2>⚙️ Preferences</h2><p>Set your default serving size, timer alerts and food preferences.</p></div><div class="cb-panel"><h3>🍽️ Cooking preferences</h3><div class="cb-field"><label for="cbDefaultServings">Default meal size</label><select id="cbDefaultServings"></select></div><div class="cb-field"><label for="cbAutoFloat">Floating timer</label><select id="cbAutoFloat"><option value="0">Open manually</option><option value="1">Try automatically when a timer starts</option></select></div><p class="cb-settings-note">Automatic floating windows depend on browser support and a user tap. They may not open on iPhones or while another video uses picture-in-picture.</p></div><div class="cb-panel"><h3>🔔 Alarm sound & notifications</h3><div id="cbSoundSlot"></div><p class="cb-settings-note">A browser timer cannot guarantee a background alert after Android or iOS suspends the app. Use the Clock app as backup for important cooking times.</p></div><div class="cb-panel"><h3>🥗 Dietary preferences</h3><div class="cb-field"><label for="cbDislikes">Ingredients you dislike (comma-separated)</label><input id="cbDislikes" placeholder="olives, mushrooms"></div><div class="cb-field"><label for="cbAllergies">Allergies / restrictions (comma-separated)</label><input id="cbAllergies" placeholder="e.g. peanuts"></div><p class="cb-settings-note">Keyword warnings are informational only. We cannot verify allergens, product labels, or cross-contact. Always check ingredients yourself.</p></div><div class="cb-panel"><h3>💾 Your recipes and data</h3><p class="cb-sub">This beta saves its data locally on this device. Back up your recipes regularly.</p><button class="btn secondary" onclick="exportData()">Export backup</button></div>';
 const soundSlot=$cb('cbSoundSlot');
 if(oldTimerOptions){
@@ -105,10 +107,10 @@ if(oldTimerOptions){
 if($cb('alarmSound'))$cb('alarmSound').value=getTimerSound();
 const allNavigation=$cb('home')?.closest('main')?.nextElementSibling;
 const nav=document.querySelector('nav.tabs');
-if(nav)nav.innerHTML=[
+if(nav){nav.classList.add('cb-six-tabs');nav.innerHTML=[
  ['home','📖','Recipes'],['plan','📅','Plan'],['shopping','🛒','Groceries'],
- ['kitchen','🥬','Kitchen'],['settings','⚙️','Settings']
-].map(row=>'<button class="btn secondary" data-tab="'+row[0]+'" onclick="showTab(\''+row[0]+'\')">'+row[1]+' '+row[2]+'</button>').join('');
+ ['kitchen','🥬','Kitchen'],['fridge','🧊','Fridge'],['settings','⚙️','Settings']
+].map(row=>'<button class="btn secondary" data-tab="'+row[0]+'" onclick="showTab(\''+row[0]+'\')">'+row[1]+' '+row[2]+'</button>').join('');}
 legacySeedCook.innerHTML='<div class="cb-row"><div><span class="eyebrow">COOKING BUDDY</span><h2 id="recipeTitle">Recipe</h2></div><button class="btn secondary" onclick="showTab(\'home\')">← Recipes</button></div><div class="cb-panel" id="cbRecipeHead"></div><div id="cbDietWarning"></div><div class="cb-switches" id="cbCookTabs"></div><div id="cbCookContent"></div><div id="cbActiveTimers" class="cb-timer-dock hide"></div><div class="cb-panel"><button class="btn" style="width:100%" onclick="finishCooking()">✓ Finished cooking</button><p class="cb-sub">Finish cooking only after your food is safely cooked; any running alarms will stop.</p></div>';
 const $q=sel=>document.querySelector(sel);
 function fillSettings(){
@@ -458,6 +460,7 @@ renderPlanned=renderPlan;
 function shoppingDept(name){
  const s=name.toLowerCase();
  if(s.startsWith('frozen ')||/frozen green beans|frozen corn/.test(s))return 'FROZEN';
+ if(/black pepper|white pepper|red pepper flakes|paprika|seasoning|garlic powder|onion powder|oregano|cumin|basil|spice|cinnamon|ground ginger/.test(s))return 'HERBS & SPICES';
  if(/broccoli|pepper|lemon|potato|onion|spinach|carrot|garlic clove|tomato|lettuce|cucumber|avocado|banana|apple|orange|grape/.test(s)&&!/powder|sauce/.test(s))return 'PRODUCE';
  if(/tilapia|shrimp|salmon|chicken breast|sausage|ground turkey|ground beef|fish|meat/.test(s))return 'MEAT & SEAFOOD';
  if(/frozen|green beans|corn/.test(s))return 'FROZEN';
