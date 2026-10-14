@@ -1,0 +1,31 @@
+/* Kitchen Buddy recipe library expansion: compact photography-first rails. */
+#cbCategoryFilters{display:none!important}
+#recipes.kb-library.cards{display:block;overflow:visible;margin-top:8px}
+.kb-recipe-section{margin:0 0 24px;min-width:0}
+.kb-row-heading{display:flex;align-items:baseline;justify-content:space-between;gap:12px;margin:0 0 11px}
+.kb-row-heading h3{margin:0;font-size:17px;font-weight:850;letter-spacing:-.2px;color:#f2f8f1}
+.kb-see-all{background:transparent;border:0;padding:5px 2px;color:#c0e3b2;font:700 12px/1.3 inherit;cursor:pointer;white-space:nowrap}
+.kb-recipe-rail{display:flex;gap:10px;overflow-x:auto;padding:2px 0 10px;scroll-snap-type:x proximity;overscroll-behavior-inline:contain;-webkit-overflow-scrolling:touch;scrollbar-width:none}
+.kb-recipe-rail::-webkit-scrollbar{display:none}
+.kb-compact-card{display:flex;flex-direction:column;flex:0 0 clamp(148px,44vw,200px);width:clamp(148px,44vw,200px);min-width:0;scroll-snap-align:start;background:#203a2c;border:1px solid #46634e;border-radius:13px;overflow:hidden;box-shadow:0 2px 12px #0e221526}
+.kb-card-picture{appearance:none;display:block;position:relative;width:100%;aspect-ratio:4/3;height:auto;border:0;padding:0;background:#355943;cursor:pointer;overflow:hidden}
+.kb-card-picture img{display:block;width:100%;height:100%;object-fit:cover;object-position:center;transition:transform .2s ease}
+.kb-card-picture:active img{transform:scale(1.015)}
+.kb-compact-info{padding:9px 9px 10px;display:flex;flex:1;flex-direction:column;gap:6px}
+.kb-card-title{display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;min-height:35px;border:0;background:transparent;padding:0;text-align:left;line-height:1.25;font-size:13.4px;font-weight:800;color:#f4f8f2;cursor:pointer;overflow-wrap:anywhere}
+.kb-card-meta{display:flex;align-items:center;min-height:21px;gap:5px;flex-wrap:wrap}
+.kb-card-time{font-size:10.5px;font-weight:650;color:#d6dec7;white-space:nowrap}
+.kb-diet-tag{font-size:9px;line-height:1;background:#315b40;border:1px solid #719b74;border-radius:5px;color:#eaffdf;display:inline-flex;padding:4px;white-space:nowrap}
+.kb-image-credit{font-size:12px;color:#aecba9;text-decoration:none;margin-left:auto;padding:0 2px}
+.kb-card-actions{display:flex;align-items:center;gap:6px;margin-top:auto}
+.kb-favorite{flex:0 0 35px;width:35px;height:35px;border-radius:8px;border:1px solid #60765e;background:#304939;color:#f7baba;font-size:22px;cursor:pointer}
+.kb-card-add{flex:1;min-width:0;height:35px;border-radius:8px;border:1px solid #a4c4a2;background:#d1e5be;color:#1d3624;font-size:12px;font-weight:850;cursor:pointer}
+.kb-card-add:active,.kb-favorite:active{transform:scale(.98)}
+.kb-selected-heading{display:flex;align-items:center;gap:12px;flex-wrap:wrap;padding:4px 0 16px}
+.kb-selected-heading h3{font-size:17px;margin:0;color:#f0f8ed}
+.kb-recipe-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+.kb-recipe-grid .kb-compact-card{width:100%;flex-basis:auto}
+.kb-empty{font-size:13px;line-height:1.5;color:#aabfad;margin:0;padding:10px 0}
+#home .library-intro{margin-bottom:12px}
+#home .library-intro h2{font-size:22px}
+@media(max-width:360px){.kb-compact-card{flex-basis:clamp(139px,45vw,175px);width:clamp(139px,45vw,175px)}.kb-recipe-grid{gap:9px}.kb-compact-info{padding:8px}.kb-card-title{font-size:12.5px}}
