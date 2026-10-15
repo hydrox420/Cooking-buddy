@@ -1,0 +1,517 @@
+/* Forest Cabin visual preview (layout-test only).
+   Warm pine and walnut layers, parchment cookbook cards, honey-gold details.
+   Only cosmetic changes: no data, navigation, cooking or grocery logic changes. */
+:root{
+  --cabin-pine:#0f2b22;
+  --cabin-deep:#0a211a;
+  --cabin-sage:#355844;
+  --cabin-soft-sage:#90ae89;
+  --cabin-olive:#48634f;
+  --cabin-parchment:#f4ead8;
+  --cabin-cream:#fff4df;
+  --cabin-ink:#203025;
+  --cabin-walnut:#66422d;
+  --cabin-bronze:#8a5a33;
+  --cabin-honey:#d8b16a;
+  --cabin-line:rgba(216,177,106,.36);
+  --cb-cream:var(--cabin-cream);
+  --cb-green:var(--cabin-honey);
+  --cb-line:var(--cabin-olive);
+  --peach:var(--cabin-honey);
+  --mint:var(--cabin-soft-sage);
+  color-scheme:dark;
+}
+html{background:var(--cabin-deep)}
+body{
+  color:var(--cabin-cream);
+  background:
+    radial-gradient(ellipse at 50% -150px,rgba(55,106,72,.58),transparent 470px),
+    linear-gradient(180deg,#112f24 0%,#0f2b22 42%,#0b231b 100%);
+  background-attachment:fixed;
+}
+.muted,.cb-sub,.cb-feature,.cb-empty{color:#c8d6c6}
+h2,h3,h4{color:var(--cabin-cream)}
+/* Real woodland silhouettes, not a placeholder for the future mascot. */
+header.cb-app-brand{
+  min-height:143px;
+  margin:2px 0 21px;
+  padding:16px 10px 19px;
+  border:1px solid rgba(216,177,106,.55);
+  border-radius:23px;
+  background:
+    linear-gradient(180deg,rgba(12,37,26,.16),rgba(11,33,24,.42)),
+    url("./forest-pines.svg?v=2") center bottom / cover no-repeat,
+    radial-gradient(ellipse at 50% -45%,#2f553c 0%,transparent 72%),
+    linear-gradient(140deg,#173a2b,#10271e 65%,#26452f);
+  box-shadow:inset 0 1px rgba(252,226,180,.10),0 13px 27px rgba(0,0,0,.22);
+}
+header.cb-app-brand .kb-brand-emblem{
+  background:#1d392ad9;
+  border-color:#ab936b;
+  color:#f4d096;
+  width:39px;height:39px;
+  z-index:1;
+}
+header.cb-app-brand h1{position:relative;z-index:1;text-shadow:0 3px 10px #06170ef2}
+header.cb-app-brand .kb-brand-kitchen{color:#fff1d9}
+header.cb-app-brand .kb-brand-buddy{color:#f1bf72}
+header.cb-app-brand::before,header.cb-app-brand::after{top:59%;background:linear-gradient(90deg,transparent,#d8b16aab)}
+header.cb-app-brand .kb-forest-tagline{
+  position:relative;z-index:1;margin:5px auto 0;
+  color:#f4e8cf;font-size:9px;font-weight:750;
+  letter-spacing:clamp(1.2px,.6vw,3px);line-height:1.5;
+  text-align:center;text-shadow:0 1px 5px #071b16;
+}
+@media(max-width:360px){header.cb-app-brand{min-height:136px}header.cb-app-brand .kb-forest-tagline{font-size:8px;letter-spacing:1.2px}}
+/* Cream on pine makes the hierarchy obvious at a glance. */
+.kb-home-tools .library-intro h2{color:var(--cabin-cream)}
+.kb-home-tools .library-intro::after{background:var(--cabin-honey)}
+.kb-search-toggle{background:#355844!important;border:1px solid #819982!important;color:#f9dda6!important}
+.kb-search-toggle[aria-expanded=true]{background:var(--cabin-honey)!important;color:var(--cabin-ink)!important}
+#kbSearchField #recipeSearch,input,select,textarea{
+  background:#1b372a;
+  border-color:#66816d;
+  color:#fff4df;
+}
+#kbSearchField #recipeSearch{background:#304f3d;border-color:#7a987d;min-height:48px}
+input::placeholder,textarea::placeholder{color:#cad2c4;opacity:.92}
+.kb-row-heading h3,#recipes .kb-selected-heading h3{
+  font-family:Georgia,"Times New Roman",serif;
+  font-weight:750;font-size:clamp(19px,5.4vw,25px);color:#f5dfbd;
+}
+.kb-recipe-section{margin-bottom:26px}
+.kb-see-all{color:#f1bf72;font-size:13px}
+/* The light cards are the main contrast improvement, as in the approved concept. */
+#recipes .kb-compact-card{
+  background:var(--cabin-parchment);
+  border:1px solid #beac8a;
+  border-radius:16px;
+  box-shadow:0 6px 20px rgba(0,0,0,.23);
+}
+#recipes .kb-card-picture{background:#9baf95}
+#recipes .kb-compact-info{padding:11px 10px 12px;gap:7px}
+#recipes .kb-card-title{
+  font-family:Georgia,"Times New Roman",serif;
+  font-size:clamp(13.5px,3.5vw,16px);
+  line-height:1.18;font-weight:800;color:#1b2e22;
+  min-height:36px;
+}
+#recipes .kb-card-time{color:#647360;font-size:11px}
+#recipes .kb-favorite{
+  background:#fff7e7;border:1px solid #c5ab7f;
+  color:#925c44;border-radius:10px;
+}
+#recipes .kb-favorite.saved{color:#9b3a32}
+#recipes .kb-card-add{
+  background:var(--cabin-bronze);
+  color:#fff2df;
+  border:1px solid #a97846;
+  border-radius:10px;
+}
+#recipes .kb-card-add:active{background:#704426}
+#recipes .kb-diet-tag{box-shadow:none}
+#recipes .kb-selected-heading .kb-see-all{color:#eed19f}
+#recipes .kb-empty{color:#d6e0d1}
+/* Varied wood, sage and pine surfaces instead of green-on-green. */
+.panel,.cb-panel{
+  background:linear-gradient(142deg,#355844,#294333);
+  border:1px solid #628067;
+  box-shadow:inset 0 1px rgba(255,255,255,.04);
+}
+.cb-tile{
+  background:linear-gradient(140deg,#49634d,#2b4636);
+  border:1px solid #879a79;
+}
+.cb-tile strong{color:#fff0d6}
+.cb-tile span{color:#e3e8d8}
+.cb-profile-hero,.cb-order-action{
+  background:linear-gradient(135deg,#59402e,#3b362b);
+  border:1px solid #a18055;
+}
+.cb-profile-avatar{background:var(--cabin-honey);color:var(--cabin-ink)}
+#kitchen .cb-kitchen-stock{background:#355844;border-color:#7a9b7b}
+.cb-pickup,#shopping .cb-pickup{
+  background:linear-gradient(150deg,#543f2e,#2d3a2d 85%);
+  border:1px solid #a18b60;
+}
+.cb-pickup summary{color:#f5dfbd}
+.cb-dept{color:#f0c884}
+.cb-grocery-row,.cb-plan-row,.cb-simple-list li{border-bottom-color:#58715d}
+.cb-grocery-row:active{background:#46664f}
+.cb-grocery-circle{border-color:#bdcfb8}
+.cb-grocery-label{color:#fff4e2}
+#shopping #cbOpenOrder{
+  background:var(--cabin-bronze);
+  border:1px solid var(--cabin-honey);
+  color:#ffebcb;
+  box-shadow:0 4px 12px #06170e66;
+}
+#shopping #cbOpenOrder:focus-visible{outline:3px solid #f2cb87;outline-offset:3px}
+.cb-check-total{color:#dbe4d4}
+.cb-switches{background:#173126;border:1px solid #49694f}
+.cb-switches button.active{background:var(--cabin-honey);color:var(--cabin-ink)}
+.cb-step{background:linear-gradient(140deg,#355442,#233c2f);border-color:#66846b}
+.cb-step-number{background:#805b36;color:#fff0d7}
+.cb-time{background:#162e24;border-color:#749178}
+.cb-time strong{color:#f5c67b}
+.cb-time-options button.selected{background:var(--cabin-honey);border-color:#e5c187;color:#203025}
+.cb-timer-dock,.cb-bottom-save{background:#153426f5;border-color:#9ba27a}
+#cook .cb-step.done{box-shadow:inset 4px 0 #d8b16a}
+/* Wood-bronze primaries; sage secondary controls. */
+.btn:not(.secondary):not(.danger){
+  background:var(--cabin-bronze);
+  color:#fff5e5;
+  border:1px solid #c3965c;
+}
+.btn.secondary{
+  background:#355844;color:#f5eddc;
+  border:1px solid #729279;
+}
+.btn:disabled{opacity:.5}
+.btn:focus-visible,button:focus-visible,a:focus-visible,
+input:focus-visible,textarea:focus-visible,select:focus-visible{
+  outline:3px solid #f3cd89;outline-offset:2px;
+}
+#plan .kb-tab-intro,#shopping .kb-tab-intro,#kitchen .kb-tab-intro,
+#fridge .kb-tab-intro,#settings .kb-tab-intro{border-bottom-color:#8f8364}
+#plan .kb-tab-intro h2,#shopping .kb-tab-intro h2,
+#kitchen .kb-tab-intro h2,#fridge .kb-tab-intro h2,
+#settings .kb-tab-intro h2{color:#fff0d5}
+#plan .kb-tab-intro::after,#shopping .kb-tab-intro::after,
+#kitchen .kb-tab-intro::after,#fridge .kb-tab-intro::after,
+#settings .kb-tab-intro::after{background:var(--cabin-honey)}
+/* Bottom tabs are dark pine; selected is noticeably brighter sage and gold. */
+nav.tabs.cb-six-tabs{
+  background:#102b21f7;
+  border-top:1px solid rgba(216,177,106,.45);
+  box-shadow:0 -6px 22px #06140f77;
+}
+nav.tabs.cb-six-tabs button{color:#f0ebdd!important;background:transparent!important}
+nav.tabs.cb-six-tabs button.active{
+  color:#f7cb82!important;
+  background:#355844!important;
+  box-shadow:inset 0 -3px var(--cabin-honey),0 1px 9px #040f0930;
+}
+nav.tabs.cb-six-tabs .cb-nav-icon{color:inherit}
+/* Preserve accessible minimum controls and the existing responsive layout. */
+@media(max-width:390px){
+  #recipes .kb-compact-info{padding:9px 8px 11px}
+  #recipes .kb-card-title{font-size:13.5px}
+}
+
+
+/* Forest Cabin v2 — layout craftsmanship inspired by the approved illustration.
+   Preserve cooking state, ingredient calculations, mobile Back, and checkout flow. */
+body{padding-top:0}
+header.cb-app-brand{
+ min-height:187px;
+ margin:0 -14px 27px!important;
+ padding:22px 18px 22px;
+ border-top:0;
+ border-left:0;
+ border-right:0;
+ border-bottom:1px solid #9b8b63;
+ border-radius:0 0 31px 31px;
+ background:
+  radial-gradient(ellipse at 50% 20%,rgba(45,90,59,.10) 0,rgba(10,35,25,.50) 80%),
+  url("./forest-pines.svg?v=2") center bottom / 100% 100% no-repeat,
+  radial-gradient(ellipse at 50% -18%,#315f46 0,transparent 68%),
+  linear-gradient(155deg,#224c38 0%,#142f24 63%,#112c20 100%);
+ box-shadow:inset 0 -1px rgba(245,214,160,.12),0 14px 35px rgba(1,15,8,.30);
+}
+header.cb-app-brand .kb-brand-emblem{
+ width:45px;height:45px;padding:8px;
+ border:1px solid #c8a46c;background:#254534dc;
+ box-shadow:0 2px 11px #0b211bb5;
+}
+header.cb-app-brand h1{
+ display:flex;flex-wrap:wrap;justify-content:center;align-items:baseline;
+ font:700 clamp(37px,9.7vw,51px)/1.10 Georgia,"Times New Roman",serif;
+ letter-spacing:-1.45px;
+}
+header.cb-app-brand .kb-brand-kitchen{font-style:normal;font-weight:500}
+header.cb-app-brand .kb-brand-buddy{font-weight:800;color:#e8bc78}
+header.cb-app-brand .kb-forest-tagline{
+ margin:7px 0 0;position:relative;
+ padding:7px 14px 0;
+ font-size:9px;letter-spacing:2.15px;font-weight:750;
+ color:#f3e5c9;
+}
+header.cb-app-brand .kb-forest-tagline::before{
+ content:"";position:absolute;top:0;left:50%;transform:translateX(-50%);
+ width:124px;height:1px;background:linear-gradient(90deg,transparent,#d8b16a,transparent);
+}
+header.cb-app-brand::before,header.cb-app-brand::after{display:none}
+@media(min-width:750px){header.cb-app-brand{border-left:1px solid #9b8b63;border-right:1px solid #9b8b63;border-radius:0 0 32px 32px}}
+/* A real recipe-finding interface instead of an isolated search icon. */
+#home .kb-home-tools{margin:1px 0 12px;min-height:40px}
+#home .kb-home-tools .library-intro h2{
+ font:700 clamp(25px,6.5vw,34px)/1.18 Georgia,"Times New Roman",serif!important;
+ color:#f8e6c6;
+}
+#home .kb-home-tools .library-intro::after{height:2px;width:51px;background:#d8b16a}
+#home .kb-search-toggle{
+ width:40px;height:40px;min-width:40px;min-height:40px;
+ background:#244434!important;border-color:#7b916f!important;
+ box-shadow:none;
+}
+#kbSearchField.kb-search-field{
+ position:relative;min-height:53px;
+ display:flex;align-items:center;
+ margin:0 0 10px;
+ border:1px solid rgba(196,218,186,.5);
+ border-radius:17px;
+ background:#365a45;
+ box-shadow:0 3px 15px #081c13a3,inset 0 1px rgba(255,255,255,.13);
+}
+#kbSearchField[hidden]{display:none!important}
+#kbSearchField .kb-search-leading{
+ position:absolute;left:15px;top:16px;width:21px;height:21px;color:#f2d8a8;pointer-events:none;
+}
+#kbSearchField #recipeSearch{
+ width:100%;min-height:52px;
+ border:0;box-shadow:none;background:transparent;
+ padding:14px 14px 14px 46px;font-size:14px;
+ border-radius:17px;color:#fff8e9;
+}
+#kbSearchField #recipeSearch::placeholder{color:#e0e5d6}
+#kbSearchField:focus-within{outline:2px solid #e8bc78;outline-offset:2px}
+#kbSearchField #recipeSearch:focus-visible{outline:none}
+#home .kb-quick-filters{
+ display:flex;align-items:center;gap:8px;
+ overflow:auto;scrollbar-width:none;-webkit-overflow-scrolling:touch;
+ margin:0 -2px 18px;padding:4px 2px 8px;
+}
+#home .kb-quick-filters::-webkit-scrollbar{display:none}
+#home .kb-quick-chip{
+ flex:0 0 auto;display:inline-flex;gap:7px;align-items:center;justify-content:center;
+ min-height:41px;padding:9px 13px;
+ background:#284536;color:#eaf0df;
+ border:1px solid #68846b;border-radius:23px;
+ font:700 12px/1.1 system-ui,-apple-system,sans-serif;white-space:nowrap;
+ cursor:pointer;
+}
+#home .kb-quick-chip .kb-chip-icon{font-size:15px;color:#c7d5b8}
+#home .kb-quick-chip.is-active{
+ color:#fff5df;background:#815832;border-color:#d8b16a;
+ box-shadow:inset 0 1px #f2cd8b47;
+}
+#home .kb-quick-chip.is-active .kb-chip-icon{color:#ffe4a7}
+#home .kb-library-subhead{
+ display:flex;align-items:baseline;justify-content:space-between;
+ gap:8px;margin:7px 1px 15px;padding-bottom:9px;
+ border-bottom:1px solid #77907951;
+}
+#home .kb-library-subhead h3{
+ color:#f4dec0;font:700 25px/1.12 Georgia,"Times New Roman",serif;
+ letter-spacing:-.3px;margin:0;
+}
+#home #recipeCount{
+ display:block!important;
+ color:#d8bc8b;font-size:12px;font-weight:700;
+ line-height:1.2;text-align:right;white-space:nowrap;
+}
+#home #recipes.kb-library.cards{margin-top:0}
+#recipes .kb-recipe-section{margin-bottom:27px}
+#recipes .kb-row-heading{margin-bottom:12px;align-items:center}
+#recipes .kb-row-heading h3{
+ font:700 19px/1.2 Georgia,"Times New Roman",serif;
+ color:#e7e6d4;letter-spacing:-.2px;
+}
+#recipes .kb-row-heading .kb-see-all{
+ color:#f5c98b;font-weight:750;font-size:12px;min-height:32px;
+}
+#recipes .kb-recipe-rail{gap:13px;padding:2px 1px 14px}
+#recipes .kb-compact-card{
+ position:relative;
+ flex-basis:clamp(155px,43vw,216px);
+ width:clamp(155px,43vw,216px);
+ border:1px solid rgba(235,218,188,.60);
+ border-radius:19px;
+ box-shadow:0 7px 19px #020f0866;
+ transform:translateZ(0);
+}
+#recipes .kb-card-picture{aspect-ratio:1.24;border-radius:0}
+#recipes .kb-card-picture img{object-position:center;filter:saturate(.99) contrast(1.02)}
+#recipes .kb-compact-info{
+ gap:8px;
+ padding:12px 12px 13px;
+ border-top:1px solid #d2b98f66;
+}
+#recipes .kb-card-title{
+ min-height:41px;
+ color:#23382b;
+ font:700 clamp(14px,3.9vw,17px)/1.23 Georgia,"Times New Roman",serif;
+ letter-spacing:-.18px;
+}
+#recipes .kb-card-meta{min-height:25px;gap:6px}
+#recipes .kb-card-time{font-size:11px;color:#526b58;font-weight:750}
+#recipes .kb-card-actions{margin-top:2px}
+#recipes .kb-favorite{
+ position:absolute;z-index:2;top:9px;right:9px;
+ width:37px;height:37px;min-width:37px;
+ border-radius:50%;background:#f6ecdadf;
+ border:1px solid #f9f4e5e8;color:#785139;
+ box-shadow:0 3px 12px #0b171e4f;
+ display:grid;place-items:center;font-size:23px;
+ padding:0;backdrop-filter:blur(6px);
+}
+#recipes .kb-card-add{
+ border-radius:9px;
+ min-height:37px;height:37px;
+ border:1px solid #996d43;
+ background:#805735;color:#fff5e8;
+ font:800 12px/1.1 system-ui,-apple-system,sans-serif;
+}
+#recipes .kb-card-add:active{background:#624024}
+#recipes .kb-diet-tag{line-height:1}
+#recipes .kb-recipe-grid{gap:13px}
+#recipes .kb-selected-heading{padding-top:12px}
+/* A quieter contrast for the supporting tools, with warm wood tone for actions. */
+.panel,.cb-panel{border-radius:20px;border-color:#68876c}
+.cb-tile{border-radius:17px}
+.cb-panel summary,.panel summary{color:#f9e6c4}
+.btn:not(.secondary):not(.danger){box-shadow:0 3px 10px #03180a35}
+.btn.secondary{background:#355643;color:#f6e9d3}
+#shopping #cbOpenOrder{border-radius:14px}
+#shopping .cb-list-action-row{padding:4px 0 0}
+#cook .kb-dish-photo{border-radius:19px;border-color:#9d8b66}
+nav.tabs.cb-six-tabs{
+ padding-top:10px;
+ padding-bottom:calc(13px + env(safe-area-inset-bottom));
+ border-top-color:#d8b16a77;
+}
+nav.tabs.cb-six-tabs button{
+ border-radius:15px;
+ min-height:65px;
+}
+nav.tabs.cb-six-tabs button.active{
+ background:linear-gradient(165deg,#42694e,#30523d)!important;
+ box-shadow:inset 0 -3px #e3b66d,0 2px 9px #00000020;
+}
+@media(max-width:370px){
+ #recipes .kb-compact-card{flex-basis:clamp(143px,43vw,190px);width:clamp(143px,43vw,190px)}
+ #recipes .kb-compact-info{padding:9px 9px 12px}
+ #recipes .kb-card-title{font-size:13.5px}
+ #home .kb-quick-chip{padding:9px 11px}
+ header.cb-app-brand{min-height:178px}
+}
+
+
+/* Forest Cabin v4: a seamless evergreen treeline, not a framed header card. */
+html{background:#0b241b}
+body{
+ background:
+   url("./forest-pines.svg?v=5") center 0 / 100% 264px no-repeat,
+   radial-gradient(ellipse 92% 320px at 50% 165px,rgba(73,126,86,.37) 0%,rgba(35,83,59,.14) 70%,transparent 100%),
+   linear-gradient(180deg,#081f17 0px,#153e2c 110px,#28573d 245px,#183b2c 440px,#0f2b22 750px)!important;
+ background-attachment:scroll,scroll,scroll!important;
+ padding-top:0;
+}
+header.cb-app-brand{
+ position:relative;overflow:visible;isolation:auto;
+ display:flex;flex-direction:column;align-items:center;justify-content:center;
+ min-height:184px;padding:25px 12px 10px;margin:0 -14px 9px!important;
+ background:none!important;border:0!important;border-radius:0!important;box-shadow:none!important;
+}
+header.cb-app-brand::before,header.cb-app-brand::after{display:none!important}
+header.cb-app-brand .kb-brand-emblem{background:#193f2eaa;box-shadow:0 2px 10px #03160c77}
+header.cb-app-brand h1{
+ flex-wrap:nowrap;max-width:100%;
+ font-size:clamp(32px,9.2vw,48px);line-height:1.08;
+}
+@media(min-width:750px){header.cb-app-brand{border:0!important;border-radius:0!important;margin:0 -14px 13px!important}}
+@media(max-width:370px){
+ header.cb-app-brand{min-height:175px;padding-top:22px}
+ header.cb-app-brand h1{font-size:clamp(29px,8.9vw,38px)}
+}
+/* Single-line question, with no mini-search button or spacer. */
+#home .kb-home-tools{
+ display:flex!important;align-items:center;justify-content:center;
+ width:100%;grid-template-columns:none!important;margin:6px 0 12px;min-height:auto;
+}
+#home .kb-home-tools .library-intro{
+ display:block;flex:1 1 100%;width:100%;min-width:0;
+ text-align:center;margin:0!important;
+}
+#home .kb-home-tools .library-intro h2{
+ display:block;white-space:nowrap;
+ font:700 clamp(22px,5.8vw,31px)/1.23 Georgia,"Times New Roman",serif!important;
+ letter-spacing:-.8px;text-align:center;
+}
+#home .kb-search-balance,#home #kbSearchToggle{display:none!important}
+/* Large always-on recipe search. */
+#home #kbSearchField{
+ display:flex!important;width:100%;min-height:56px;margin:0 0 20px!important;
+ background:#3b6049;border:1px solid #93aa8b;border-radius:17px;
+}
+#home #kbSearchField #recipeSearch{
+ min-height:55px;width:100%;font-size:15px;padding-left:49px;
+}
+#home #kbSearchField .kb-search-leading{left:17px;top:17px;color:#f5d69e}
+/* Category shelves remain below; the duplicate browse controls do not. */
+#home #kbQuickFilters,#home .kb-quick-filters,#home .kb-library-subhead,
+#home #recipeCount,#home .filters{display:none!important}
+#home #recipes.kb-library.cards{margin-top:7px}
+#recipes .kb-recipe-section:first-child{padding-top:4px}
+
+
+/* Forest Cabin v5 — lift the brand and cookbook into the canopy. */
+header.cb-app-brand{
+  justify-content:flex-start;
+  min-height:122px;
+  padding:8px 12px 1px;
+  margin:0 -14px 0!important;
+}
+header.cb-app-brand .kb-brand-emblem{width:43px;height:43px;padding:7px}
+header.cb-app-brand h1{
+  font-size:clamp(36px,10vw,52px);
+  line-height:1.04;
+  margin:3px 0 0;
+  letter-spacing:-1.1px;
+}
+#home .kb-home-tools{margin:0 0 7px!important}
+#home .kb-home-tools .library-intro h2{
+  font-size:clamp(23px,6vw,32px)!important;
+  line-height:1.16;
+}
+#home .kb-home-tools .library-intro::after{margin-top:6px}
+#home #kbSearchField{margin:0 0 15px!important}
+@media(max-width:370px){
+  header.cb-app-brand{min-height:120px;padding-top:7px;margin-bottom:0!important}
+  header.cb-app-brand h1{font-size:clamp(33px,9.7vw,44px)}
+}
+
+/* Forest Cabin: one picture plus to plan; heart inside recipe view. */
+#recipes .kb-compact-card{position:relative}
+#recipes .kb-card-plan{
+ position:absolute;z-index:3;top:9px;right:9px;
+ display:grid;place-items:center;
+ width:42px;height:42px;min-width:42px;min-height:42px;
+ padding:0 0 3px;border-radius:50%;
+ background:#f6ecdaed;border:1.5px solid #fffbf1;
+ color:#5b4228;box-shadow:0 3px 13px #0b171e80;
+ backdrop-filter:blur(6px);
+ font:500 32px/1 system-ui,-apple-system,sans-serif;
+ cursor:pointer;touch-action:manipulation;
+}
+#recipes .kb-card-plan:active{transform:scale(.95);background:#e4bc80}
+#recipes .kb-compact-info{padding-bottom:11px}
+#cook .cb-cook-heading{gap:10px;align-items:flex-start}
+#cook .cb-cook-title{flex:1 1 auto;min-width:0}
+#cook .cb-cook-title h2{overflow-wrap:anywhere;line-height:1.18}
+#cook .cb-cook-head-actions{display:flex;align-items:center;gap:7px;flex:0 0 auto}
+#cook .cb-cook-head-actions>.btn{min-height:42px;white-space:nowrap;padding:9px 10px;font-size:12px}
+#cook .cb-recipe-favorite{
+ width:42px;height:42px;min-width:42px;
+ display:grid;place-items:center;
+ background:#31503e;border:1px solid #7b997d;
+ border-radius:13px;color:#f0d3c3;font-size:26px;line-height:1;cursor:pointer;
+}
+#cook .cb-recipe-favorite.is-favorite{background:#f4e4d3;color:#a84751;border-color:#ddbfa5}
+#recipes .kb-card-plan:focus-visible,#cook .cb-recipe-favorite:focus-visible{outline:3px solid #f3cd89;outline-offset:2px}
+@media(max-width:375px){
+ #cook .cb-cook-heading{gap:6px}
+ #cook .cb-cook-head-actions{gap:5px}
+ #cook .cb-cook-head-actions>.btn{padding:9px 7px}
+}

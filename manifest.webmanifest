@@ -1,12 +1,12 @@
 {
-  "name": "Cooking Buddy",
-  "short_name": "Cooking Buddy",
-  "description": "Your friendly kitchen companion for recipes, meal planning and shopping.",
+  "name": "Kitchen Buddy",
+  "short_name": "Kitchen Buddy",
+  "description": "Your cozy woodland kitchen for recipes, meal planning and shopping.",
   "start_url": "/Cooking-buddy/",
   "scope": "/Cooking-buddy/",
   "display": "standalone",
-  "background_color": "#111b17",
-  "theme_color": "#17251f",
+  "background_color": "#0b241b",
+  "theme_color": "#0f2b22",
   "icons": [
     {
       "src": "icon.svg",
