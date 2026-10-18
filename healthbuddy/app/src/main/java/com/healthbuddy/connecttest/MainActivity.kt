@@ -1,6 +1,6 @@
 package com.healthbuddy.connecttest
 
-import android.app.Activity
+import androidx.activity.ComponentActivity
 import android.os.Bundle
 import android.graphics.Typeface
 import android.widget.Button
@@ -28,7 +28,7 @@ import java.time.Instant
 import java.time.temporal.ChronoUnit
 import java.util.Locale
 
-class MainActivity : Activity() {
+class MainActivity : ComponentActivity() {
  private val scope = CoroutineScope(SupervisorJob() + Dispatchers.Main)
  private lateinit var resultView: TextView
  private lateinit var testButton: Button
