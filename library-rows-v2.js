@@ -327,6 +327,9 @@ function searchMatch(r,q){
  return (r.name+' '+(r.description||'')+' '+r.ingredients.join(' ')+' '+categories(r).join(' ')).toLowerCase().includes(q);
 }
 function isPhotographed(r){
+ // First-party recipes must stay discoverable as regular cards while an exact photo is pending.
+ // Legacy/unverified recipes remain in the separate no-photo shelf.
+ if(r.recipeOrigin==='kitchen-buddy-original')return true;
  return Boolean(r.photo && typeof r.photo==='string' && !r.photo.includes('photo-pending.svg') && !r.photo.includes('meal-placeholder.svg'));
 }
 function savedRecipeShelf(root,recipes){
