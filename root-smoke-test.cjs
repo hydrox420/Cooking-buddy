@@ -49,6 +49,16 @@ const assert=require('node:assert/strict');
   assert.ok(s.food&&s.stock&&s.own&&s.plan&&s.live,'previous user data survives upgrade and reload');
   assert.ok(s.own.favorite&&s.own.photo.startsWith('data:image/svg+xml'),'personal favorite/photo preserved');
   assert.equal(s.preview,null);assert.equal(s.test,null);
+  // Regression: original recipes must not disappear into the collapsed no-photo shelf.
+  await page.locator('#recipeSearch').fill('shrimp scampi');
+  const scampi=page.locator('#recipes .kb-compact-card').filter({hasText:'Lemon Garlic Shrimp Scampi'});
+  assert.equal(await scampi.count(),1,'scampi appears as a normal visible recipe card');
+  assert.ok(await scampi.isVisible(),'scampi card is visible without opening no-photo shelf');
+  await scampi.locator('.kb-card-title').click();
+  assert.match(await page.locator('#recipeTitle').textContent(),/Shrimp Scampi/);
+  assert.ok(await page.getByText('Sauté the raw shrimp').count()>0,'guided shrimp step available');
+  await page.getByRole('button',{name:/Recipes/}).first().click();
+  await page.locator('#recipeSearch').fill('');
   assert.ok(await page.locator('#kbSearchField').isVisible(),'large search visible');
   const registration=await page.evaluate(async()=>navigator.serviceWorker?.ready.then(reg=>reg.active?.scriptURL));
   assert.ok(registration.endsWith('/Cooking-buddy/sw.js')||registration.endsWith('/sw.js'),'installed root service worker registers');
