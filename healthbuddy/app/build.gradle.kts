@@ -1,7 +1,7 @@
 plugins { id("com.android.application"); id("org.jetbrains.kotlin.android") }
 android {
  namespace = "com.healthbuddy.connecttest"
- compileSdk = 35
+ compileSdk = 36
  defaultConfig {
   applicationId = "com.healthbuddy.connecttest"
   minSdk = 28
