@@ -11,7 +11,7 @@ import androidx.activity.ComponentActivity
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.health.connect.client.HealthConnectClient
 import androidx.health.connect.client.PermissionController
-import androidx.health.connect.client.feature.HealthConnectFeatures
+import androidx.health.connect.client.HealthConnectFeatures
 import androidx.health.connect.client.permission.HealthPermission
 import androidx.work.ExistingPeriodicWorkPolicy
 import androidx.work.PeriodicWorkRequestBuilder
