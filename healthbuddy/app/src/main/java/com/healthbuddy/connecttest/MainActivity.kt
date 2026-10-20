@@ -1,148 +1,193 @@
 package com.healthbuddy.connecttest
 
-import androidx.activity.ComponentActivity
+import android.content.Intent
 import android.os.Bundle
 import android.graphics.Typeface
 import android.widget.Button
 import android.widget.LinearLayout
 import android.widget.ScrollView
 import android.widget.TextView
+import androidx.activity.ComponentActivity
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.health.connect.client.HealthConnectClient
 import androidx.health.connect.client.PermissionController
+import androidx.health.connect.client.feature.HealthConnectFeatures
 import androidx.health.connect.client.permission.HealthPermission
-import androidx.health.connect.client.records.HeartRateRecord
-import androidx.health.connect.client.records.SleepSessionRecord
-import androidx.health.connect.client.records.StepsRecord
-import androidx.health.connect.client.records.WeightRecord
-import androidx.health.connect.client.request.AggregateRequest
-import androidx.health.connect.client.request.ReadRecordsRequest
-import androidx.health.connect.client.time.TimeRangeFilter
+import androidx.work.ExistingPeriodicWorkPolicy
+import androidx.work.PeriodicWorkRequestBuilder
+import androidx.work.WorkManager
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.cancel
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
-import java.time.Instant
-import java.time.temporal.ChronoUnit
-import java.util.Locale
+import java.util.concurrent.TimeUnit
 
+/**
+ * Minimal private collector. Health data never goes to GitHub, a custom server,
+ * or an account we control. User selects the destination with Android's picker.
+ */
 class MainActivity : ComponentActivity() {
- private val scope = CoroutineScope(SupervisorJob() + Dispatchers.Main)
- private lateinit var resultView: TextView
- private lateinit var testButton: Button
- private val requiredPermissions = setOf(
-  HealthPermission.getReadPermission(StepsRecord::class),
-  HealthPermission.getReadPermission(SleepSessionRecord::class),
-  HealthPermission.getReadPermission(HeartRateRecord::class),
-  HealthPermission.getReadPermission(WeightRecord::class)
- )
- private val permissionsLauncher = registerForActivityResult(
-  PermissionController.createRequestPermissionResultContract()
- ) {
-  if (it.isEmpty()) resultView.text = "No permissions granted; test not run."
-  else readRecords()
- }
+    private val scope = CoroutineScope(SupervisorJob() + Dispatchers.Main)
+    private lateinit var status: TextView
+    private lateinit var syncButton: Button
 
- override fun onCreate(savedInstanceState: Bundle?) {
-  super.onCreate(savedInstanceState)
-  val layout = LinearLayout(this).apply {
-   orientation = LinearLayout.VERTICAL
-   setPadding(35,60,35,35)
-  }
-  val title = TextView(this).apply {
-   text = "Health Buddy — Connection Test"
-   textSize = 22f
-   setTypeface(null, Typeface.BOLD)
-  }
-  val note = TextView(this).apply {
-   text = "One test: permission → read actual Health Connect records. Last 7 days of steps, sleep, and heart rate; last 30 days of weight. Read only. No upload or internet access."
-   textSize = 16f
-  }
-  testButton = Button(this).apply {
-   text = "TEST CONNECTION"
-   setOnClickListener { startTest() }
-  }
-  resultView = TextView(this).apply {
-   text = "Ready. Tap TEST CONNECTION."
-   textSize = 16f
-   setTextIsSelectable(true)
-  }
-  layout.addView(title)
-  layout.addView(note)
-  layout.addView(testButton)
-  layout.addView(resultView)
-  setContentView(ScrollView(this).apply { addView(layout) })
- }
+    private val permissionLauncher = registerForActivityResult(
+        PermissionController.createRequestPermissionResultContract()
+    ) { refreshStatus() }
 
- private fun startTest() {
-  val status = HealthConnectClient.getSdkStatus(this)
-  if (status != HealthConnectClient.SDK_AVAILABLE) {
-   resultView.text = "FAIL — Health Connect unavailable (status " + status + ")."
-   return
-  }
-  scope.launch {
-   try {
-    val client = HealthConnectClient.getOrCreate(this@MainActivity)
-    val granted = client.permissionController.getGrantedPermissions()
-    if (!granted.containsAll(requiredPermissions)) {
-     resultView.text = "Waiting for Health Connect read permissions…"
-     permissionsLauncher.launch(requiredPermissions - granted)
-    } else readRecords()
-   } catch (ex: Exception) {
-    resultView.text = "FAIL — permission access: " + ex.javaClass.simpleName + ": " + ex.message
-   }
-  }
- }
-
- private fun readRecords() {
-  testButton.isEnabled = false
-  resultView.text = "Reading Health Connect…"
-  scope.launch {
-   val output = try {
-    withContext(Dispatchers.IO) {
-     val client = HealthConnectClient.getOrCreate(this@MainActivity)
-     val granted = client.permissionController.getGrantedPermissions()
-     val now = Instant.now()
-     val week = TimeRangeFilter.between(now.minus(7, ChronoUnit.DAYS),now)
-     val month = TimeRangeFilter.between(now.minus(30, ChronoUnit.DAYS),now)
-     val sb = StringBuilder("HEALTH CONNECT TEST\n\n")
-     sb.append("Permissions: ").append(granted.intersect(requiredPermissions).size).append("/4 granted\n\n")
-     suspend fun check(name:String, permission:String, work:suspend ()->String) {
-      sb.append(name).append("\n")
-      if (permission !in granted) sb.append("NOT AUTHORIZED")
-      else try { sb.append(work()) } catch(e:Exception) {
-       sb.append("ERROR: ").append(e.javaClass.simpleName).append(" — ").append(e.message)
-      }
-      sb.append("\n\n")
-     }
-     check("STEPS (7 days)",HealthPermission.getReadPermission(StepsRecord::class)) {
-      val total=client.aggregate(AggregateRequest(setOf(StepsRecord.COUNT_TOTAL),week))[StepsRecord.COUNT_TOTAL]
-      if(total==null) "No step records found" else "PASS: " + total + " steps"
-     }
-     check("SLEEP (7 days)",HealthPermission.getReadPermission(SleepSessionRecord::class)) {
-      val records=client.readRecords(ReadRecordsRequest(SleepSessionRecord::class,week,pageSize=100)).records
-      if(records.isEmpty()) "No sleep records found" else "PASS: " + records.size + " sessions; source: " + records[0].metadata.dataOrigin.packageName
-     }
-     check("HEART RATE (7 days)",HealthPermission.getReadPermission(HeartRateRecord::class)) {
-      val records=client.readRecords(ReadRecordsRequest(HeartRateRecord::class,week,pageSize=100)).records
-      if(records.isEmpty()) "No heart rate records found" else "PASS: " + records.size + " records in first page; source: " + records[0].metadata.dataOrigin.packageName
-     }
-     check("WEIGHT (30 days)",HealthPermission.getReadPermission(WeightRecord::class)) {
-      val records=client.readRecords(ReadRecordsRequest(WeightRecord::class,month,pageSize=100)).records
-      if(records.isEmpty()) "No weight records found" else "PASS: " + records.size + " records; source: " + records[0].metadata.dataOrigin.packageName
-     }
-     sb.append("No records = data unavailable, not necessarily broken permissions.\n")
-     sb.toString()
+    private val documentLauncher = registerForActivityResult(
+        ActivityResultContracts.CreateDocument("application/json")
+    ) { uri ->
+        if (uri == null) {
+            status.text = "No document selected. Nothing uploaded."
+        } else {
+            try {
+                contentResolver.takePersistableUriPermission(
+                    uri, Intent.FLAG_GRANT_WRITE_URI_PERMISSION
+                )
+                HealthExport.setDocument(this, uri)
+                status.text = "Document selected. Syncing your authorized records…"
+                enableBackgroundIfPermitted()
+                syncNow()
+            } catch (e: Exception) {
+                status.text = "Cannot keep write access to that document: ${e.message}"
+            }
+        }
     }
-   } catch(e:Exception) { "TEST ERROR: " + e.javaClass.simpleName + ": " + e.message }
-   resultView.text=output
-   testButton.isEnabled=true
-  }
- }
- override fun onDestroy() {
-  scope.cancel()
-  super.onDestroy()
- }
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        val layout = LinearLayout(this).apply {
+            orientation = LinearLayout.VERTICAL
+            setPadding(34, 50, 34, 34)
+        }
+        val title = TextView(this).apply {
+            text = "Health Data Collector"
+            textSize = 23f
+            setTypeface(null, Typeface.BOLD)
+        }
+        val note = TextView(this).apply {
+            text = "A tiny data bridge for your health reviews.\n\n" +
+                "1. Allow read-only Health Connect access.\n" +
+                "2. Choose a NEW file in your PRIVATE Google Drive folder.\n" +
+                "3. Tap Sync Now to test it.\n\n" +
+                "The file contains your actual measurements, so DO NOT make it public. " +
+                "Auto-refresh every ~12 hours is attempted only when Android permits " +
+                "background Health Connect reads. You control permissions and the file."
+            textSize = 16f
+        }
+        val permissionButton = Button(this).apply {
+            text = "1 · ALLOW HEALTH ACCESS"
+            setOnClickListener { grantAccess() }
+        }
+        val fileButton = Button(this).apply {
+            text = "2 · CHOOSE DRIVE FILE"
+            setOnClickListener { documentLauncher.launch("health-review.json") }
+        }
+        syncButton = Button(this).apply {
+            text = "3 · SYNC NOW"
+            setOnClickListener { syncNow() }
+        }
+        status = TextView(this).apply {
+            textSize = 15f
+            setTextIsSelectable(true)
+        }
+        listOf(title, note, permissionButton, fileButton, syncButton, status)
+            .forEach(layout::addView)
+        setContentView(ScrollView(this).apply { addView(layout) })
+        refreshStatus()
+    }
+
+    private fun refreshStatus() {
+        val last = getSharedPreferences("health_export", MODE_PRIVATE)
+            .getString("last_sync", null)
+        val selected = HealthExport.savedDocument(this) != null
+        status.text = "Drive file: ${if (selected) "chosen" else "not chosen"}\n" +
+            "Last successful save: ${last ?: "never"}\n" +
+            "Ready. The selected file is sensitive private health information."
+        if (selected) enableBackgroundIfPermitted()
+    }
+
+    private fun grantAccess() {
+        if (HealthConnectClient.getSdkStatus(this) != HealthConnectClient.SDK_AVAILABLE) {
+            status.text = "Health Connect isn't available on this phone."
+            return
+        }
+        scope.launch {
+            try {
+                val client = HealthConnectClient.getOrCreate(this@MainActivity)
+                val requested = HealthExport.dataPermissions().toMutableSet()
+                val backgroundAvailable = client.features.getFeatureStatus(
+                    HealthConnectFeatures.FEATURE_READ_HEALTH_DATA_IN_BACKGROUND
+                ) == HealthConnectFeatures.FEATURE_STATUS_AVAILABLE
+                if (backgroundAvailable) {
+                    requested.add(HealthPermission.PERMISSION_READ_HEALTH_DATA_IN_BACKGROUND)
+                }
+                val granted = client.permissionController.getGrantedPermissions()
+                if (requested.all { it in granted }) {
+                    refreshStatus()
+                    status.append("\nPermissions already granted.")
+                } else {
+                    permissionLauncher.launch(requested - granted)
+                }
+            } catch (e: Exception) {
+                status.text = "Permission request failed: ${e.message}"
+            }
+        }
+    }
+
+    private fun enableBackgroundIfPermitted() {
+        scope.launch {
+            try {
+                val client = HealthConnectClient.getOrCreate(this@MainActivity)
+                val supported = client.features.getFeatureStatus(
+                    HealthConnectFeatures.FEATURE_READ_HEALTH_DATA_IN_BACKGROUND
+                ) == HealthConnectFeatures.FEATURE_STATUS_AVAILABLE
+                val granted = client.permissionController.getGrantedPermissions()
+                if (!supported ||
+                    HealthPermission.PERMISSION_READ_HEALTH_DATA_IN_BACKGROUND !in granted
+                ) {
+                    status.append("\nBackground access not available/granted; use Sync Now.")
+                    return@launch
+                }
+                val request =
+                    PeriodicWorkRequestBuilder<HealthSyncWorker>(12, TimeUnit.HOURS).build()
+                WorkManager.getInstance(this@MainActivity).enqueueUniquePeriodicWork(
+                    "health-drive-update",
+                    ExistingPeriodicWorkPolicy.KEEP,
+                    request
+                )
+                status.append("\nBackground refresh requested (timing not guaranteed).")
+            } catch (e: Exception) {
+                status.append("\nCould not schedule background work: ${e.message}")
+            }
+        }
+    }
+
+    private fun syncNow() {
+        if (HealthExport.savedDocument(this) == null) {
+            status.text = "Choose a file in your private Google Drive first."
+            return
+        }
+        syncButton.isEnabled = false
+        status.text = "Reading Health Connect and writing the selected document…"
+        scope.launch {
+            try {
+                val result = HealthExport.save(this@MainActivity)
+                status.text = "SUCCESS — ${result}\n\n" +
+                    "Next, verify health-review.json appears in Google Drive. " +
+                    "Then ask ChatGPT to read it. This app has not yet verified Drive upload."
+            } catch (e: Exception) {
+                status.text = "SYNC FAILED — ${e.javaClass.simpleName}: ${e.message}"
+            } finally {
+                syncButton.isEnabled = true
+            }
+        }
+    }
+
+    override fun onDestroy() {
+        scope.cancel()
+        super.onDestroy()
+    }
 }
