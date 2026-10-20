@@ -131,6 +131,130 @@ const incoming=[
       }
     ]
   }
+,
+{
+  "id": "kb-shrimp-okra-kidney-bean-pasta",
+  "name": "Shrimp, Okra & Kidney Bean Pasta",
+  "description": "Whole-wheat penne with shrimp, okra, kidney beans, mixed vegetables and Classico tomato sauce. Two servings, about 30 minutes after shrimp are thawed.",
+  "servings": 2,
+  "categories": [
+    "Dinner",
+    "Seafood",
+    "Pasta",
+    "Vegetables"
+  ],
+  "tags": [
+    "High protein",
+    "Fiber-rich",
+    "Use what you have"
+  ],
+  "timeMinutes": 30,
+  "photo": "./photo-pending.svg",
+  "photoKind": "custom-photo-created-awaiting-app-asset",
+  "recipeOrigin": "kitchen-buddy-original",
+  "recipeVersion": 1,
+  "ingredients": [
+    "4 oz dry whole-wheat penne pasta",
+    "8 oz raw shrimp, fully thawed, peeled and deveined (or already-cooked shrimp)",
+    "1 cup frozen sliced okra",
+    "1 cup frozen broccoli, cauliflower and carrot mix",
+    "1 cup canned kidney beans, drained and rinsed",
+    "¾ cup Classico tomato pasta sauce",
+    "½ tsp garlic powder",
+    "¼ tsp paprika",
+    "Black pepper, optional",
+    "2–3 tbsp water, if sauce needs thinning"
+  ],
+  "items": [
+    {
+      "name": "whole-wheat penne pasta, dry",
+      "qty": 4,
+      "unit": "oz"
+    },
+    {
+      "name": "raw shrimp, peeled and deveined",
+      "qty": 8,
+      "unit": "oz"
+    },
+    {
+      "name": "frozen cut okra",
+      "qty": 1,
+      "unit": "cup"
+    },
+    {
+      "name": "frozen broccoli cauliflower carrot mix",
+      "qty": 1,
+      "unit": "cup"
+    },
+    {
+      "name": "canned kidney beans, drained and rinsed",
+      "qty": 1,
+      "unit": "cup"
+    },
+    {
+      "name": "Classico tomato pasta sauce",
+      "qty": 0.75,
+      "unit": "cup"
+    },
+    {
+      "name": "garlic powder",
+      "qty": 0.5,
+      "unit": "tsp"
+    },
+    {
+      "name": "paprika",
+      "qty": 0.25,
+      "unit": "tsp"
+    },
+    {
+      "name": "black pepper",
+      "qty": 0.125,
+      "unit": "tsp"
+    }
+  ],
+  "steps": [
+    {
+      "title": "Thaw the shrimp safely",
+      "body": "If the shrimp are frozen, thaw according to package instructions in the refrigerator, or in a leakproof bag under cold running water. Never thaw on the counter. Check whether your shrimp are raw or precooked: that changes when you add them.",
+      "seconds": 0
+    },
+    {
+      "title": "Boil whole-wheat pasta",
+      "body": "Bring water to a boil. Cook 4 oz dry whole-wheat penne according to the box instructions until al dente. Save a few tablespoons of pasta water before draining. No extra salt is needed.",
+      "seconds": 0
+    },
+    {
+      "title": "Cook the frozen okra",
+      "body": "In a large nonstick skillet over medium heat, add 1 cup frozen okra and cook for about 5–7 minutes, stirring occasionally, until hot and much of its moisture evaporates. A little stickiness is normal.",
+      "seconds": 420
+    },
+    {
+      "title": "Add mixed vegetables",
+      "body": "Add 1 cup frozen broccoli, cauliflower and carrots. Add 2 tbsp water if the skillet looks dry, cover and cook 4–5 minutes until the vegetables are fully heated and tender.",
+      "seconds": 300
+    },
+    {
+      "title": "Cook the raw shrimp",
+      "body": "Move the vegetables to one side of the skillet. Add 8 oz thawed RAW shrimp and cook about 2 minutes per side depending on size. Check the thickest shrimp reaches 145°F / 63°C, or is opaque and firm. If using already-cooked shrimp, skip this step and add it later just to reheat.",
+      "seconds": 240
+    },
+    {
+      "title": "Add beans and sauce",
+      "body": "Rinse and drain 1 cup canned kidney beans. Add them with ¾ cup Classico tomato sauce, ½ tsp garlic powder, and ¼ tsp paprika. Stir and heat gently for 2–3 minutes. If using precooked shrimp, add it now and warm thoroughly without overcooking. Taste and add optional black pepper only if tolerated.",
+      "seconds": 180
+    },
+    {
+      "title": "Toss with pasta",
+      "body": "Add drained whole-wheat pasta and toss to coat. Add reserved pasta water a spoonful at a time if needed. Turn off the heat once everything is hot. Divide into two bowls.",
+      "seconds": 60
+    },
+    {
+      "title": "Save leftovers",
+      "body": "Refrigerate leftovers in shallow covered containers within 2 hours. Plan to use cooked pasta and shrimp within 3–4 days. Refrigerate the opened pasta sauce promptly, following its label, and store unused beans in a covered container in the fridge.",
+      "seconds": 0
+    }
+  ]
+}
 ];
 let added=0;
 for (const recipe of incoming){
