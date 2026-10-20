@@ -3,11 +3,11 @@ android {
  namespace = "com.healthbuddy.connecttest"
  compileSdk = 36
  defaultConfig {
-  applicationId = "com.healthbuddy.connecttest"
+  applicationId = "com.healthbuddy.collector"
   minSdk = 28
   targetSdk = 35
-  versionCode = 1
-  versionName = "0.1.0"
+  versionCode = 2
+  versionName = "0.2.0"
  }
  compileOptions {
   sourceCompatibility = JavaVersion.VERSION_17
@@ -19,4 +19,5 @@ dependencies {
  implementation("androidx.activity:activity-ktx:1.9.3")
  implementation("androidx.health.connect:connect-client:1.1.0")
  implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.9.0")
+ implementation("androidx.work:work-runtime-ktx:2.10.4")
 }
