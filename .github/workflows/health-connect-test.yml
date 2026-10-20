@@ -1,11 +1,8 @@
-name: Build Health Buddy Test APK
+name: Build Health Collector APK
 on:
   push:
     branches:
-      - health-connect-read-test-20261018
-  pull_request:
-    branches:
-      - main
+      - health-collector-drive-export-20261020
 permissions:
   contents: read
 jobs:
@@ -17,6 +14,9 @@ jobs:
         with:
           distribution: temurin
           java-version: '17'
+      - uses: android-actions/setup-android@v3
+      - name: Install Android SDK
+        run: sdkmanager "platforms;android-36" "build-tools;36.0.0"
       - uses: gradle/actions/setup-gradle@v4
         with:
           gradle-version: '8.11.1'
@@ -25,5 +25,5 @@ jobs:
         run: gradle :app:assembleDebug --no-daemon --stacktrace
       - uses: actions/upload-artifact@v4
         with:
-          name: HealthBuddyConnectionTest-APK
+          name: HealthCollector-APK
           path: healthbuddy/app/build/outputs/apk/debug/app-debug.apk
