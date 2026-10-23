@@ -3,6 +3,94 @@
 (function(){
 'use strict';
 const incoming=[
+{
+  "id": "kb-baked-salmon-sweet-potato-broccoli",
+  "name": "Baked Salmon, Sweet Potato & Broccoli",
+  "description": "Simple balanced sheet-pan salmon dinner with roasted sweet potato and steamed broccoli · 1 serving · about 35 minutes",
+  "servings": 1,
+  "categories": [
+    "Dinner",
+    "Seafood"
+  ],
+  "tags": [
+    "High protein",
+    "No butter"
+  ],
+  "timeMinutes": 35,
+  "photo": "./photo-pending.svg",
+  "photoKind": "awaiting-actual-finished-dish-photo",
+  "recipeOrigin": "kitchen-buddy-original",
+  "recipeVersion": 1,
+  "ingredients": [
+    "5–6 oz sockeye salmon",
+    "1 medium sweet potato, diced small",
+    "1–2 cups broccoli florets",
+    "¼ tsp garlic powder (optional)",
+    "¼ tsp paprika (optional)",
+    "Black pepper, to taste (optional)",
+    "1 tsp cooking oil (optional)",
+    "A splash of water for steaming"
+  ],
+  "items": [
+    {
+      "name": "sockeye salmon",
+      "qty": 6,
+      "unit": "oz"
+    },
+    {
+      "name": "sweet potato",
+      "qty": 1,
+      "unit": "each"
+    },
+    {
+      "name": "broccoli florets",
+      "qty": 1.5,
+      "unit": "cup"
+    },
+    {
+      "name": "garlic powder",
+      "qty": 0.25,
+      "unit": "tsp"
+    },
+    {
+      "name": "paprika",
+      "qty": 0.25,
+      "unit": "tsp"
+    },
+    {
+      "name": "cooking oil (optional)",
+      "qty": 1,
+      "unit": "tsp"
+    }
+  ],
+  "steps": [
+    {
+      "title": "Preheat oven",
+      "body": "Heat oven to 425°F. Line a baking sheet with parchment if available. Wash the sweet potato and dice it into small, even cubes.",
+      "seconds": 0
+    },
+    {
+      "title": "Roast sweet potato",
+      "body": "Spread diced sweet potato on the baking sheet. Toss with 1 tsp oil if available, or roast without oil on parchment. Roast for 15 minutes.",
+      "seconds": 900
+    },
+    {
+      "title": "Season and add salmon",
+      "body": "Season 5–6 oz salmon with optional garlic powder, paprika and black pepper. Place it on the sheet beside the sweet potato; continue baking about 12–15 minutes, depending on thickness. Fish is done when its center reaches 145°F.",
+      "seconds": 780
+    },
+    {
+      "title": "Steam broccoli",
+      "body": "While salmon cooks, add 1–2 cups broccoli and a splash of water to a covered microwave-safe bowl or saucepan. Steam 5–7 minutes until tender and hot.",
+      "seconds": 360
+    },
+    {
+      "title": "Serve",
+      "body": "Plate the salmon with roasted sweet potato and broccoli. Enjoy while warm. Refrigerate any leftovers promptly, within 2 hours.",
+      "seconds": 0
+    }
+  ]
+},
   {
     "id": "kb-lemon-garlic-shrimp-scampi-rosemary-focaccia",
     "name": "Lemon Garlic Shrimp Scampi with Parmesan Angel Hair & Rosemary Focaccia",
