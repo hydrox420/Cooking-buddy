@@ -6,7 +6,7 @@ const incoming=[
 {
   "id": "kb-baked-salmon-sweet-potato-broccoli",
   "name": "Baked Salmon, Sweet Potato & Broccoli",
-  "description": "Simple balanced sheet-pan salmon dinner with roasted sweet potato and steamed broccoli · 1 serving · about 35 minutes",
+  "description": "Made for FROZEN sockeye salmon; no thaw needed · 1 serving · about 45–55 minutes. Thawed salmon alternative included.",
   "servings": 1,
   "categories": [
     "Dinner",
@@ -16,24 +16,24 @@ const incoming=[
     "High protein",
     "No butter"
   ],
-  "timeMinutes": 35,
+  "timeMinutes": 50,
   "photo": "./photo-pending.svg",
   "photoKind": "awaiting-actual-finished-dish-photo",
   "recipeOrigin": "kitchen-buddy-original",
-  "recipeVersion": 1,
+  "recipeVersion": 2,
   "ingredients": [
-    "5–6 oz sockeye salmon",
-    "1 medium sweet potato, diced small",
+    "5–6 oz FROZEN sockeye salmon (or thawed; see cooking step)",
+    "1 medium sweet potato, cut into small cubes",
     "1–2 cups broccoli florets",
     "¼ tsp garlic powder (optional)",
     "¼ tsp paprika (optional)",
-    "Black pepper, to taste (optional)",
+    "Black pepper (optional)",
     "1 tsp cooking oil (optional)",
-    "A splash of water for steaming"
+    "Water for steaming broccoli"
   ],
   "items": [
     {
-      "name": "sockeye salmon",
+      "name": "frozen sockeye salmon",
       "qty": 6,
       "unit": "oz"
     },
@@ -65,28 +65,33 @@ const incoming=[
   ],
   "steps": [
     {
-      "title": "Preheat oven",
-      "body": "Heat oven to 425°F. Line a baking sheet with parchment if available. Wash the sweet potato and dice it into small, even cubes.",
+      "title": "Preheat and check packaging",
+      "body": "Heat oven to 425°F. This recipe assumes salmon is FROZEN. Remove all store wrapping, plastic and absorbent pads before cooking. Use a baking sheet lined with parchment or foil. If the fish is already thawed, use the shorter timing in step 3.",
       "seconds": 0
     },
     {
-      "title": "Roast sweet potato",
-      "body": "Spread diced sweet potato on the baking sheet. Toss with 1 tsp oil if available, or roast without oil on parchment. Roast for 15 minutes.",
+      "title": "Start roasting sweet potato",
+      "body": "Cut one medium sweet potato into small even cubes. Spread on the sheet and toss with up to 1 tsp oil if available. Roast for 15 minutes.",
       "seconds": 900
     },
     {
-      "title": "Season and add salmon",
-      "body": "Season 5–6 oz salmon with optional garlic powder, paprika and black pepper. Place it on the sheet beside the sweet potato; continue baking about 12–15 minutes, depending on thickness. Fish is done when its center reaches 145°F.",
-      "seconds": 780
+      "title": "Add FROZEN salmon (or thawed alternative)",
+      "body": "Move the sweet potato to one side. Put the FROZEN 5–6 oz salmon on the sheet, skin-side down if it has skin. Loosely cover the fish with foil (not plastic). Roast 15 minutes. If salmon is THAWED instead, skip this covered stage: season it and roast uncovered about 12–15 minutes total, checking temperature.",
+      "seconds": 900
+    },
+    {
+      "title": "Uncover, season and finish frozen salmon",
+      "body": "For FROZEN salmon: remove foil carefully, season with optional garlic powder, paprika and black pepper, then roast uncovered about 10–15 more minutes. Check the thickest center with a thermometer: salmon must reach 145°F. Thickness varies; continue in short intervals until done. Remove sweet potato earlier if tender so it doesn't burn. For THAWED salmon, skip this extra cooking stage.",
+      "seconds": 720
     },
     {
       "title": "Steam broccoli",
-      "body": "While salmon cooks, add 1–2 cups broccoli and a splash of water to a covered microwave-safe bowl or saucepan. Steam 5–7 minutes until tender and hot.",
+      "body": "During the final 5–7 minutes of salmon cooking, steam 1–2 cups broccoli with a splash of water in a covered microwave-safe bowl or saucepan until tender and hot.",
       "seconds": 360
     },
     {
-      "title": "Serve",
-      "body": "Plate the salmon with roasted sweet potato and broccoli. Enjoy while warm. Refrigerate any leftovers promptly, within 2 hours.",
+      "title": "Serve and store",
+      "body": "Plate salmon with sweet potato and broccoli. Refrigerate leftovers within 2 hours.",
       "seconds": 0
     }
   ]
@@ -346,8 +351,10 @@ const incoming=[
 ];
 let added=0;
 for (const recipe of incoming){
-  if(!state.recipes.some(existing=>existing.id===recipe.id)){
-    state.recipes.push(recipe);
+  const existing=state.recipes.find(item=>item.id===recipe.id);
+  if(!existing){state.recipes.push(recipe);added++;}
+  else if(recipe.id==="kb-baked-salmon-sweet-potato-broccoli" && (existing.recipeVersion||0)<2){
+    Object.assign(existing,{description:recipe.description,timeMinutes:recipe.timeMinutes,ingredients:recipe.ingredients,items:recipe.items,steps:recipe.steps,recipeVersion:2});
     added++;
   }
 }
