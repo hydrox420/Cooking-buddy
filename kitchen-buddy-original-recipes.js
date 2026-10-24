@@ -4,6 +4,100 @@
 'use strict';
 const incoming=[
 {
+  "id": "kb-garlic-paprika-turkey-rice-bowl",
+  "name": "Garlic & Paprika Turkey Rice Bowl",
+  "description": "Mild ground turkey, brown rice, broccoli and peppers; meal-prep friendly · 1 serving · 25–30 min with cooked rice (allow 35–45 min more for dry brown rice).",
+  "servings": 1,
+  "categories": [
+    "Dinner",
+    "Meal Prep"
+  ],
+  "tags": [
+    "High protein",
+    "Work lunch",
+    "Mild"
+  ],
+  "timeMinutes": 30,
+  "photo": "./photo-pending.svg",
+  "recipeOrigin": "kitchen-buddy-original",
+  "recipeVersion": 1,
+  "ingredients": [
+    "5–6 oz raw ground turkey",
+    "¾ cup COOKED brown rice (or prepare dry rice per package first)",
+    "1 cup broccoli, fresh or frozen",
+    "½ bell pepper, diced",
+    "1 tsp cooking oil",
+    "¼ tsp garlic powder",
+    "¼ tsp paprika",
+    "Black pepper to taste",
+    "Small pinch of salt (optional)"
+  ],
+  "items": [
+    {
+      "name": "ground turkey",
+      "qty": 6,
+      "unit": "oz"
+    },
+    {
+      "name": "brown rice, cooked",
+      "qty": 0.75,
+      "unit": "cup"
+    },
+    {
+      "name": "broccoli florets",
+      "qty": 1,
+      "unit": "cup"
+    },
+    {
+      "name": "bell pepper",
+      "qty": 0.5,
+      "unit": "each"
+    },
+    {
+      "name": "cooking oil",
+      "qty": 1,
+      "unit": "tsp"
+    },
+    {
+      "name": "garlic powder",
+      "qty": 0.25,
+      "unit": "tsp"
+    },
+    {
+      "name": "paprika",
+      "qty": 0.25,
+      "unit": "tsp"
+    }
+  ],
+  "steps": [
+    {
+      "title": "Prepare the rice",
+      "body": "If rice is not already cooked, cook brown rice according to package directions first (typically 35–45 minutes). For refrigerated cooked rice, keep chilled until ready to reheat.",
+      "seconds": 0
+    },
+    {
+      "title": "Brown and cook the turkey",
+      "body": "Heat 1 tsp oil in a skillet over medium heat. Add 5–6 oz RAW ground turkey, break into small pieces, and season with garlic powder, paprika and black pepper. Cook about 8–10 minutes, stirring, until the turkey reaches 165°F internally.",
+      "seconds": 600
+    },
+    {
+      "title": "Cook peppers and broccoli",
+      "body": "Add diced half bell pepper and 1 cup broccoli. If using FROZEN broccoli, add straight from frozen with a splash of water. Cover and steam 3–4 minutes, then uncover and cook another 2–3 minutes until tender and hot.",
+      "seconds": 420
+    },
+    {
+      "title": "Heat the rice and combine",
+      "body": "Reheat ¾ cup previously cooked brown rice until steaming hot. Combine with the cooked turkey and vegetables. If using freshly cooked rice, add it directly.",
+      "seconds": 180
+    },
+    {
+      "title": "Pack safely for work",
+      "body": "Transfer the meal to a shallow food container and refrigerate promptly (within 2 hours of cooking). Transport cold with frozen ice packs or keep refrigerated at work. Reheat the meal to 165°F before eating.",
+      "seconds": 0
+    }
+  ]
+},
+{
   "id": "kb-baked-salmon-sweet-potato-broccoli",
   "name": "Baked Salmon, Sweet Potato & Broccoli",
   "description": "Made for FROZEN sockeye salmon; no thaw needed · 1 serving · about 45–55 minutes. Thawed salmon alternative included.",
