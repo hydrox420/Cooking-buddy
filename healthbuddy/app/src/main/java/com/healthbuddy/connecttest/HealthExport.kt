@@ -4,6 +4,11 @@ import android.content.Context
 import android.net.Uri
 import androidx.health.connect.client.HealthConnectClient
 import androidx.health.connect.client.permission.HealthPermission
+import androidx.health.connect.client.records.BodyFatRecord
+import androidx.health.connect.client.records.LeanBodyMassRecord
+import androidx.health.connect.client.records.BodyWaterMassRecord
+import androidx.health.connect.client.records.BoneMassRecord
+import androidx.health.connect.client.records.BasalMetabolicRateRecord
 import androidx.health.connect.client.records.BloodPressureRecord
 import androidx.health.connect.client.records.HeartRateRecord
 import androidx.health.connect.client.records.Record
@@ -39,7 +44,12 @@ object HealthExport {
         "sleep" to HealthPermission.getReadPermission(SleepSessionRecord::class),
         "heart_rate" to HealthPermission.getReadPermission(HeartRateRecord::class),
         "weight" to HealthPermission.getReadPermission(WeightRecord::class),
-        "blood_pressure" to HealthPermission.getReadPermission(BloodPressureRecord::class)
+        "blood_pressure" to HealthPermission.getReadPermission(BloodPressureRecord::class),
+        "body_fat" to HealthPermission.getReadPermission(BodyFatRecord::class),
+        "lean_body_mass" to HealthPermission.getReadPermission(LeanBodyMassRecord::class),
+        "body_water_mass" to HealthPermission.getReadPermission(BodyWaterMassRecord::class),
+        "bone_mass" to HealthPermission.getReadPermission(BoneMassRecord::class),
+        "basal_metabolic_rate" to HealthPermission.getReadPermission(BasalMetabolicRateRecord::class)
     )
 
     fun dataPermissions(): Set<String> = permissions.values.toSet()
@@ -89,13 +99,14 @@ object HealthExport {
         val data = JSONObject()
         val errors = JSONObject()
         val counts = JSONObject()
-        root.put("schema_version", 1)
+        root.put("schema_version", 2)
         root.put("generated_at_utc", now.toString())
         root.put("timezone", ZoneId.systemDefault().id)
         root.put("source", "Android Health Connect, user-authorized read-only")
         root.put("windows", JSONObject().put("steps_days", 7)
             .put("sleep_days", 7).put("heart_rate_days", 7)
-            .put("weight_days", 30).put("blood_pressure_days", 30))
+            .put("weight_days", 30).put("blood_pressure_days", 30)
+            .put("body_composition_days", 30))
 
         suspend fun collect(key: String, block: suspend () -> JSONArray) {
             if (permissions[key] !in granted) {
@@ -185,6 +196,72 @@ object HealthExport {
             }
         }
 
+        // Export only Health Connect measurements actually present; no inferred values.
+
+        collect("body_fat") {
+            JSONArray().apply {
+                readAll(client, BodyFatRecord::class, month).forEach { record ->
+                    put(JSONObject()
+                        .put("id", record.metadata.id)
+                        .put("time_utc", record.time.toString())
+                        .put("percentage", record.percentage.value)
+                        .put("data_origin", record.metadata.dataOrigin.packageName))
+                }
+            }
+        }
+
+
+        collect("lean_body_mass") {
+            JSONArray().apply {
+                readAll(client, LeanBodyMassRecord::class, month).forEach { record ->
+                    put(JSONObject()
+                        .put("id", record.metadata.id)
+                        .put("time_utc", record.time.toString())
+                        .put("kilograms", record.mass.inKilograms)
+                        .put("data_origin", record.metadata.dataOrigin.packageName))
+                }
+            }
+        }
+
+
+        collect("body_water_mass") {
+            JSONArray().apply {
+                readAll(client, BodyWaterMassRecord::class, month).forEach { record ->
+                    put(JSONObject()
+                        .put("id", record.metadata.id)
+                        .put("time_utc", record.time.toString())
+                        .put("kilograms", record.mass.inKilograms)
+                        .put("data_origin", record.metadata.dataOrigin.packageName))
+                }
+            }
+        }
+
+
+        collect("bone_mass") {
+            JSONArray().apply {
+                readAll(client, BoneMassRecord::class, month).forEach { record ->
+                    put(JSONObject()
+                        .put("id", record.metadata.id)
+                        .put("time_utc", record.time.toString())
+                        .put("kilograms", record.mass.inKilograms)
+                        .put("data_origin", record.metadata.dataOrigin.packageName))
+                }
+            }
+        }
+
+
+        collect("basal_metabolic_rate") {
+            JSONArray().apply {
+                readAll(client, BasalMetabolicRateRecord::class, month).forEach { record ->
+                    put(JSONObject()
+                        .put("id", record.metadata.id)
+                        .put("time_utc", record.time.toString())
+                        .put("kilocalories_per_day", record.basalMetabolicRate.inKilocaloriesPerDay)
+                        .put("data_origin", record.metadata.dataOrigin.packageName))
+                }
+            }
+        }
+
         root.put("data", data)
         root.put("record_counts", counts)
         root.put("unavailable_or_errors", errors)
@@ -196,7 +273,12 @@ object HealthExport {
             .edit().putString("last_sync", now.toString()).apply()
         "Saved ${counts.optInt("sleep")} sleep, ${counts.optInt("heart_rate")} heart-rate, " +
             "${counts.optInt("blood_pressure")} blood-pressure, and " +
-            "${counts.optInt("weight")} weight records; " +
+            "${counts.optInt("weight")} weight, " +
+            "${counts.optInt("body_fat")} body-fat records, " +
+            "${counts.optInt("lean_body_mass")} lean-body-mass records, " +
+            "${counts.optInt("body_water_mass")} body-water-mass records, " +
+            "${counts.optInt("bone_mass")} bone-mass records, " +
+            "${counts.optInt("basal_metabolic_rate")} basal-metabolic-rate records, " +
             "${errors.length()} unavailable/error categories. Updated ${now}."
     }
 }
