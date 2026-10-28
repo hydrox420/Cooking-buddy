@@ -1,4 +1,4 @@
-# Health Data Collector (minimal test build)
+# Health Data Collector (read-only body composition update, v0.3.0)
 
 **Goal:** Use the previously confirmed Android Health Connect integration to collect Samsung Health / OMRON data and save a private `health-review.json` file for ChatGPT to read from the user's own connected Google Drive.
 
@@ -17,3 +17,10 @@
 - Steps are daily aggregates (seven calendar days); sleep and heart-rate records span seven rolling days; weight and blood pressure span 30 rolling days. Original timestamps, source package names and record IDs are included.
 - All data in this project repository is code. Never commit the generated health JSON.
 - This is a **beta test**, not a medical device, a diagnosis, or guaranteed continuous monitoring. No notifications for urgent conditions.
+
+## v0.3.0 — Body composition
+- New Health Connect read-only categories: body fat (%) / lean body mass (kg) / body water mass (kg) / bone mass (kg) / basal metabolic rate (kcal/day). Each record includes timestamp, ID, and data origin. The 30-day body-composition window is the same as weight.
+- JSON schema_version 2 adds `data.body_fat`, `data.lean_body_mass`, `data.body_water_mass`, `data.bone_mass`, and `data.basal_metabolic_rate`. Original categories/keys are retained. Permission and read errors are reported, not converted to zero.
+- After updating the Android app, tap **ALLOW HEALTH ACCESS / NEW BODY DATA** to grant only newly requested permissions, then **SYNC NOW**. If the original private Drive file is still selected, do not create a new one.
+- Android/Health Connect have no dedicated records for RENPHO's skeletal muscle, visceral fat or subcutaneous fat fields. Empty arrays for other categories mean Health Connect supplied no measurements, not that the user has zero body fat.
+- Android debug builds generated on different machines may use different signing certificates, preventing an in-place update; retain the working app and Drive document until the install strategy is verified.
