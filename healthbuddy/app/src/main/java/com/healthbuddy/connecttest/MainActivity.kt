@@ -69,8 +69,8 @@ class MainActivity : ComponentActivity() {
         }
         val note = TextView(this).apply {
             text = "A tiny data bridge for your health reviews.\n\n" +
-                "1. Allow read-only Health Connect access.\n" +
-                "2. Choose a NEW file in your PRIVATE Google Drive folder.\n" +
+                "1. Allow Health Connect access including new body-composition fields.\n" +
+                "2. If a Drive file is already chosen, KEEP it. Otherwise create a private file.\n" +
                 "3. Tap Sync Now to test it.\n\n" +
                 "The file contains your actual measurements, so DO NOT make it public. " +
                 "Auto-refresh every ~12 hours is attempted only when Android permits " +
@@ -78,7 +78,7 @@ class MainActivity : ComponentActivity() {
             textSize = 16f
         }
         val permissionButton = Button(this).apply {
-            text = "1 · ALLOW HEALTH ACCESS"
+            text = "1 · ALLOW HEALTH ACCESS / NEW BODY DATA"
             setOnClickListener { grantAccess() }
         }
         val fileButton = Button(this).apply {
@@ -105,7 +105,9 @@ class MainActivity : ComponentActivity() {
         val selected = HealthExport.savedDocument(this) != null
         status.text = "Drive file: ${if (selected) "chosen" else "not chosen"}\n" +
             "Last successful save: ${last ?: "never"}\n" +
-            "Ready. The selected file is sensitive private health information."
+            "New body measurements need a one-time permission approval after the update. " +
+            "Tap ALLOW HEALTH ACCESS, then SYNC NOW; keep your existing Drive file. " +
+            "The selected file contains private health information."
         if (selected) enableBackgroundIfPermitted()
     }
 
