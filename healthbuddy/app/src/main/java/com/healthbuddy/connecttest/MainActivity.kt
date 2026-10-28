@@ -56,6 +56,27 @@ class MainActivity : ComponentActivity() {
         }
     }
 
+    // Re-select the same private Drive JSON after reinstall/signature changes.
+    private val existingDocumentLauncher = registerForActivityResult(
+        ActivityResultContracts.OpenDocument()
+    ) { uri ->
+        if (uri == null) {
+            status.text = "No existing document selected."
+        } else {
+            try {
+                contentResolver.takePersistableUriPermission(
+                    uri, Intent.FLAG_GRANT_WRITE_URI_PERMISSION
+                )
+                HealthExport.setDocument(this, uri)
+                status.text = "Existing Drive file selected. Syncing your authorized records…"
+                enableBackgroundIfPermitted()
+                syncNow()
+            } catch (e: Exception) {
+                status.text = "Cannot save to that file: ${e.message}"
+            }
+        }
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         val layout = LinearLayout(this).apply {
@@ -70,7 +91,7 @@ class MainActivity : ComponentActivity() {
         val note = TextView(this).apply {
             text = "A tiny data bridge for your health reviews.\n\n" +
                 "1. Allow Health Connect access including new body-composition fields.\n" +
-                "2. If a Drive file is already chosen, KEEP it. Otherwise create a private file.\n" +
+                "2. If a Drive file is already chosen, KEEP it. Otherwise reopen the existing Drive file (or create new).\n" +
                 "3. Tap Sync Now to test it.\n\n" +
                 "The file contains your actual measurements, so DO NOT make it public. " +
                 "Auto-refresh every ~12 hours is attempted only when Android permits " +
@@ -82,8 +103,12 @@ class MainActivity : ComponentActivity() {
             setOnClickListener { grantAccess() }
         }
         val fileButton = Button(this).apply {
-            text = "2 · CHOOSE DRIVE FILE"
+            text = "OR CREATE NEW DRIVE FILE"
             setOnClickListener { documentLauncher.launch("health-review.json") }
+        }
+        val existingFileButton = Button(this).apply {
+            text = "2 · USE EXISTING DRIVE FILE"
+            setOnClickListener { existingDocumentLauncher.launch(arrayOf("application/json", "text/plain", "*/*")) }
         }
         syncButton = Button(this).apply {
             text = "3 · SYNC NOW"
@@ -93,7 +118,7 @@ class MainActivity : ComponentActivity() {
             textSize = 15f
             setTextIsSelectable(true)
         }
-        listOf(title, note, permissionButton, fileButton, syncButton, status)
+        listOf(title, note, permissionButton, existingFileButton, fileButton, syncButton, status)
             .forEach(layout::addView)
         setContentView(ScrollView(this).apply { addView(layout) })
         refreshStatus()
