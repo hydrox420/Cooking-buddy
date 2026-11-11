@@ -9,9 +9,9 @@ const assert=require('node:assert/strict');
   await page.waitForSelector('.kb-compact-card');
   const counts=await page.evaluate(()=>{
    const pic=state.recipes.filter(r=>typeof r.photo==='string'&&/\/assets\/(verified|recipes)\//.test(r.photo));
-   return {total:state.recipes.length,withPictures:pic.length,ids:new Set(pic.map(r=>r.id)).size,withSources:pic.filter(r=>r.photoSource?.startsWith('https://')).length};
+   return {total:state.recipes.length,withPictures:pic.length,ids:new Set(pic.map(r=>r.id)).size,withSources:pic.filter(r=>r.photoSource?.startsWith('https://')).length,pending:state.recipes.filter(r=>r.photo==='./photo-pending.svg').length};
   });
-  assert.ok(counts.total>=39&&counts.withPictures>=39&&counts.withPictures===counts.ids&&counts.withSources>=39,'all 39 built-in recipes have pictures and credits');
+  assert.ok(counts.total>=39&&counts.withPictures>=22&&counts.withPictures===counts.ids&&counts.withSources>=22&&counts.pending>=17,'22 real-source photos and 17 honest placeholders, no generic stock photos');
   const headers=[['plan','Meal Plan'],['shopping','Your Shopping List'],['kitchen','My Kitchen'],['fridge','My Fridge'],['settings','My Profile']];
   for(const [tab,label] of headers){
    await page.locator('nav.tabs [data-tab="'+tab+'"]').click();
@@ -87,6 +87,6 @@ const assert=require('node:assert/strict');
   await page.waitForFunction(()=>window.kbCurrentScreen()==='shopping');
   assert.equal(await page.locator('#shopping').isVisible(),true,'Back from fridge returns to previous Shopping tab');
   assert.deepEqual(errors,[],'no page errors');
-  console.log('PASS: '+counts.withPictures+' pictured recipes, cart below title, no Explore section, Back, plan/shopping handoff, fridge add/save');
+  console.log('PASS: '+counts.withPictures+' original-source recipe photos, cart below title, no Explore section, Back, plan/shopping handoff, fridge add/save');
  }finally{await browser.close()}
 })().catch(error=>{console.error(error);process.exitCode=1});
