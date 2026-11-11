@@ -17,11 +17,6 @@ const incoming=[
       "Vegetarian"
     ],
     "timeMinutes": 10,
-    "photo": "https://commons.wikimedia.org/wiki/Special:FilePath/Protein%20overnight%20oats.jpg?width=800",
-    "photoSource": "https://commons.wikimedia.org/wiki/File:Protein_overnight_oats.jpg",
-    "photoCredit": "Nervy8924",
-    "photoLicense": "CC BY-SA 4.0",
-    "photoIsIllustrative": true,
     "ingredients": [
       "1 cup rolled oats",
       "1 cup milk",
@@ -100,11 +95,6 @@ const incoming=[
       "Vegan"
     ],
     "timeMinutes": 30,
-    "photo": "https://commons.wikimedia.org/wiki/Special:FilePath/Channa%20Masala.jpg?width=800",
-    "photoSource": "https://commons.wikimedia.org/wiki/File:Channa_Masala.jpg",
-    "photoCredit": "Bhavana Homecook",
-    "photoLicense": "CC BY-SA 4.0",
-    "photoIsIllustrative": true,
     "ingredients": [
       "1 can chickpeas (15 oz), drained and rinsed",
       "1 cup canned crushed tomatoes",
@@ -213,11 +203,6 @@ const incoming=[
       "Vegetarian"
     ],
     "timeMinutes": 30,
-    "photo": "https://commons.wikimedia.org/wiki/Special:FilePath/The%20Bibimbap.jpg?width=800",
-    "photoSource": "https://commons.wikimedia.org/wiki/File:The_Bibimbap.jpg",
-    "photoCredit": "Loozrboy",
-    "photoLicense": "CC BY-SA 2.0",
-    "photoIsIllustrative": true,
     "ingredients": [
       "2 cups cooked rice",
       "2 eggs",
@@ -316,11 +301,6 @@ const incoming=[
     ],
     "tags": [],
     "timeMinutes": 30,
-    "photo": "https://commons.wikimedia.org/wiki/Special:FilePath/Chicken%20teriyaki.jpg?width=800",
-    "photoSource": "https://commons.wikimedia.org/wiki/File:Chicken_teriyaki.jpg",
-    "photoCredit": "Blue Lotus",
-    "photoLicense": "CC BY 2.0",
-    "photoIsIllustrative": true,
     "ingredients": [
       "12 oz boneless skinless chicken breast",
       "2 cups broccoli florets",
@@ -413,11 +393,6 @@ const incoming=[
     ],
     "tags": [],
     "timeMinutes": 30,
-    "photo": "https://commons.wikimedia.org/wiki/Special:FilePath/Chicken%20fajitas.jpg?width=800",
-    "photoSource": "https://commons.wikimedia.org/wiki/File:Chicken_fajitas.jpg",
-    "photoCredit": "jeffreyw",
-    "photoLicense": "CC BY 2.0",
-    "photoIsIllustrative": true,
     "ingredients": [
       "12 oz boneless skinless chicken breast",
       "2 bell peppers, sliced",
@@ -515,11 +490,6 @@ const incoming=[
     ],
     "tags": [],
     "timeMinutes": 45,
-    "photo": "https://commons.wikimedia.org/wiki/Special:FilePath/Chicken%20adobo.jpg?width=800",
-    "photoSource": "https://commons.wikimedia.org/wiki/File:Chicken_adobo.jpg",
-    "photoCredit": "dbgg1979",
-    "photoLicense": "CC BY 2.0",
-    "photoIsIllustrative": true,
     "ingredients": [
       "1 lb boneless chicken thighs",
       "⅓ cup soy sauce",
@@ -616,11 +586,6 @@ const incoming=[
       "Vegan"
     ],
     "timeMinutes": 45,
-    "photo": "https://commons.wikimedia.org/wiki/Special:FilePath/Lentil%20Soup.jpg?width=800",
-    "photoSource": "https://commons.wikimedia.org/wiki/File:Lentil_Soup.jpg",
-    "photoCredit": "Serine Ben Brahim",
-    "photoLicense": "CC BY-SA 4.0",
-    "photoIsIllustrative": true,
     "ingredients": [
       "¾ cup dry brown lentils, rinsed",
       "1 carrot, diced",
@@ -722,11 +687,6 @@ const incoming=[
       "Vegan"
     ],
     "timeMinutes": 25,
-    "photo": "https://commons.wikimedia.org/wiki/Special:FilePath/Onigiri.JPG?width=800",
-    "photoSource": "https://commons.wikimedia.org/wiki/File:Onigiri.JPG",
-    "photoCredit": "Pcs34560",
-    "photoLicense": "Public domain",
-    "photoIsIllustrative": true,
     "ingredients": [
       "1 cup uncooked Japanese short-grain rice",
       "1¼ cups water (or as directed by rice package)",
@@ -793,11 +753,6 @@ const incoming=[
       "Vegan"
     ],
     "timeMinutes": 30,
-    "photo": "https://commons.wikimedia.org/wiki/Special:FilePath/Pad%20thai.jpg?width=800",
-    "photoSource": "https://commons.wikimedia.org/wiki/File:Pad_thai.jpg",
-    "photoCredit": "BenFrantzDale",
-    "photoLicense": "CC BY-SA 3.0",
-    "photoIsIllustrative": true,
     "ingredients": [
       "6 oz dry rice noodles",
       "8 oz firm tofu, pressed and diced",
