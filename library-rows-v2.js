@@ -288,6 +288,7 @@ function card(r){
  const title=build('button','kb-card-title',r.name);title.type='button';title.onclick=()=>openCookingRecipe(i);
  info.append(title);
  const meta=build('div','kb-card-meta');
+ if(r.healthReview?.version)meta.append(build('span','kb-reviewed-chip','✓ Reviewed'));
  if(Number(r.timeMinutes)>0)meta.append(build('span','kb-card-time','◷ '+r.timeMinutes+' min'));
  else meta.append(build('span','kb-card-time',r.steps.length+' steps'));
  const tags=Array.isArray(r.tags)?r.tags:[];
