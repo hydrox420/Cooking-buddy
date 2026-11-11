@@ -54,7 +54,8 @@ const EXCLUDED_REASON={
   "kb-shrimp-okra-kidney-bean-pasta": "Tomato-based acidic ingredients are common reflux triggers"
 };
 const trigger=/(?:tomato(?:es)?|marinara|salsa|hot sauce|sriracha|gochujang|chili powder|chili flakes|curry paste|lemon|lime|citrus|heavy cream)/i;
-if(typeof state==='undefined'||!Array.isArray(state.recipes))return;
+function enforce(){
+if(typeof state==='undefined'||!Array.isArray(state.recipes))return false;
 const archive=(state.healthReviewArchive&&typeof state.healthReviewArchive==='object'&&!Array.isArray(state.healthReviewArchive))?{...state.healthReviewArchive}:{};
 const savedPlans=Array.isArray(state.healthReviewArchivedPlans)?state.healthReviewArchivedPlans.slice():[];
 const active=[],rejected=[];
@@ -89,18 +90,19 @@ try{
  state=next;
 }catch(error){
  console.error('Health review could not safely save the archive; the original recipe library was left untouched.',error);
- return;
+ return false;
 }
 window.kbHealthReviewSummary={version:VERSION,active:active.length,archived:Object.keys(archive).length,
  reviewedIDs:Object.keys(APPROVED)};
 const home=document.querySelector('#home .library-intro')||document.querySelector('.library-intro');
-if(home&&!document.querySelector('#kbReviewNotice')){
- const note=document.createElement('p');note.id='kbReviewNotice';note.className='kb-review-notice';
+if(home){
+ let note=document.getElementById('kbReviewNotice');
+ if(!note){note=document.createElement('p');note.id='kbReviewNotice';note.className='kb-review-notice';home.append(note)}
  note.textContent='✓ '+active.length+' meals reviewed for a mild, balanced, reflux-conscious starting menu. Individual food triggers can differ.';
- home.append(note);
 }
 const settings=document.getElementById('settings');
-if(settings&&!document.getElementById('kbReviewArchive')){
+if(settings){
+ document.getElementById('kbReviewArchive')?.remove();
  const details=document.createElement('details');details.id='kbReviewArchive';details.className='cb-panel';
  const heading=document.createElement('summary');heading.textContent='Recipe health review — '+active.length+' kept, '+Object.keys(archive).length+' archived';
  const intro=document.createElement('p');intro.textContent='Archived recipes are removed from the active cookbook and meal plan, but retained in your browser backup. New personal imports are held for review. No dietary screen can guarantee zero reflux symptoms.';
@@ -113,9 +115,13 @@ if(settings&&!document.getElementById('kbReviewArchive')){
  }
  details.append(list);settings.append(details);
 }
-const style=document.createElement('style');
+const style=document.createElement('style');style.id='kbHealthReviewStyle';
 style.textContent='.kb-review-notice{font-size:13px;color:#c4e9bc;line-height:1.5;margin:8px 0 13px}.kb-reviewed-chip{font-size:11px;background:#31533c;color:#e3f2dc;padding:4px 7px;border-radius:20px;white-space:nowrap}#kbReviewArchive ul{padding-left:20px;line-height:1.55;font-size:13px}';
-document.head.append(style);
+if(!document.getElementById('kbHealthReviewStyle'))document.head.append(style);
 if(typeof renderPlanned==='function')renderPlanned();
 if(typeof renderShopping==='function')renderShopping();
+return true;
+}
+window.kbApplyHealthReview=enforce;
+enforce();
 })();
