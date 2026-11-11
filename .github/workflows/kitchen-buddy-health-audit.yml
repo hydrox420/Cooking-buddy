@@ -1,18 +1,28 @@
-name: Kitchen Buddy recipe health audit test
+name: Kitchen Buddy real photo and health audit
 on:
   pull_request:
     branches: [main]
     paths:
       - "health-curation.js"
+      - "recipe-photo-integrity.js"
       - "index.html"
       - "library-rows-v2.js"
+      - "catalog-additions-v2.js"
+      - "ui-polish.js"
+      - "sw.js"
+      - "assets/**"
+      - "preview-1-2/**"
+      - "layout-test/**"
       - "root-smoke-test.cjs"
       - ".github/workflows/kitchen-buddy-health-audit.yml"
   workflow_dispatch:
+concurrency:
+  group: photo-audit-${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
 permissions:
   contents: read
 jobs:
-  health-curation-smoke:
+  cookbook-smoke:
     runs-on: ubuntu-24.04
     timeout-minutes: 12
     steps:
@@ -24,8 +34,15 @@ jobs:
         run: |
           npm install --no-save --no-package-lock playwright@1.56.1
           npx playwright install --with-deps chromium
-      - name: Test curated root app, planning, archive and reload
+      - name: Test active health-reviewed cookbook and preserved photos
         run: |
           python3 -m http.server 8765 --bind 127.0.0.1 &
           sleep 3
           node root-smoke-test.cjs
+      - name: Test layout preview and real recipe photo behavior
+        run: |
+          node layout-test/smoke-test.cjs
+          node layout-test/flow-smoke-test.cjs
+      - name: Test preview release state and photographs
+        run: |
+          node preview-1-2/release-smoke-test.cjs
