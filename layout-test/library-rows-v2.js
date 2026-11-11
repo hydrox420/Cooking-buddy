@@ -79,6 +79,8 @@ function searchMatch(r,q){
  return (r.name+' '+(r.description||'')+' '+r.ingredients.join(' ')+' '+categories(r).join(' ')).toLowerCase().includes(q);
 }
 function isPhotographed(r){
+ // An honest, clearly labelled missing-photo card must still be browsable.
+ if(r.photoKind==='awaiting-actual-finished-dish-photo'||r.recipeOrigin==='kitchen-buddy-original')return true;
  return Boolean(r.photo && typeof r.photo==='string' && !r.photo.includes('photo-pending.svg') && !r.photo.includes('meal-placeholder.svg'));
 }
 function savedRecipeShelf(root,recipes){
