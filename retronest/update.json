@@ -1,0 +1,9 @@
+{
+  "packageName": "com.retronest.launcher",
+  "versionName": "1.2.3",
+  "versionCode": 6,
+  "apkUrl": "https://raw.githubusercontent.com/hydrox420/Cooking-buddy/retronest-updates/retronest/RetroNest-Android-v1.2.3.apk",
+  "sha256": "51d97f89e04c3a54dd3dd0c63cc9f4a9f7327abcb28a5012dba8886ffec0d82a",
+  "sizeBytes": 2636515,
+  "notes": "Fixed Android in-app update checks and raised bottom navigation above Samsung system controls."
+}
