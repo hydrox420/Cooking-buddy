@@ -22,8 +22,14 @@ const assert=require('node:assert/strict');
   assert.match(await page.title(),/Kitchen Buddy.*Forest Cabin/);
   const intro=page.locator('#timerSetupPanel');
   if(await intro.isVisible())await intro.getByRole('button',{name:'Not now'}).click();
-  assert.ok((await page.locator('#recipes .kb-compact-card').count())>=39,'all 39 pictured recipes visible');
-  assert.ok((await page.locator('#recipes .kb-card-plan').count())>=39,'cards have plus-to-plan');
+  const reviewed=await page.evaluate(()=>state.recipes.map(r=>({id:r.id,photo:r.photo,kind:r.photoKind})));
+  assert.equal(reviewed.length,4,'exactly four reviewed meals remain active');
+  assert.ok(reviewed.every(r=>r.photo==='./photo-pending.svg'),'unverified recipe images removed from the active library');
+  assert.ok((await page.locator('#recipes .kb-compact-card').count())>=4,'all four recipes visible as cards, possibly in multiple categories');
+  const srcs=await page.locator('#recipes .kb-card-picture img').evaluateAll(els=>els.map(img=>img.getAttribute('src')));
+  assert.ok(srcs.length>=4&&srcs.every(src=>src==='./photo-pending.svg'),'no AI or unrelated pictures render in reviewed cards');
+  assert.ok((await page.locator('#recipes .kb-card-plan').count())>=4,'each reviewed meal can be planned');
+  assert.equal(await page.locator('#recipes .kb-reviewed-chip').count(),await page.locator('#recipes .kb-compact-card').count(),'every active meal card visibly carries a review marker');
   assert.equal(await page.locator('#recipes .kb-favorite,#recipes .kb-card-add').count(),0,'no duplicate card controls');
   const before=await page.evaluate(()=>state.planned.reduce((sum,p)=>sum+p.count,0));
   await page.locator('#recipes .kb-card-plan').first().click();
@@ -40,29 +46,33 @@ const assert=require('node:assert/strict');
   const s=await page.evaluate(()=>({
    food:state.foods.some(x=>x.id==='pre-upgrade-food'),
    stock:state.inventory.some(x=>x.id==='pre-upgrade-stock'),
-   own:state.recipes.find(x=>x.id==='my-test-personal-recipe'),
-   plan:state.planned.some(x=>x.recipeId==='my-test-personal-recipe'),
+   own:state.healthReviewArchive?.['my-test-personal-recipe']?.recipe,
+   plan:state.healthReviewArchivedPlans?.some(x=>x.recipeId==='my-test-personal-recipe'),
+   personalExcluded:!state.recipes.some(x=>x.id==='my-test-personal-recipe'),
+   tomatoExcluded:!state.recipes.some(x=>x.id==='kb-pd-pasta-arrabbiata'),
+   reviewed:state.recipes.every(x=>x.healthReview?.version),
    live:!!localStorage.getItem('cookingBuddy_v1'),
    preview:localStorage.getItem('cookingBuddy_v1_2_preview'),
    test:localStorage.getItem('kitchenBuddy_layoutTest_2026')
   }));
-  assert.ok(s.food&&s.stock&&s.own&&s.plan&&s.live,'previous user data survives upgrade and reload');
+  assert.ok(s.food&&s.stock&&s.own&&s.plan&&s.live,'previous user data survives in active storage or review archive');
+  assert.ok(s.personalExcluded&&s.tomatoExcluded&&s.reviewed,'unreviewed and tomato recipes excluded from active catalog');
   assert.ok(s.own.favorite&&s.own.photo.startsWith('data:image/svg+xml'),'personal favorite/photo preserved');
+  const archived=await page.evaluate(()=>({bad:state.healthReviewArchive?.['kb-chicken-teriyaki']?.recipe?.photo,real:state.healthReviewArchive?.['kb-pd-lasagna']?.recipe?.photo}));
+  assert.equal(archived.bad,'./photo-pending.svg','archived illustrative images also removed');
+  assert.equal(archived.real,'./assets/verified/lasagna.webp','verified original-cook photography preserved');
   assert.equal(s.preview,null);assert.equal(s.test,null);
-  // Regression: original recipes must not disappear into the collapsed no-photo shelf.
-  await page.locator('#recipeSearch').fill('shrimp scampi');
-  const scampi=page.locator('#recipes .kb-compact-card').filter({hasText:'Lemon Garlic Shrimp Scampi'});
-  assert.equal(await scampi.count(),1,'scampi appears as a normal visible recipe card');
-  assert.ok(await scampi.isVisible(),'scampi card is visible without opening no-photo shelf');
-  await scampi.locator('.kb-card-title').click();
-  assert.match(await page.locator('#recipeTitle').textContent(),/Shrimp Scampi/);
-  assert.ok(await page.getByText('Sauté the raw shrimp').count()>0,'guided shrimp step available');
-  await page.getByRole('button',{name:/Recipes/}).first().click();
+  // Regression: excluded meals cannot be rediscovered or added by searching.
+  await page.locator('#recipeSearch').fill('arrabbiata');
+  assert.equal(await page.locator('#recipes .kb-compact-card').count(),0,'spicy tomato dish is not searchable');
   await page.locator('#recipeSearch').fill('');
+  const review=await page.evaluate(()=>window.kbHealthReviewSummary);
+  assert.equal(review.active,4);
+  assert.ok(review.archived>=40,'all noncompliant shipped recipes archived');
   assert.ok(await page.locator('#kbSearchField').isVisible(),'large search visible');
   const registration=await page.evaluate(async()=>navigator.serviceWorker?.ready.then(reg=>reg.active?.scriptURL));
   assert.ok(registration.endsWith('/Cooking-buddy/sw.js')||registration.endsWith('/sw.js'),'installed root service worker registers');
   assert.deepEqual(errors,[],'no runtime JS errors');
-  console.log('PASS: live root, 39 recipes, + plan, favorite, original saved browser data, PWA, reload');
+  console.log('PASS: curated health screen, archive preserves personal data, planning, favorites, PWA, reload');
  }finally{await browser.close()}
 })().catch(e=>{console.error(e);process.exitCode=1});
