@@ -1,9 +1,9 @@
 {
   "packageName": "com.retronest.launcher",
-  "versionName": "1.3.0",
-  "versionCode": 9,
-  "apkUrl": "https://raw.githubusercontent.com/hydrox420/Cooking-buddy/retronest-updates/retronest/RetroNest-Android-v1.3.0.apk",
-  "sha256": "83ec39207f9aa6e0a4cb004a96bd0e539b862312ccbcb2fcdfac7989e3577d14",
-  "sizeBytes": 2638020,
-  "notes": "Retro Buddy: new joystick-style app icon and name; consoles with games first, then other systems in original release order. Preserves installed games, settings and in-app updates."
+  "versionName": "1.4.0",
+  "versionCode": 10,
+  "apkUrl": "https://raw.githubusercontent.com/hydrox420/Cooking-buddy/retronest-updates/retronest/RetroNest-Android-v1.4.0.apk",
+  "sha256": "08195acfa40011f38d3e341d6d51fac2f59e8d8a246407962913d61b87e63def",
+  "sizeBytes": 4845724,
+  "notes": "Retro Buddy 1.4.0: real photographs of all 15 consoles; automatic online game box-art matching and offline cache; safe fallbacks for unmatched covers. Preserves ROM imports and settings."
 }
