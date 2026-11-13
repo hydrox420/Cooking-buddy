@@ -1,8 +1,8 @@
 {
-  "versionCode": 6,
-  "versionName": "1.5.0",
-  "apkUrl": "https://raw.githubusercontent.com/hydrox420/Cooking-buddy/headlines-updates/updates/MyHeadlines-v1.5.apk",
-  "sha256": "7f8027d41768ae475ecb89e2469309e14ed91c1ff82e91a89f0c4f4f5e822948",
-  "sizeBytes": 48110,
-  "notes": "In-app updates: check, download, verify, and install without a GitHub ZIP. Preserves your feeds and widget."
+  "versionCode": 7,
+  "versionName": "1.6.0",
+  "apkUrl": "https://raw.githubusercontent.com/hydrox420/Cooking-buddy/headlines-updates/updates/MyHeadlines-v1.6.apk",
+  "sha256": "ba4f4ebda8c7b70c94bc5f1e388b62c1cd9cd846e59da174ae8b9227dd926858",
+  "sizeBytes": 48518,
+  "notes": "Fix for home-screen headline rows stuck at Loading after app updates. Reconnects the scrolling widget list without removing saved feeds."
 }
