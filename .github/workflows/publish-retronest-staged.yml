@@ -1,0 +1,44 @@
+name: Publish staged Retro Buddy APK
+on:
+  push:
+    branches: [retronest-updates]
+    paths:
+      - 'retronest/release-staging/**'
+permissions:
+  contents: write
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+      - name: Assemble and verify Retro Buddy 1.4.0 release
+        run: |
+          set -euo pipefail
+          STAGING=retronest/release-staging/v1.4.0
+          test -f "$STAGING/part000.b64"
+          test "$(find "$STAGING" -name 'part*.b64' | wc -l)" -eq 16
+          cat "$STAGING"/part*.b64 | base64 -d > retronest/RetroNest-Android-v1.4.0.apk
+          echo "Verifying published APK from signed private build"
+          echo "08195acfa40011f38d3e341d6d51fac2f59e8d8a246407962913d61b87e63def  retronest/RetroNest-Android-v1.4.0.apk" | sha256sum -c -
+          test "$(stat -c%s retronest/RetroNest-Android-v1.4.0.apk)" -eq 4845724
+          python3 - <<'PY'
+          import json
+          from pathlib import Path
+          payload={
+            "packageName":"com.retronest.launcher",
+            "versionName":"1.4.0",
+            "versionCode":10,
+            "apkUrl":"https://raw.githubusercontent.com/hydrox420/Cooking-buddy/retronest-updates/retronest/RetroNest-Android-v1.4.0.apk",
+            "sha256":"08195acfa40011f38d3e341d6d51fac2f59e8d8a246407962913d61b87e63def",
+            "sizeBytes":4845724,
+            "notes":"Retro Buddy 1.4.0: real photographs of all 15 consoles; automatic online game box-art matching and offline cache; safe fallbacks for unmatched covers. Preserves ROM imports and settings."
+          }
+          Path("retronest/update.json").write_text(json.dumps(payload,indent=2)+"\n")
+          PY
+          rm -rf "$STAGING"
+          git add -A retronest/
+          git config user.name "Retro Buddy Release Bot"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git commit -m "Publish signed Retro Buddy 1.4.0 with console and game art"
+          git push origin HEAD:retronest-updates
